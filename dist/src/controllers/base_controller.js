@@ -16,7 +16,7 @@ class BaseController {
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getAllStudents");
+            console.log("getAll");
             try {
                 if (req.query.name) {
                     const students = yield this.model.find({ name: req.query.name });
@@ -34,9 +34,9 @@ class BaseController {
     }
     getById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getStudentById:" + req.params.id);
+            console.log("getById:" + req.body);
             try {
-                const student = yield this.model.findById(req.params.id);
+                const student = yield this.model.findById(req.body.id);
                 res.send(student);
             }
             catch (err) {
@@ -46,7 +46,7 @@ class BaseController {
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("postStudent:" + req.body);
+            console.log("postooObj:" + req.body);
             try {
                 const obj = yield this.model.create(req.body);
                 res.status(201).send(obj);
@@ -58,16 +58,33 @@ class BaseController {
         });
     }
     putById(req, res) {
-        res.send("put student by id: " + req.params.id);
-    }
-    deleteById(req, res) {
-        console.log("deleteObjectById:" + req.params.id);
-        this.model.findByIdAndDelete(req.params.id, (err, doc) => {
-            if (err) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("putObjectById:" + req.params.id);
+            try {
+                const obj = yield this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+                if (!obj) {
+                    return res.status(404).json({ message: "Object not found" });
+                }
+                res.status(200).json(obj);
+            }
+            catch (err) {
+                console.log(err);
                 res.status(500).json({ message: err.message });
             }
-            else {
-                res.status(200).json(doc);
+        });
+    }
+    deleteById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("deleteObjectById:" + req.params.id);
+            try {
+                const deletedDoc = yield this.model.findByIdAndDelete(req.params.id);
+                if (!deletedDoc) {
+                    return res.status(404).json({ message: "Document not found" });
+                }
+                res.status(200).json(deletedDoc);
+            }
+            catch (err) {
+                res.status(500).json({ message: err.message });
             }
         });
     }

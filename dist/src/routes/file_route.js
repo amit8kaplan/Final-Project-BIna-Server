@@ -22,7 +22,6 @@ const storage = multer_1.default.diskStorage({
 });
 const upload = (0, multer_1.default)({ storage: storage });
 router.post('/', auth_middleware_1.default, upload.single("file"), user_controller_1.default.postPhotoOfUser.bind(user_controller_1.default));
-// router.put('/', authMiddleware, upload.single("file"), UserController.putPhotoOfUser.bind(UserController));
 router.delete('/', auth_middleware_1.default, user_controller_1.default.deletePhotoOfUser.bind(user_controller_1.default));
 module.exports = router;
 //# sourceMappingURL=file_route.js.map

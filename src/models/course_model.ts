@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-import {IUser} from "./user_model";
 export interface ICourse {
     name: string;
     _id: string;
-    owner?: IUser;
+    owner?: string;
     description?: string;
     Count: number;
 }
@@ -17,8 +16,7 @@ const couseSchema = new mongoose.Schema<ICourse>({
     type: String,
   },
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        type: String,
     },
     description: {
         type: String,

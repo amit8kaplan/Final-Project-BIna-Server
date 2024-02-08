@@ -8,7 +8,7 @@ export interface IUser {
   refreshTokens?: string[];
 }
 
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<IUser, Document>({
   email: {
     type: String,
     required: true,

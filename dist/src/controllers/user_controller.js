@@ -24,8 +24,6 @@ class UserController extends base_controller_1.BaseController {
             console.log("deletePhotoOfUser:" + req.user._id);
             try {
                 const user = yield user_model_1.default.findByIdAndUpdate(req.user._id, { imgUrl: "" });
-                // user.imgUrl = "";
-                // await user.save();
                 res.status(200).send(user);
             }
             catch (err) {

@@ -24,9 +24,9 @@ export class BaseController<ModelType>{
     }
 
     async getById(req: Request, res: Response) {
-        console.log("getById:" + req.params.id);
+        console.log("getById:" + req.body);
         try {
-            const student = await this.model.findById(req.params.id);
+            const student = await this.model.findById(req.body.id);
             res.send(student);
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -43,29 +43,33 @@ export class BaseController<ModelType>{
             res.status(406).send("fail: " + err.message);
         }
     }
-
-    putById(req: Request, res: Response) {
+    async putById(req: Request, res: Response) {
         console.log("putObjectById:" + req.params.id);
-        try{
-            const obj = this.model.findByIdAndUpdate(req.params.id, req.body);
-            res.status(200).send(obj);
-        }
-        catch(err){
+        try {
+            const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            if (!obj) {
+                return res.status(404).json({ message: "Object not found" });
+            }
+            res.status(200).json(obj);
+        } catch (err) {
             console.log(err);
             res.status(500).json({ message: err.message });
         }
     }
-
-    deleteById(req: Request, res: Response) {
+    
+    async deleteById(req: Request, res: Response) {
         console.log("deleteObjectById:" + req.params.id);
-        this.model.findByIdAndDelete(req.params.id, (err, doc) => {
-            if (err) {
-                res.status(500).json({ message: err.message });
-            } else {
-                res.status(200).json(doc);
+        try {
+            const deletedDoc = await this.model.findByIdAndDelete(req.params.id);
+            if (!deletedDoc) {
+                return res.status(404).json({ message: "Document not found" });
             }
-        });
+            res.status(200).json(deletedDoc);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
+    
 }
 
 const createController = <ModelType>(model: Model<ModelType>) => {

@@ -29,7 +29,7 @@ afterAll(async () => {
 interface ICourse {
   name: string;
   _id: string;
-  owner?: IUser;
+  owner?: string;
   description?: string;
   Count: number;
 }
@@ -38,7 +38,7 @@ const course: ICourse = {
   name: "John Doe",
   _id: "1234567890",
   description: "data base course",
-  owner: user,
+  owner: "ownerId",
   Count: 0,
 };
 
@@ -67,6 +67,7 @@ describe("Course tests", () => {
         const response = await request(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
+        console.log(response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         const st = response.body[0];
@@ -82,6 +83,7 @@ describe("Course tests", () => {
         expect(response.statusCode).toBe(406);
     });
 
+    // todo: add test for get course by name - not working
     test("Test Get Course by ID", async () => {
         const response = await request(app)
             .get(`/course/${course._id}`)

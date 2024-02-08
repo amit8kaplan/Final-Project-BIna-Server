@@ -14,7 +14,7 @@ const authMiddleware = (req, res, next) => {
         if (err)
             return res.sendStatus(401);
         req.user = user;
-        console.log(req.user);
+        console.log("the auth" + req.user);
         next();
     });
 };
