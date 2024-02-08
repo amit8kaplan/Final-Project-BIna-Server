@@ -31,7 +31,7 @@ const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             if (user == null) {
                 user = yield user_model_1.default.create({
                     'email': email,
-                    'password': '',
+                    'password': '0',
                     'imgUrl': payload === null || payload === void 0 ? void 0 : payload.picture
                 });
             }
