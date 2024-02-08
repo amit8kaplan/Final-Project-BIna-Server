@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const multer_1 = __importDefault(require("multer"));
+const auth_middleware_1 = __importDefault(require("../common/auth_middleware"));
+const user_controller_1 = __importDefault(require("../controllers/user_controller"));
 // const base = "http://" + process.env.DOMAIN_BASE + ":" + process.env.PORT + "/";
-const base = "http://localhost:3000/";
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/');
@@ -20,9 +21,8 @@ const storage = multer_1.default.diskStorage({
     }
 });
 const upload = (0, multer_1.default)({ storage: storage });
-router.post('/', upload.single("file"), function (req, res) {
-    console.log("router.post(/file: " + base + req.file.path);
-    res.status(200).send({ url: base + req.file.path });
-});
+router.post('/', auth_middleware_1.default, upload.single("file"), user_controller_1.default.postPhotoOfUser.bind(user_controller_1.default));
+// router.put('/', authMiddleware, upload.single("file"), UserController.putPhotoOfUser.bind(UserController));
+router.delete('/', auth_middleware_1.default, user_controller_1.default.deletePhotoOfUser.bind(user_controller_1.default));
 module.exports = router;
 //# sourceMappingURL=file_route.js.map

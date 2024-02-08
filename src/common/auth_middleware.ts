@@ -12,6 +12,7 @@ const authMiddleware = (req: AuthResquest, res: Response, next: NextFunction) =>
         console.log(err);
         if (err) return res.sendStatus(401);
         req.user = user as { _id: string };
+        console.log(req.user);
         next();
     });
 }

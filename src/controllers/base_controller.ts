@@ -49,7 +49,14 @@ export class BaseController<ModelType>{
     }
 
     deleteById(req: Request, res: Response) {
-        res.send("delete student by id: " + req.params.id);
+        console.log("deleteObjectById:" + req.params.id);
+        this.model.findByIdAndDelete(req.params.id, (err, doc) => {
+            if (err) {
+                res.status(500).json({ message: err.message });
+            } else {
+                res.status(200).json(doc);
+            }
+        });
     }
 }
 

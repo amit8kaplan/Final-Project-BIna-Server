@@ -15,21 +15,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../app"));
 const supertest_1 = __importDefault(require("supertest"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const student_model_1 = __importDefault(require("../models/student_model"));
+const user_model_1 = __importDefault(require("../models/user_model"));
 let app;
+let accessToken;
+const user = {
+    email: "testStudent@test.com",
+    password: "1234567890",
+};
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
     console.log("beforeAll");
+    yield student_model_1.default.deleteMany();
+    user_model_1.default.deleteMany({ 'email': user.email });
+    yield (0, supertest_1.default)(app).post("/auth/register").send(user);
+    const response = yield (0, supertest_1.default)(app).post("/auth/login").send(user);
+    accessToken = response.body.accessToken;
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
 }));
+const student = {
+    name: "John Doe",
+    _id: "1234567890",
+};
 describe("File Tests", () => {
     test("upload file", () => __awaiter(void 0, void 0, void 0, function* () {
         const filePath = `${__dirname}/capten.webp`;
         console.log(filePath);
         try {
             const response = yield (0, supertest_1.default)(app)
-                .post("/file?file=123.webp").attach('file', filePath);
+                .post("/file?file=123.webp").attach('file', filePath)
+                .set("Authorization", "JWT " + accessToken);
             expect(response.statusCode).toEqual(200);
             let url = response.body.url;
             console.log(url);
@@ -41,6 +58,12 @@ describe("File Tests", () => {
             console.log(err);
             expect(1).toEqual(2);
         }
+    }));
+    test("delete file", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app)
+            .delete("/file")
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toEqual(200);
     }));
 });
 //# sourceMappingURL=file.test.js.map
