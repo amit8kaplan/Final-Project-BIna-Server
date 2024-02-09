@@ -34,8 +34,26 @@ class UserController extends base_controller_1.BaseController {
     }
     postPhotoOfUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("router.post(/file: " + base + req.file.path);
+            console.log("router.post(/user: " + base + req.file.path);
             res.status(200).send({ url: base + req.file.path });
+        });
+    }
+    get(req, res) {
+        const _super = Object.create(null, {
+            get: { get: () => super.get }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("getAllUsers:" + req.query.name);
+            _super.get.call(this, req, res);
+        });
+    }
+    getById(req, res) {
+        const _super = Object.create(null, {
+            getById: { get: () => super.getById }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("getUserById user_controller:" + req.params.id);
+            _super.getById.call(this, req, res);
         });
     }
 }

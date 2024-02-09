@@ -100,7 +100,13 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(401).send("email or password incorrect");
         }
         const tokens = yield generateTokens(user);
-        return res.status(200).send(tokens);
+        return res.status(200).send({
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
+            email: user.email,
+            _id: user._id,
+            imgUrl: user.imgUrl
+        });
     }
     catch (err) {
         return res.status(400).send("error missing email or password");

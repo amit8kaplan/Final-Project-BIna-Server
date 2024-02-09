@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import studentRoute from "./routes/student_route";
 import studentPostRoute from "./routes/student_post_route";
 import authRoute from "./routes/auth_route";
-import fileRoute from "./routes/file_route";
+import userRoute from "./routes/user_update_route";
 import cousreRoute from "./routes/courses_route";
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -29,7 +29,7 @@ const initApp = (): Promise<Express> => {
       app.use("/studentpost", studentPostRoute);
       app.use("/course", cousreRoute);
       app.use("/auth", authRoute);
-      app.use("/file", fileRoute);
+      app.use("/user", userRoute);
       app.use("/public", express.static("public"));
       resolve(app);
     });
