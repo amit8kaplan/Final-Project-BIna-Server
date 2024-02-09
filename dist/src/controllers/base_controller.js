@@ -16,15 +16,18 @@ class BaseController {
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getAll");
+            console.log("getAllOrByName:");
             try {
                 if (req.query.name) {
-                    const students = yield this.model.find({ name: req.query.name });
-                    res.send(students);
+                    console.log("into the if:" + req.query.name);
+                    const obj = yield this.model.find({ name: req.query.name });
+                    console.log("obj and mane:" + obj);
+                    res.send(obj);
                 }
                 else {
-                    const students = yield this.model.find();
-                    res.send(students);
+                    const obj = yield this.model.find();
+                    console.log("obj and mane:" + obj);
+                    res.send(obj);
                 }
             }
             catch (err) {
@@ -34,10 +37,11 @@ class BaseController {
     }
     getById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getById:" + req.body);
+            console.log("getById:" + req.params.id);
             try {
-                const student = yield this.model.findById(req.body.id);
-                res.send(student);
+                const obj = yield this.model.findById(req.params.id);
+                console.log("obj to getBiId:" + obj);
+                res.send(obj);
             }
             catch (err) {
                 res.status(500).json({ message: err.message });
@@ -48,8 +52,16 @@ class BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("postooObj:" + req.body);
             try {
-                const obj = yield this.model.create(req.body);
-                res.status(201).send(obj);
+                const isExist = yield this.model.findById(req.body._id);
+                console.log("isExist:" + isExist);
+                if (isExist == null) {
+                    const obj = yield this.model.create(req.body);
+                    console.log("postnewObj:" + obj);
+                    res.status(201).send(obj);
+                }
+                else {
+                    res.status(406).send("fail: " + "Object already exist");
+                }
             }
             catch (err) {
                 console.log(err);

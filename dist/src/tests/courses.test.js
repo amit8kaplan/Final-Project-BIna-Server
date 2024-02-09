@@ -44,12 +44,14 @@ const course = {
 };
 describe("Course tests", () => {
     const addCourse = (course) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("addCourse");
         const response = yield (0, supertest_1.default)(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);
         expect(response.statusCode).toBe(201);
     });
     test("Test Get All Courses - empty response", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Get All Courses - empty response");
         const response = yield (0, supertest_1.default)(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
@@ -57,9 +59,11 @@ describe("Course tests", () => {
         expect(response.body).toStrictEqual([]);
     }));
     test("Test Post Course", () => __awaiter(void 0, void 0, void 0, function* () {
-        addCourse(course);
+        console.log("Test Post Course");
+        yield addCourse(course);
     }));
-    test("Test Get All Courses with one course in DB", () => __awaiter(void 0, void 0, void 0, function* () {
+    test("Test Get All Courses", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Get All Courses");
         const response = yield (0, supertest_1.default)(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
@@ -71,20 +75,25 @@ describe("Course tests", () => {
         expect(st._id).toBe(course._id);
     }));
     test("Test Post duplicate Course", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Post duplicate Course");
         const response = yield (0, supertest_1.default)(app)
             .post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);
         expect(response.statusCode).toBe(406);
     }));
+    // todo: add test for get course by name - not working
     test("Test Get Course by ID", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Get Course by ID" + `/course/${course._id}`);
         const response = yield (0, supertest_1.default)(app)
             .get(`/course/${course._id}`)
-            .set(" Authorization", "JWT " + accessToken);
-        expect(response.statusCode).toBe(200);
+            .set("Authorization", "JWT " + accessToken);
         expect(response.body.name).toBe(course.name);
+        console.log(response.body);
+        expect(response.statusCode).toBe(200);
     }));
     test("Test PUT /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test PUT /course/:id" + `/course/${course._id}`);
         const updatedStudent = Object.assign(Object.assign({}, course), { name: "Jane Doe 33" });
         const response = yield (0, supertest_1.default)(app)
             .put(`/course/${course._id}`)
@@ -94,6 +103,7 @@ describe("Course tests", () => {
         expect(response.body.name).toBe(updatedStudent.name);
     }));
     test("Test DELETE /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test DELETE /course/:id");
         const response = yield (0, supertest_1.default)(app)
             .delete(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken);

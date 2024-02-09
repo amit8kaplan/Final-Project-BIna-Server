@@ -45,6 +45,7 @@ const course: ICourse = {
 describe("Course tests", () => {
     
     const addCourse = async (course: ICourse) => {
+        console.log("addCourse");
         const response = await request(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);
@@ -52,6 +53,7 @@ describe("Course tests", () => {
     }
     
     test("Test Get All Courses - empty response", async () => {
+        console.log("Test Get All Courses - empty response");
         const response = await request(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
@@ -60,10 +62,12 @@ describe("Course tests", () => {
     });
     
     test("Test Post Course", async () => {
-        addCourse(course);
+        console.log("Test Post Course");
+        await addCourse(course);
     });   
     
-    test ("Test Get All Courses with one course in DB", async () => {
+    test ("Test Get All Courses", async () => {
+        console.log("Test Get All Courses");
         const response = await request(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
@@ -76,6 +80,7 @@ describe("Course tests", () => {
     });
 
     test("Test Post duplicate Course", async () => {
+        console.log("Test Post duplicate Course");
         const response = await request(app)
             .post("/course")
             .set("Authorization", "JWT " + accessToken)
@@ -85,14 +90,18 @@ describe("Course tests", () => {
 
     // todo: add test for get course by name - not working
     test("Test Get Course by ID", async () => {
+        console.log("Test Get Course by ID" + `/course/${course._id}`);
         const response = await request(app)
             .get(`/course/${course._id}`)
-            .set(" Authorization", "JWT " + accessToken);
-        expect(response.statusCode).toBe(200);
-        expect(response.body.name).toBe(course.name);
+            .set("Authorization", "JWT " + accessToken);
+            expect(response.body.name).toBe(course.name);
+            console.log(response.body);
+            expect(response.statusCode).toBe(200);
+
     });
 
     test("Test PUT /course/:id", async () => {
+        console.log("Test PUT /course/:id" + `/course/${course._id}`);
         const updatedStudent = { ...course, name: "Jane Doe 33" };
         const response = await request(app)
             .put(`/course/${course._id}`)
@@ -103,6 +112,7 @@ describe("Course tests", () => {
     }  );
 
     test("Test DELETE /course/:id", async () => {
+        console.log("Test DELETE /course/:id");
         const response = await request(app)
             .delete(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken);
