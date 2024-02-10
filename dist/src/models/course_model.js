@@ -14,6 +14,11 @@ const couseSchema = new mongoose_1.default.Schema({
     },
     owner: {
         type: String, //this is the user id
+        required: true,
+    },
+    owner_name: {
+        type: String,
+        required: true,
     },
     description: {
         type: String,

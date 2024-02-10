@@ -2,7 +2,7 @@ import request from "supertest";
 import initApp from "../app";
 import mongoose from "mongoose";
 import Course from "../models/course_model";
-import { Express } from "express";
+import { Express, response } from "express";
 import User,  {IUser} from "../models/user_model";
 
 let app: Express;
@@ -12,6 +12,7 @@ let userid : string;
 const user = {
   email: "user_check_course@test.com",
   password: "1234567890",
+  user_name: "user_check_course",
 }
 beforeAll(async () => {
   app = await initApp();
@@ -21,9 +22,12 @@ beforeAll(async () => {
   User.deleteMany({ 'email': user.email });
   await request(app).post("/auth/register").send(user);
   const response = await request(app).post("/auth/login").send(user);
+  expect(response.statusCode).toBe(200);
+  console.log(response.statusCode)
   accessToken = response.body.accessToken;
   console.log("response.body: " + response.body._id);
   userid = response.body._id;
+  console.log("user_name: " + response.body.user_name);
 });
 
 afterAll(async () => {
@@ -34,6 +38,7 @@ interface ICourse {
   name: string;
   _id: string;
   owner?: string;
+  owner_name: string;
   videoUrl?: string;
   description?: string;
   Count: number;
@@ -44,8 +49,9 @@ const course: ICourse = {
   _id: "1234567890",
   description: "data base course",
   videoUrl: "",
-  owner: "ownerId",
+  owner: "",
   Count: 0,
+  owner_name: "user_check_course",
 };
 
 describe("Course tests", () => {
@@ -54,8 +60,11 @@ describe("Course tests", () => {
         console.log("addCourse");
         const response = await request(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
-            .send(course);
+            .send(course);      
         expect(response.statusCode).toBe(201);
+        expect(response.body.owner).toBe(userid);
+        expect(response.body.owner_name).toBe(course.owner_name);
+        console.log("response.body.owner_name : " + response.body.owner_name);
     }
     
     test("Test Get All Courses - empty response", async () => {

@@ -8,6 +8,7 @@ let app: Express;
 const user = {
   email: "test_auth_user@test.com",
   password: "1234567890",
+  user_name: "test_auth_user",
 }
 
 beforeAll(async () => {
@@ -31,6 +32,7 @@ describe("Auth tests", () => {
       .post("/auth/register")
       .send(user);
     expect(response.statusCode).toBe(201);
+    // expect(response.body.user_name).toBe(user.user_name);
     // console.log("response.body: " + response.body.password);
   });
 
@@ -56,6 +58,7 @@ describe("Auth tests", () => {
     accessToken = response.body.accessToken;
     refreshToken = response.body.refreshToken;
     expect(accessToken).toBeDefined();
+    // expect(response.body.user_name).toBe(user.user_name);
   });
 
   test("Test forbidden access without token", async () => {

@@ -24,6 +24,7 @@ let userid;
 const user = {
     email: "user_check_course@test.com",
     password: "1234567890",
+    user_name: "user_check_course",
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
@@ -32,9 +33,12 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     user_model_1.default.deleteMany({ 'email': user.email });
     yield (0, supertest_1.default)(app).post("/auth/register").send(user);
     const response = yield (0, supertest_1.default)(app).post("/auth/login").send(user);
+    expect(response.statusCode).toBe(200);
+    console.log(response.statusCode);
     accessToken = response.body.accessToken;
     console.log("response.body: " + response.body._id);
     userid = response.body._id;
+    console.log("user_name: " + response.body.user_name);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
@@ -44,8 +48,9 @@ const course = {
     _id: "1234567890",
     description: "data base course",
     videoUrl: "",
-    owner: "ownerId",
+    owner: "",
     Count: 0,
+    owner_name: "user_check_course",
 };
 describe("Course tests", () => {
     const addCourse = (course) => __awaiter(void 0, void 0, void 0, function* () {
@@ -54,6 +59,9 @@ describe("Course tests", () => {
             .set("Authorization", "JWT " + accessToken)
             .send(course);
         expect(response.statusCode).toBe(201);
+        expect(response.body.owner).toBe(userid);
+        expect(response.body.owner_name).toBe(course.owner_name);
+        console.log("response.body.owner_name : " + response.body.owner_name);
     });
     test("Test Get All Courses - empty response", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test Get All Courses - empty response");

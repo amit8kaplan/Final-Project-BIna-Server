@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const course_model_1 = __importDefault(require("../models/course_model"));
 const base_controller_1 = require("./base_controller");
+const utils_1 = require("../common/utils");
 const base = process.env.URL;
 class course_controller extends base_controller_1.BaseController {
     constructor() {
@@ -26,6 +27,16 @@ class course_controller extends base_controller_1.BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("newCourse:" + req.body);
             const _id = req.user._id;
+            try {
+                (0, utils_1.extractUserName)(_id).then((result) => {
+                    console.log("the user name:" + result);
+                    req.body.owner_name = result;
+                });
+            }
+            catch (err) {
+                console.log("problem with find the user of the builder of the course" + err);
+                res.status(500).json({ message: err.message });
+            }
             req.body.owner = _id;
             _super.post.call(this, req, res);
         });

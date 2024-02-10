@@ -1,39 +1,35 @@
 import mongoose from "mongoose";
-import { ICourse } from "./course_model";
 
 export interface IcourseReview {
     _id: string;
-    course: ICourse;
-    title: string;
-    message: string;
-    imgUrl?: string;
-    score: number;
-    owner: string;
+    course_id: string;
+    course_name: string;
+    title?: string;
+    message?: string;
+    score?: number;
+    owner_id: string;
+    owner_name: string;
 }
 
 const CourseReviewSchema = new mongoose.Schema<IcourseReview>({
-    course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Course",
-    required: true,
-    },
-    title: {
+    course_id: {
     type: String,
     required: true,
     },
-    message: {
+    course_name:{
     type: String,
     required: true,
     },
-    imgUrl: {
-        type: String,
-      },
     score: {
     type: Number,
     min: 1, 
     max: 5,
     },
-    owner: {
+    owner_id: {
+    type: String,
+    required: true,
+    },
+    owner_name: {
     type: String,
     required: true,
     },

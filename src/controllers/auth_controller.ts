@@ -22,7 +22,8 @@ const googleSignin = async (req: Request, res: Response) => {
                     {
                         'email': email,
                         'password': '0',
-                        'imgUrl': payload?.picture
+                        'imgUrl': payload?.picture,
+                        'user_name': payload?.given_name + " " + payload?.family_name
                     });
             }
             const tokens = await generateTokens(user)
@@ -31,6 +32,7 @@ const googleSignin = async (req: Request, res: Response) => {
                     email: user.email,
                     _id: user._id,
                     imgUrl: user.imgUrl,
+                    user_name: user.user_name,
                     ...tokens
                 })
         }
@@ -44,6 +46,7 @@ const register = async (req: Request, res: Response) => {
     const email = req.body.email;
     const password = req.body.password;
     const imgUrl = req.body.imgUrl;
+    const user_name = req.body.user_name;
     if (!email || !password) {
         return res.status(400).send("missing email or password");
     }
@@ -58,7 +61,8 @@ const register = async (req: Request, res: Response) => {
             {
                 'email': email,
                 'password': encryptedPassword,
-                'imgUrl': imgUrl
+                'imgUrl': imgUrl,
+                'user_name': user_name
             });
         const tokens = await generateTokens(rs2)
         res.status(201).send(
@@ -66,6 +70,7 @@ const register = async (req: Request, res: Response) => {
                 email: rs2.email,
                 _id: rs2._id,
                 imgUrl: rs2.imgUrl,
+                user_name: rs2.user_name,
                 ...tokens
             })
     } catch (err) {
@@ -110,7 +115,8 @@ const login = async (req: Request, res: Response) => {
             refreshToken: tokens.refreshToken,
              email: user.email,
               _id: user._id,
-               imgUrl: user.imgUrl
+             imgUrl: user.imgUrl,
+             user_name: user.user_name
             });
     } catch (err) {
         return res.status(400).send("error missing email or password");

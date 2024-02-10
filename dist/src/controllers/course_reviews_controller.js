@@ -29,6 +29,19 @@ class StudentPostController extends base_controller_1.BaseController {
             _super.post.call(this, req, res);
         });
     }
+    getByUserId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("get all the reviews By User Id:" + req.params.id);
+            try {
+                const obj = yield courses_reviews_model_1.default.find({ owner: req.params.id });
+                console.log("obj to getByUserId:" + obj);
+                res.status(200).send(obj);
+            }
+            catch (err) {
+                res.status(500).json({ message: err.message });
+            }
+        });
+    }
 }
 exports.default = new StudentPostController();
 //# sourceMappingURL=course_reviews_controller.js.map

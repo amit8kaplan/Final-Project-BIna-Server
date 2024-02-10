@@ -32,11 +32,12 @@ const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 user = yield user_model_1.default.create({
                     'email': email,
                     'password': '0',
-                    'imgUrl': payload === null || payload === void 0 ? void 0 : payload.picture
+                    'imgUrl': payload === null || payload === void 0 ? void 0 : payload.picture,
+                    'user_name': (payload === null || payload === void 0 ? void 0 : payload.given_name) + " " + (payload === null || payload === void 0 ? void 0 : payload.family_name)
                 });
             }
             const tokens = yield generateTokens(user);
-            res.status(200).send(Object.assign({ email: user.email, _id: user._id, imgUrl: user.imgUrl }, tokens));
+            res.status(200).send(Object.assign({ email: user.email, _id: user._id, imgUrl: user.imgUrl, user_name: user.user_name }, tokens));
         }
     }
     catch (err) {
@@ -47,6 +48,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.email;
     const password = req.body.password;
     const imgUrl = req.body.imgUrl;
+    const user_name = req.body.user_name;
     if (!email || !password) {
         return res.status(400).send("missing email or password");
     }
@@ -60,10 +62,11 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const rs2 = yield user_model_1.default.create({
             'email': email,
             'password': encryptedPassword,
-            'imgUrl': imgUrl
+            'imgUrl': imgUrl,
+            'user_name': user_name
         });
         const tokens = yield generateTokens(rs2);
-        res.status(201).send(Object.assign({ email: rs2.email, _id: rs2._id, imgUrl: rs2.imgUrl }, tokens));
+        res.status(201).send(Object.assign({ email: rs2.email, _id: rs2._id, imgUrl: rs2.imgUrl, user_name: rs2.user_name }, tokens));
     }
     catch (err) {
         return res.status(400).send("error missing email or password");
@@ -105,7 +108,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             refreshToken: tokens.refreshToken,
             email: user.email,
             _id: user._id,
-            imgUrl: user.imgUrl
+            imgUrl: user.imgUrl,
+            user_name: user.user_name
         });
     }
     catch (err) {

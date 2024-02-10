@@ -20,6 +20,7 @@ let app;
 const user = {
     email: "test_auth_user@test.com",
     password: "1234567890",
+    user_name: "test_auth_user",
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
@@ -39,6 +40,7 @@ describe("Auth tests", () => {
             .post("/auth/register")
             .send(user);
         expect(response.statusCode).toBe(201);
+        // expect(response.body.user_name).toBe(user.user_name);
         // console.log("response.body: " + response.body.password);
     }));
     test("Test Register exist email", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -61,6 +63,7 @@ describe("Auth tests", () => {
         accessToken = response.body.accessToken;
         refreshToken = response.body.refreshToken;
         expect(accessToken).toBeDefined();
+        // expect(response.body.user_name).toBe(user.user_name);
     }));
     test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app).get("/student");

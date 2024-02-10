@@ -21,6 +21,7 @@ let app;
 const user = {
     email: "test@student.post.test",
     password: "1234567890",
+    user_name: "test_student_post",
 };
 let accessToken = "";
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
