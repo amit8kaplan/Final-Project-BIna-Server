@@ -8,23 +8,6 @@ export class BaseController<ModelType>{
         this.model = model;
     }
 
-    // async get(req: Request, res: Response) {
-    //     console.log("getAllOrByName:");
-    //     try {
-    //         if (req.query.name) {
-    //             console.log("into the if:" + req.query.name);
-    //             const obj = await this.model.find({ name: req.query.name });
-    //             console.log("obj and mane:" + obj);
-    //             res.send(obj);
-    //         } else {
-    //             const obj = await this.model.find();
-    //             console.log("obj and mane:" + obj);
-    //             res.send(obj);
-    //         }
-    //     } catch (err) {
-    //         res.status(500).json({ message: err.message });
-    //     }
-    // }
     async get(req: Request, res: Response) {
         console.log("Get by query parameter:");
         try {
