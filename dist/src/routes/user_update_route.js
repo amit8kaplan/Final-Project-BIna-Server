@@ -14,7 +14,7 @@ router.get('/:id', auth_middleware_1.default, user_controller_1.default.getById.
 //change the user's data - canot upload new photo only change the url of the photo and all the data
 router.put('/:id', auth_middleware_1.default, user_controller_1.default.putById.bind(user_controller_1.default));
 //the codes to change photo of user
-router.post('/', auth_middleware_1.default, file_upload_1.upload.single("file"), user_controller_1.default.postPhotoOfUser.bind(user_controller_1.default));
+router.post('/', auth_middleware_1.default, file_upload_1.upload_img.single("file"), user_controller_1.default.postPhotoOfUser.bind(user_controller_1.default));
 router.delete('/', auth_middleware_1.default, user_controller_1.default.deletePhotoOfUser.bind(user_controller_1.default));
 module.exports = router;
 //# sourceMappingURL=user_update_route.js.map

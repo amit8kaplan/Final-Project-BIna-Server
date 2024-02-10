@@ -19,8 +19,13 @@ class UserController extends BaseController<IUser>{
         }
     }
     async postPhotoOfUser(req: AuthResquest, res: Response) {
-        console.log("router.post(/user: " + base + req.file.path)
-        res.status(200).send({ url: base + req.file.path })
+        try{
+            console.log("router.post(/user: " + base + req.file.path)
+            res.status(200).send({ url: base + req.file.path })
+        }catch(err){
+            console.log(err);
+            res.status(500).json({ message: err.message });
+        }
     }
     async get(req: AuthResquest, res: Response) {
         console.log("getAllUsers:" + req.query.name);
