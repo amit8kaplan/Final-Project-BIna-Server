@@ -20,6 +20,7 @@ const user_model_1 = __importDefault(require("../models/user_model"));
 let app;
 let accessToken;
 let newUrl;
+let userid;
 const user = {
     email: "user_check_course@test.com",
     password: "1234567890",
@@ -33,6 +34,7 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield (0, supertest_1.default)(app).post("/auth/login").send(user);
     accessToken = response.body.accessToken;
     console.log("response.body: " + response.body._id);
+    userid = response.body._id;
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
@@ -128,16 +130,14 @@ describe("Course tests", () => {
             .send(course);
         expect(response.statusCode).toBe(406);
     }));
-    // // todo: add test for get course by name - not working
-    // test("Test Get Course by ID", async () => {
-    //     console.log("Test Get Course by ID" + `/course/${course._id}`);
-    //     const response = await request(app)
-    //         .get(`/course/${course._id}`)
-    //         .set("Authorization", "JWT " + accessToken);
-    //         expect(response.body.name).toBe(course.name);
-    //         console.log(response.body);
-    //         expect(response.statusCode).toBe(200);
-    // });
+    test("Test Get /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Get /course/:id");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/course/${userid}`)
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body[0]._id).toBe(course._id);
+    }));
     test("Test PUT /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test PUT /course/:id" + `/course/${course._id}`);
         const updateCourse = Object.assign(Object.assign({}, course), { name: "Jane Doe 33", videoUrl: newUrl });

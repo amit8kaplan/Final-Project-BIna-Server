@@ -8,7 +8,7 @@ import User,  {IUser} from "../models/user_model";
 let app: Express;
 let accessToken: string;
 let newUrl : string;
-
+let userid : string;
 const user = {
   email: "user_check_course@test.com",
   password: "1234567890",
@@ -23,7 +23,7 @@ beforeAll(async () => {
   const response = await request(app).post("/auth/login").send(user);
   accessToken = response.body.accessToken;
   console.log("response.body: " + response.body._id);
-
+  userid = response.body._id;
 });
 
 afterAll(async () => {
@@ -138,18 +138,16 @@ describe("Course tests", () => {
         expect(response.statusCode).toBe(406);
     });
 
-    // // todo: add test for get course by name - not working
-    // test("Test Get Course by ID", async () => {
-    //     console.log("Test Get Course by ID" + `/course/${course._id}`);
-    //     const response = await request(app)
-    //         .get(`/course/${course._id}`)
-    //         .set("Authorization", "JWT " + accessToken);
-    //         expect(response.body.name).toBe(course.name);
-    //         console.log(response.body);
-    //         expect(response.statusCode).toBe(200);
 
-    // });
-
+    test("Test Get /course/:id", async () => {
+        console.log("Test Get /course/:id");
+        const response = await request(app)
+            .get(`/course/${userid}`)
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body[0]._id).toBe(course._id);
+        
+    });
     test("Test PUT /course/:id", async () => {
         console.log("Test PUT /course/:id" + `/course/${course._id}`);
         
