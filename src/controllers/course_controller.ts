@@ -24,6 +24,16 @@ class course_controller extends BaseController<ICourse> {
             res.status(500).json({ message: err.message , url : base + req.file.path});
         }
     }
+    async getByUserId(req: AuthResquest, res: Response) {
+        console.log("getByUserId:" + req.params.id);
+        try {
+            const obj = await course_model.find({ owner: req.params.id });
+            console.log("obj to getByUserId:" + obj);
+            res.status(200).send(obj);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
 }
 
 export default new course_controller;

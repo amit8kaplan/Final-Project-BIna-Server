@@ -42,6 +42,19 @@ class course_controller extends base_controller_1.BaseController {
             }
         });
     }
+    getByUserId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("getByUserId:" + req.params.id);
+            try {
+                const obj = yield course_model_1.default.find({ owner: req.params.id });
+                console.log("obj to getByUserId:" + obj);
+                res.status(200).send(obj);
+            }
+            catch (err) {
+                res.status(500).json({ message: err.message });
+            }
+        });
+    }
 }
 exports.default = new course_controller;
 //# sourceMappingURL=course_controller.js.map

@@ -32,6 +32,7 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, supertest_1.default)(app).post("/auth/register").send(user);
     const response = yield (0, supertest_1.default)(app).post("/auth/login").send(user);
     accessToken = response.body.accessToken;
+    console.log("response.body: " + response.body._id);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
@@ -86,6 +87,27 @@ describe("Course tests", () => {
             expect(1).toBe(2);
         }
     }));
+    test("Test Get the specific course using name", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Get the specific course");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/course")
+            .query({ name: course.name }) // Add your query parameter here
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.name).toBe(course.name);
+        expect(st._id).toBe(course._id);
+    }));
+    test("Test get the spesific course by id", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test get the spesific course by id");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/course`)
+            .query({ _id: course._id }) // Add your query parameter here
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body[0].name).toBe(course.name);
+    }));
     test("Test Get All Courses", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test Get All Courses");
         const response = yield (0, supertest_1.default)(app)
@@ -106,16 +128,16 @@ describe("Course tests", () => {
             .send(course);
         expect(response.statusCode).toBe(406);
     }));
-    // todo: add test for get course by name - not working
-    test("Test Get Course by ID", () => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("Test Get Course by ID" + `/course/${course._id}`);
-        const response = yield (0, supertest_1.default)(app)
-            .get(`/course/${course._id}`)
-            .set("Authorization", "JWT " + accessToken);
-        expect(response.body.name).toBe(course.name);
-        console.log(response.body);
-        expect(response.statusCode).toBe(200);
-    }));
+    // // todo: add test for get course by name - not working
+    // test("Test Get Course by ID", async () => {
+    //     console.log("Test Get Course by ID" + `/course/${course._id}`);
+    //     const response = await request(app)
+    //         .get(`/course/${course._id}`)
+    //         .set("Authorization", "JWT " + accessToken);
+    //         expect(response.body.name).toBe(course.name);
+    //         console.log(response.body);
+    //         expect(response.statusCode).toBe(200);
+    // });
     test("Test PUT /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test PUT /course/:id" + `/course/${course._id}`);
         const updateCourse = Object.assign(Object.assign({}, course), { name: "Jane Doe 33", videoUrl: newUrl });

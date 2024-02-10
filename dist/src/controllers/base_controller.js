@@ -14,19 +14,40 @@ class BaseController {
     constructor(model) {
         this.model = model;
     }
+    // async get(req: Request, res: Response) {
+    //     console.log("getAllOrByName:");
+    //     try {
+    //         if (req.query.name) {
+    //             console.log("into the if:" + req.query.name);
+    //             const obj = await this.model.find({ name: req.query.name });
+    //             console.log("obj and mane:" + obj);
+    //             res.send(obj);
+    //         } else {
+    //             const obj = await this.model.find();
+    //             console.log("obj and mane:" + obj);
+    //             res.send(obj);
+    //         }
+    //     } catch (err) {
+    //         res.status(500).json({ message: err.message });
+    //     }
+    // }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getAllOrByName:");
+            console.log("Get by query parameter:");
             try {
-                if (req.query.name) {
-                    console.log("into the if:" + req.query.name);
-                    const obj = yield this.model.find({ name: req.query.name });
-                    console.log("obj and mane:" + obj);
+                const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
+                const queryValue = req.query[queryKey]; // Get the value of the first query parameter
+                console.log("Query parameter key:", queryKey);
+                console.log("Query parameter value:", queryValue);
+                if (queryKey && queryValue) {
+                    const filter = { [queryKey]: queryValue }; // Type assertion
+                    const obj = yield this.model.find(filter);
+                    console.log("Filtered results:", obj);
                     res.send(obj);
                 }
                 else {
                     const obj = yield this.model.find();
-                    console.log("obj and mane:" + obj);
+                    console.log("All results:", obj);
                     res.send(obj);
                 }
             }

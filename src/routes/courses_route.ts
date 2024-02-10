@@ -3,10 +3,13 @@ const router = express.Router();
 import coursesController from "../controllers/course_controller";
 import authMiddleware from "../common/auth_middleware";
 import { upload_vid } from "../common/file_upload";
-
+//get all the courses or get a course by name
 router.get("/", authMiddleware, coursesController.get.bind(coursesController));
+//get all the courses of a specific user
+// router.get("/:id", authMiddleware, coursesController.getByUserId.bind(coursesController));
+//get course by id
+router.get("/:CourseId", authMiddleware, coursesController.getById.bind(coursesController));
 
-router.get("/:id", authMiddleware, coursesController.getById.bind(coursesController));
 //upload new course
 router.post("/", authMiddleware, coursesController.post.bind(coursesController));
 //upload new video

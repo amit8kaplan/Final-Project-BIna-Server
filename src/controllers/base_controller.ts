@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Model } from "mongoose";
+import { FilterQuery, Model } from "mongoose";
 
 export class BaseController<ModelType>{
 
@@ -8,23 +8,47 @@ export class BaseController<ModelType>{
         this.model = model;
     }
 
+    // async get(req: Request, res: Response) {
+    //     console.log("getAllOrByName:");
+    //     try {
+    //         if (req.query.name) {
+    //             console.log("into the if:" + req.query.name);
+    //             const obj = await this.model.find({ name: req.query.name });
+    //             console.log("obj and mane:" + obj);
+    //             res.send(obj);
+    //         } else {
+    //             const obj = await this.model.find();
+    //             console.log("obj and mane:" + obj);
+    //             res.send(obj);
+    //         }
+    //     } catch (err) {
+    //         res.status(500).json({ message: err.message });
+    //     }
+    // }
     async get(req: Request, res: Response) {
-        console.log("getAllOrByName:");
+        console.log("Get by query parameter:");
         try {
-            if (req.query.name) {
-                console.log("into the if:" + req.query.name);
-                const obj = await this.model.find({ name: req.query.name });
-                console.log("obj and mane:" + obj);
+            const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
+            const queryValue = req.query[queryKey]; // Get the value of the first query parameter
+            console.log("Query parameter key:", queryKey);
+            console.log("Query parameter value:", queryValue);
+    
+            if (queryKey && queryValue) {
+                const filter: FilterQuery<ModelType> = { [queryKey]: queryValue } as FilterQuery<ModelType>; // Type assertion
+                const obj = await this.model.find(filter);
+                console.log("Filtered results:", obj);
                 res.send(obj);
             } else {
                 const obj = await this.model.find();
-                console.log("obj and mane:" + obj);
+                console.log("All results:", obj);
                 res.send(obj);
             }
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
     }
+    
+    
 
     async getById(req: Request, res: Response) {
         console.log("getById:" + req.params.id);

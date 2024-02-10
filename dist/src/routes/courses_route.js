@@ -8,8 +8,12 @@ const router = express_1.default.Router();
 const course_controller_1 = __importDefault(require("../controllers/course_controller"));
 const auth_middleware_1 = __importDefault(require("../common/auth_middleware"));
 const file_upload_1 = require("../common/file_upload");
+//get all the courses or get a course by name
 router.get("/", auth_middleware_1.default, course_controller_1.default.get.bind(course_controller_1.default));
-router.get("/:id", auth_middleware_1.default, course_controller_1.default.getById.bind(course_controller_1.default));
+//get all the courses of a specific user
+// router.get("/:id", authMiddleware, coursesController.getByUserId.bind(coursesController));
+//get course by id
+router.get("/:CourseId", auth_middleware_1.default, course_controller_1.default.getById.bind(course_controller_1.default));
 //upload new course
 router.post("/", auth_middleware_1.default, course_controller_1.default.post.bind(course_controller_1.default));
 //upload new video
