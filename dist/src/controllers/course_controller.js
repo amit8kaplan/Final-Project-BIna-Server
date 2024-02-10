@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const course_model_1 = __importDefault(require("../models/course_model"));
 const base_controller_1 = require("./base_controller");
+const base = process.env.URL;
 class course_controller extends base_controller_1.BaseController {
     constructor() {
         super(course_model_1.default);
@@ -27,6 +28,18 @@ class course_controller extends base_controller_1.BaseController {
             const _id = req.user._id;
             req.body.owner = _id;
             _super.post.call(this, req, res);
+        });
+    }
+    postVideo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("newVideo:" + base + req.file.path);
+            try {
+                res.status(200).send({ url: base + req.file.path });
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).json({ message: err.message, url: base + req.file.path });
+            }
         });
     }
 }

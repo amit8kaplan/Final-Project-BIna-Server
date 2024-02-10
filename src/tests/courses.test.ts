@@ -7,8 +7,10 @@ import User,  {IUser} from "../models/user_model";
 
 let app: Express;
 let accessToken: string;
+let newUrl : string;
+
 const user = {
-  email: "testStudent@test.com",
+  email: "user_check_course@test.com",
   password: "1234567890",
 }
 beforeAll(async () => {
@@ -30,6 +32,7 @@ interface ICourse {
   name: string;
   _id: string;
   owner?: string;
+  videoUrl?: string;
   description?: string;
   Count: number;
 }
@@ -38,6 +41,7 @@ const course: ICourse = {
   name: "John Doe",
   _id: "1234567890",
   description: "data base course",
+  videoUrl: "",
   owner: "ownerId",
   Count: 0,
 };
@@ -65,6 +69,27 @@ describe("Course tests", () => {
         console.log("Test Post Course");
         await addCourse(course);
     });   
+    test ("Test add video to course", async () => {
+        console.log("Test add video to course");
+        const filePath = `${__dirname}/vid.mp4`;
+        console.log("filePath " + filePath);
+        try{
+            const response = await request(app)
+                .post("/course/upload_Video?video=123.mp4").attach('video', filePath)
+                .set("Authorization", "JWT " + accessToken)
+            expect(response.statusCode).toBe(200);
+            let url = response.body.url;
+            console.log("url " + url);
+            url = url.replace(/^.*\/\/[^/]+/, '')
+            const res = await request(app).get(url)
+            newUrl = url;
+            course.videoUrl = url;
+            expect(res.statusCode).toBe(200);
+        } catch (err) {
+            console.log(err);
+            expect(1).toBe(2);
+        }
+    });
     
     test ("Test Get All Courses", async () => {
         console.log("Test Get All Courses");
@@ -102,13 +127,15 @@ describe("Course tests", () => {
 
     test("Test PUT /course/:id", async () => {
         console.log("Test PUT /course/:id" + `/course/${course._id}`);
-        const updatedStudent = { ...course, name: "Jane Doe 33" };
+        
+        const updateCourse = { ...course, name: "Jane Doe 33", videoUrl: newUrl};
         const response = await request(app)
             .put(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken)
-            .send(updatedStudent);
+            .send(updateCourse);
         expect(response.statusCode).toBe(200);
-        expect(response.body.name).toBe(updatedStudent.name);
+        expect(response.body.name).toBe(updateCourse.name);
+        expect(response.body.videoUrl).toBe(updateCourse.videoUrl);
     }  );
 
     test("Test DELETE /course/:id", async () => {

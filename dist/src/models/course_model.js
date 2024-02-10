@@ -22,6 +22,9 @@ const couseSchema = new mongoose_1.default.Schema({
         type: Number,
         required: true,
     },
+    videoUrl: {
+        type: String,
+    }
 });
 exports.default = mongoose_1.default.model("Course", couseSchema);
 //# sourceMappingURL=course_model.js.map

@@ -18,7 +18,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
 let app;
 const user = {
-    email: "testUser@test.com",
+    email: "test_auth_user@test.com",
     password: "1234567890",
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,10 +34,12 @@ let refreshToken;
 let newRefreshToken;
 describe("Auth tests", () => {
     test("Test Register", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Register");
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
             .send(user);
         expect(response.statusCode).toBe(201);
+        // console.log("response.body: " + response.body.password);
     }));
     test("Test Register exist email", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)

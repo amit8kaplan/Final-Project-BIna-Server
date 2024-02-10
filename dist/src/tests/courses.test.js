@@ -19,8 +19,9 @@ const course_model_1 = __importDefault(require("../models/course_model"));
 const user_model_1 = __importDefault(require("../models/user_model"));
 let app;
 let accessToken;
+let newUrl;
 const user = {
-    email: "testStudent@test.com",
+    email: "user_check_course@test.com",
     password: "1234567890",
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -39,6 +40,7 @@ const course = {
     name: "John Doe",
     _id: "1234567890",
     description: "data base course",
+    videoUrl: "",
     owner: "ownerId",
     Count: 0,
 };
@@ -61,6 +63,28 @@ describe("Course tests", () => {
     test("Test Post Course", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test Post Course");
         yield addCourse(course);
+    }));
+    test("Test add video to course", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test add video to course");
+        const filePath = `${__dirname}/vid.mp4`;
+        console.log("filePath " + filePath);
+        try {
+            const response = yield (0, supertest_1.default)(app)
+                .post("/course/upload_Video?video=123.mp4").attach('video', filePath)
+                .set("Authorization", "JWT " + accessToken);
+            expect(response.statusCode).toBe(200);
+            let url = response.body.url;
+            console.log("url " + url);
+            url = url.replace(/^.*\/\/[^/]+/, '');
+            const res = yield (0, supertest_1.default)(app).get(url);
+            newUrl = url;
+            course.videoUrl = url;
+            expect(res.statusCode).toBe(200);
+        }
+        catch (err) {
+            console.log(err);
+            expect(1).toBe(2);
+        }
     }));
     test("Test Get All Courses", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test Get All Courses");
@@ -94,13 +118,14 @@ describe("Course tests", () => {
     }));
     test("Test PUT /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test PUT /course/:id" + `/course/${course._id}`);
-        const updatedStudent = Object.assign(Object.assign({}, course), { name: "Jane Doe 33" });
+        const updateCourse = Object.assign(Object.assign({}, course), { name: "Jane Doe 33", videoUrl: newUrl });
         const response = yield (0, supertest_1.default)(app)
             .put(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken)
-            .send(updatedStudent);
+            .send(updateCourse);
         expect(response.statusCode).toBe(200);
-        expect(response.body.name).toBe(updatedStudent.name);
+        expect(response.body.name).toBe(updateCourse.name);
+        expect(response.body.videoUrl).toBe(updateCourse.videoUrl);
     }));
     test("Test DELETE /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test DELETE /course/:id");

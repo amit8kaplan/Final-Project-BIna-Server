@@ -6,7 +6,7 @@ import User from "../models/user_model";
 
 let app: Express;
 const user = {
-  email: "testUser@test.com",
+  email: "test_auth_user@test.com",
   password: "1234567890",
 }
 
@@ -26,10 +26,12 @@ let newRefreshToken: string
 
 describe("Auth tests", () => {
   test("Test Register", async () => {
+    console.log("Test Register");
     const response = await request(app)
       .post("/auth/register")
       .send(user);
     expect(response.statusCode).toBe(201);
+    // console.log("response.body: " + response.body.password);
   });
 
   test("Test Register exist email", async () => {

@@ -4,7 +4,7 @@ export interface ICourse {
     _id: string;
     owner?: string; // this is the user id
     description?: string;
-    
+    videoUrl?: string;
     Count: number;
 }
 
@@ -26,6 +26,9 @@ const couseSchema = new mongoose.Schema<ICourse>({
       type: Number,
       required: true,
   },
+  videoUrl: {
+      type: String,
+  }
 });
 
 export default mongoose.model<ICourse>("Course", couseSchema);
