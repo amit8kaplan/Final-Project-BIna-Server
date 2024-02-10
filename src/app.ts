@@ -8,6 +8,8 @@ import studentPostRoute from "./routes/student_post_route";
 import authRoute from "./routes/auth_route";
 import userRoute from "./routes/user_update_route";
 import cousreRoute from "./routes/courses_route";
+import courseReviewRoute from "./routes/courses_reviews_route";
+
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
     const db = mongoose.connection;
@@ -28,6 +30,7 @@ const initApp = (): Promise<Express> => {
       app.use("/student", studentRoute);
       app.use("/studentpost", studentPostRoute);
       app.use("/course", cousreRoute);
+      app.use("/review", courseReviewRoute);
       app.use("/auth", authRoute);
       app.use("/user", userRoute);
       app.use("/public", express.static("public"));

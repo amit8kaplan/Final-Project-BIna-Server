@@ -10,6 +10,8 @@ const auth_middleware_1 = __importDefault(require("../common/auth_middleware"));
 //get all the reviews or specific reviews by the parameters of the query 
 router.get("/", course_reviews_controller_1.default.get.bind(course_reviews_controller_1.default));
 router.get("/:id", course_reviews_controller_1.default.getByUserId.bind(course_reviews_controller_1.default));
+//post a new review - the front end should send the course_id and the course_name in the body
+//the owner_id and owner_name will be added by the server
 router.post("/", auth_middleware_1.default, course_reviews_controller_1.default.post.bind(course_reviews_controller_1.default));
 router.put("/:id", auth_middleware_1.default, course_reviews_controller_1.default.putById.bind(course_reviews_controller_1.default));
 router.delete("/:id", auth_middleware_1.default, course_reviews_controller_1.default.deleteById.bind(course_reviews_controller_1.default));

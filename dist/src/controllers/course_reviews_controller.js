@@ -14,9 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const courses_reviews_model_1 = __importDefault(require("../models/courses_reviews_model"));
 const base_controller_1 = require("./base_controller");
+const utils_1 = require("../common/utils");
 class StudentPostController extends base_controller_1.BaseController {
     constructor() {
         super(courses_reviews_model_1.default);
+    }
+    get(req, res) {
+        const _super = Object.create(null, {
+            get: { get: () => super.get }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("Get by query parameter:");
+            _super.get.call(this, req, res);
+        });
     }
     post(req, res) {
         const _super = Object.create(null, {
@@ -24,8 +34,19 @@ class StudentPostController extends base_controller_1.BaseController {
         });
         return __awaiter(this, void 0, void 0, function* () {
             console.log("newReviewToCourse:" + req.body);
-            const user = req.user;
-            req.body.owner = user;
+            req.body.owner_id = req.user._id;
+            console.log("the user id:" + req.body.owner_id);
+            try {
+                yield (0, utils_1.extractUserName)(req.body.owner_id).then((result) => {
+                    req.body.owner_name = result;
+                    console.log("the user name:" + req.body.owner_name);
+                });
+            }
+            catch (err) {
+                console.log("problem with find the user of the builder of the course" + err);
+                res.status(500).json({ message: err.message });
+            }
+            console.log("rev.title" + req.body.title);
             _super.post.call(this, req, res);
         });
     }
@@ -33,7 +54,7 @@ class StudentPostController extends base_controller_1.BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("get all the reviews By User Id:" + req.params.id);
             try {
-                const obj = yield courses_reviews_model_1.default.find({ owner: req.params.id });
+                const obj = yield courses_reviews_model_1.default.find({ owner_id: req.params.id });
                 console.log("obj to getByUserId:" + obj);
                 res.status(200).send(obj);
             }

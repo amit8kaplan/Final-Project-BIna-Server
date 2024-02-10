@@ -1,75 +1,148 @@
-// import { Express } from "express";
-// import request from "supertest";
-// import initApp from "../app";
-// import mongoose from "mongoose";
-// import StudentPost, { IStudentPost } from "../models/courses_reviews_model";
-// import User, { IUser } from "../models/user_model";
-// import Course , { ICourse } from "../models/course_model";
+import { Express } from "express";
+import request from "supertest";
+import initApp from "../app";
+import mongoose from "mongoose";
+import CourseReview, { IcourseReview } from "../models/courses_reviews_model";
+import User, { IUser } from "../models/user_model";
+import Course , { ICourse } from "../models/course_model";
 
-// let app: Express;
-// const user: IUser = {
-//   email: "test@student.post.test",
-//   password: "1234567890",
-// }
-// let accessToken = "";
-// const course: ICourse = {
-//     title: "title1",
-//     description: "description1",
-//     imgUrl: "imgUrl1",
-//     price: 100,
-//     owner: user,
-//     };
-// beforeAll(async () => {
-//   app = await initApp();
-//   console.log("beforeAll");
-//   await StudentPost.deleteMany();
+let app: Express;
+const user: IUser = {
+  email: "course_review@test.test",
+  password: "1234567890",
+  user_name: "course_review_tester",
+}
+let accessToken = "";
+const course: ICourse = {
+    name: "course1",
+    _id: "111111",
+    owner: "", // this is the user id
+    owner_name: "",
+    description: "description1",
+    videoUrl: "",
+    Count: 0,
+    };
 
-//   await User.deleteMany({ 'email': user.email });
-//   const response = await request(app).post("/auth/register").send(user);
-//   user._id = response.body._id;
-//   const response2 = await request(app).post("/auth/login").send(user);
-//   accessToken = response2.body.accessToken;
-// });
+const review: IcourseReview = {
+    course_id: "",
+    course_name: "",
+    title: "review1",
+    message: "message1",
+    score: 5,
+    owner_id: "",
+    owner_name: "",
+    };
 
-// afterAll(async () => {
-//   await mongoose.connection.close();
-// });
+   
+beforeAll(async () => {
+    app = await initApp();
+    console.log("beforeAll");
+    await CourseReview.deleteMany();
 
-// const post1: IStudentPost = {
-//   title: "title1",
-//   message: "message1",
-//   owner: "1234567890",
-// };
+    await User.deleteMany({ 'email': user.email });
+    const response = await request(app).post("/auth/register").send(user);
+    user._id = response.body._id;
+    const response2 = await request(app).post("/auth/login").send(user);
+    accessToken = response2.body.accessToken;
+    course.owner = user._id;
+    await Course.deleteMany();
+    const response3 = await request(app)
+        .post("/course")
+        .set("Authorization", "JWT " + accessToken)
+        .send(course);
+    review.course_id = response3.body._id;
+    review.course_name = response3.body.name;
+    review.owner_id = course.owner;
+    review.owner_name = response3.body.owner_name;
+    console.log("review.owner_id: " + review.owner_id);
+    console.log("review.owner_name: " + review.owner_name);
+    console.log("review.course_id: " + review.course_id);
+    console.log("review.course_name: " + review.course_name);
+});
 
-// describe("Student post tests", () => {
-//   const addStudentPost = async (post: IStudentPost) => {
-//     const response = await request(app)
-//       .post("/studentpost")
-//       .set("Authorization", "JWT " + accessToken)
-//       .send(post);
-//     expect(response.statusCode).toBe(201);
-//     expect(response.body.owner).toBe(user._id);
-//     expect(response.body.title).toBe(post.title);
-//     expect(response.body.message).toBe(post.message);
-//   };
+afterAll(async () => {
+  await mongoose.connection.close();
+});
 
-//   test("Test Get All Student posts - empty response", async () => {
-//     const response = await request(app).get("/studentpost");
-//     expect(response.statusCode).toBe(200);
-//     expect(response.body).toStrictEqual([]);
-//   });
+describe("Course_reviews tests", () => {
+  const addReview = async (review: IcourseReview) => {
+    console.log("rev.tirle in Course_reviews test: " + review.title)
+    const response = await request(app)
+      .post("/review")
+      .set("Authorization", "JWT " + accessToken)
+      .send(review);
+    expect(response.statusCode).toBe(201);
+    expect(response.body.owner_id).toBe(review.owner_id);
+    expect(response.body.owner_name).toBe(review.owner_name);
+    expect(response.body.course_id).toBe(review.course_id);
+    expect(response.body.course_name).toBe(review.course_name);
+    expect(response.body.title).toBe(review.title);
+    expect(response.body.message).toBe(review.message);
+    console.log("response.body.message: " + response.body.message);
+  };
 
-//   test("Test Post Student post", async () => {
-//     addStudentPost(post1);
-//   });
+  test("Test Get All the reviews - empty response", async () => {
+    console.log("Test Get All the reviews - empty response");
+    const response = await request(app)
+        .get("/review")
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toStrictEqual([]);
+  });
 
-//   test("Test Get All Students posts with one post in DB", async () => {
-//     const response = await request(app).get("/studentpost");
-//     expect(response.statusCode).toBe(200);
-//     const rc = response.body[0];
-//     expect(rc.title).toBe(post1.title);
-//     expect(rc.message).toBe(post1.message);
-//     expect(rc.owner).toBe(user._id);
-//   });
+  test("Test review for a course", async () => {
+    console.log("Test review for a course");
+    console.log("review.rev: " + review.title);
+    await addReview(review);
+  });
 
-// });
+  test("Test Get All reviews with one post in DB", async () => {
+    console.log("Test Get All reviews with one post in DB");
+    const response = await request(app).get("/review");
+    expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
+
+  test("Test Get reviews by user id", async () => {
+    console.log("Test Get reviews by user id");
+    const response = await request(app).get(`/review${user._id}`);
+    expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
+
+  test ("Test Get reviews by course id", async () => {
+    console.log("Test Get reviews by course id");
+    const response = await request(app)
+    .get(`/review/`)
+    .query({ course_id: review.course_id });
+    expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
+  
+  test ("Test Get reviews by course name", async () => {
+    console.log("Test Get reviews by course name");
+    const response = await request(app)
+        .get(`/review/`)
+        .query({ course_name: review.course_name });
+        expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
+
+  test("Test Get reviews by course id and course name", async () => {
+    console.log("Test Get reviews by course id and course name");
+    const response = await request(app)
+        .get(`/review/`)
+        .query({ course_id: review.course_id, course_name: review.course_name });
+        expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
+});

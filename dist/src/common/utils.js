@@ -13,15 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractUserName = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
 function extractUserName(id) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("the user id:" + id);
+        const objId = new mongoose_1.default.Types.ObjectId(id);
+        console.log("the user objId:" + objId);
         try {
-            const userModel = yield user_model_1.default.findById(id);
+            const userModel = yield user_model_1.default.findById(objId);
             if (!userModel) {
                 return { message: "User not found" };
             }
             else {
+                console.log("the user name in utils:" + userModel.user_name);
                 return userModel.user_name;
             }
         }

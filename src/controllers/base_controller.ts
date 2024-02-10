@@ -45,7 +45,8 @@ export class BaseController<ModelType>{
     }
 
     async post(req: Request, res: Response) {
-        console.log("postooObj:" + req.body);
+        console.log("postooObj:");
+        console.log(req.body.title);
         try {
             const isExist = await this.model.findById(req.body._id);
             console.log("isExist:" + isExist);

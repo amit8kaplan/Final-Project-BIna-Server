@@ -54,7 +54,8 @@ class BaseController {
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("postooObj:" + req.body);
+            console.log("postooObj:");
+            console.log(req.body.title);
             try {
                 const isExist = yield this.model.findById(req.body._id);
                 console.log("isExist:" + isExist);

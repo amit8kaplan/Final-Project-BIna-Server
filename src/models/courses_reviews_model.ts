@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 export interface IcourseReview {
-    _id: string;
+    _id?: string;
     course_id: string;
     course_name: string;
-    title?: string;
-    message?: string;
+    title: string;
+    message: string;
     score?: number;
     owner_id: string;
     owner_name: string;

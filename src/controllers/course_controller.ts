@@ -2,8 +2,6 @@ import course_model, { ICourse } from "../models/course_model";
 import  { BaseController } from "./base_controller";
 import { Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
-import { use } from "../routes/user_update_route";
-import user_model from "../models/user_model";
 import {extractUserName} from "../common/utils";
 const base = process.env.URL;
 
