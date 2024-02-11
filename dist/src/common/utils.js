@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extractUserName = void 0;
+exports.incCountInCourseName = exports.extractUserName = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
+const course_model_1 = __importDefault(require("../models/course_model"));
 function extractUserName(id) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("the user id:" + id);
@@ -37,4 +38,26 @@ function extractUserName(id) {
     });
 }
 exports.extractUserName = extractUserName;
+function incCountInCourseName(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("the course id:" + id);
+        const objId = new mongoose_1.default.Types.ObjectId(id);
+        console.log("the course objId:" + objId);
+        try {
+            const courseModel = yield course_model_1.default.findOneAndUpdate({ _id: objId }, { $inc: { Count: 1 } }, { new: true });
+            if (!courseModel) {
+                return { message: "Course not found" };
+            }
+            else {
+                console.log("the count in the utils:" + courseModel.Count);
+                return courseModel.Count;
+            }
+        }
+        catch (err) {
+            console.log("problem with find the course the buileder the reviews" + err);
+            return { message: err.message };
+        }
+    });
+}
+exports.incCountInCourseName = incCountInCourseName;
 //# sourceMappingURL=utils.js.map

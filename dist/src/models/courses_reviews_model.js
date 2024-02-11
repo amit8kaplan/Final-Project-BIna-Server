@@ -18,6 +18,12 @@ const CourseReviewSchema = new mongoose_1.default.Schema({
         min: 1,
         max: 5,
     },
+    title: {
+        type: String,
+    },
+    message: {
+        type: String,
+    },
     owner_id: {
         type: String,
         required: true,

@@ -50,10 +50,14 @@ export class BaseController<ModelType>{
         try {
             const isExist = await this.model.findById(req.body._id);
             console.log("isExist:" + isExist);
+            console.log(req.body.title)
+            const body = req.body;
+            console.log("body.title:" + body.title);
             if (isExist == null)
             {
-                const obj = await this.model.create(req.body);
+                const obj = await this.model.create(body);
                 console.log("postnewObj:" + obj);
+                console.log("title" + req.body.title);
                 res.status(201).send(obj);
             }
             else

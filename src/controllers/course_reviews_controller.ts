@@ -2,9 +2,10 @@ import CourseReview, { IcourseReview } from "../models/courses_reviews_model";
 import { BaseController } from "./base_controller";
 import { Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
-import {extractUserName} from "../common/utils";
-
-class StudentPostController extends BaseController<IcourseReview>{
+import {extractUserName, incCountInCourseName} from "../common/utils";
+import { mongo } from "mongoose";
+import user_model from "../models/user_model";
+class coursesReviewsController extends BaseController<IcourseReview>{
     constructor() {
         super(CourseReview)
     }
@@ -13,6 +14,7 @@ class StudentPostController extends BaseController<IcourseReview>{
         super.get(req, res);
     }
     async post(req: AuthResquest, res: Response) {
+        let UserObj;
         console.log("newReviewToCourse:" + req.body);
         req.body.owner_id = req.user._id;
         console.log("the user id:" + req.body.owner_id);
@@ -21,12 +23,27 @@ class StudentPostController extends BaseController<IcourseReview>{
                 req.body.owner_name = result;
                 console.log("the user name:" + req.body.owner_name);
             });
+            const course_idtoInc = req.body.course_id ;
+            await incCountInCourseName(course_idtoInc).then((result : number) => {
+                console.log("the count of the course:" + result);
+            
+            });
         }catch (err) {
-            console.log("problem with find the user of the builder of the course" +err);
+            console.log("problem with find the user of the builder " +err);
             res.status(500).json({ message: err.message });
         }
         console.log("rev.title" + req.body.title);
         super.post(req, res);
+        // try {
+        //     const course_idtoInc = req.body.course_id as string;
+        //     await incCountInCourseName(course_idtoInc).then((result : string) => {
+        //         console.log("the count of the course:" + result);
+        // });
+        // }catch (err) {
+        //     console.log("problem with find the course the buileder the reviews" +err);
+        //     res.status(500).json({ message: err.message });
+        // }
+
     }
     async getByUserId(req: AuthResquest, res: Response) {
         console.log("get all the reviews By User Id:" + req.params.id);
@@ -38,8 +55,9 @@ class StudentPostController extends BaseController<IcourseReview>{
             res.status(500).json({ message: err.message });
         }
     }
+    
 
 
 }
 
-export default new StudentPostController();
+export default new coursesReviewsController();

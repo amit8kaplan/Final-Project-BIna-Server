@@ -4,8 +4,8 @@ export interface IcourseReview {
     _id?: string;
     course_id: string;
     course_name: string;
-    title: string;
-    message: string;
+    title?: string;
+    message?: string;
     score?: number;
     owner_id: string;
     owner_name: string;
@@ -24,6 +24,12 @@ const CourseReviewSchema = new mongoose.Schema<IcourseReview>({
     type: Number,
     min: 1, 
     max: 5,
+    },
+    title: {
+    type: String,
+    },
+    message: {
+    type: String,
     },
     owner_id: {
     type: String,

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const courses_reviews_model_1 = __importDefault(require("../models/courses_reviews_model"));
 const base_controller_1 = require("./base_controller");
 const utils_1 = require("../common/utils");
-class StudentPostController extends base_controller_1.BaseController {
+class coursesReviewsController extends base_controller_1.BaseController {
     constructor() {
         super(courses_reviews_model_1.default);
     }
@@ -33,6 +33,7 @@ class StudentPostController extends base_controller_1.BaseController {
             post: { get: () => super.post }
         });
         return __awaiter(this, void 0, void 0, function* () {
+            let UserObj;
             console.log("newReviewToCourse:" + req.body);
             req.body.owner_id = req.user._id;
             console.log("the user id:" + req.body.owner_id);
@@ -41,13 +42,26 @@ class StudentPostController extends base_controller_1.BaseController {
                     req.body.owner_name = result;
                     console.log("the user name:" + req.body.owner_name);
                 });
+                const course_idtoInc = req.body.course_id;
+                yield (0, utils_1.incCountInCourseName)(course_idtoInc).then((result) => {
+                    console.log("the count of the course:" + result);
+                });
             }
             catch (err) {
-                console.log("problem with find the user of the builder of the course" + err);
+                console.log("problem with find the user of the builder " + err);
                 res.status(500).json({ message: err.message });
             }
             console.log("rev.title" + req.body.title);
             _super.post.call(this, req, res);
+            // try {
+            //     const course_idtoInc = req.body.course_id as string;
+            //     await incCountInCourseName(course_idtoInc).then((result : string) => {
+            //         console.log("the count of the course:" + result);
+            // });
+            // }catch (err) {
+            //     console.log("problem with find the course the buileder the reviews" +err);
+            //     res.status(500).json({ message: err.message });
+            // }
         });
     }
     getByUserId(req, res) {
@@ -64,5 +78,5 @@ class StudentPostController extends base_controller_1.BaseController {
         });
     }
 }
-exports.default = new StudentPostController();
+exports.default = new coursesReviewsController();
 //# sourceMappingURL=course_reviews_controller.js.map
