@@ -7,7 +7,7 @@
     "test": "tsc && jest --detectOpenHandles --forceExit",
     "testCourse": "tsc && jest --detectOpenHandles --forceExit ./src/tests/courses.test.ts",
     "testReview": "tsc && jest --detectOpenHandles --forceExit ./src/tests/course_reviews.test.ts",
-    "testStudent" : "tsc && jest --detectOpenHandles --forceExit ./src/tests/student.test.ts",
+    "testStudent": "tsc && jest --detectOpenHandles --forceExit ./src/tests/student.test.ts",
     "testAuth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "testPost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/student_post.test.ts",
     "testUserUpdate": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/user_update.test.ts",
@@ -33,7 +33,6 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.2",
     "multer": "^1.4.5-lts.1",
-    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
@@ -45,6 +44,7 @@
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
+    "swagger-jsdoc": "^6.2.8",
     "ts-jest": "^29.1.1"
   }
 }

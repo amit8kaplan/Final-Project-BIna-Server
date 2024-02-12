@@ -11,8 +11,8 @@ initApp().then((app) => {
       openapi: "3.0.0",
       info: {
         title: "Web Advanced Application development 2023 REST API",
-        version: "1.0.1",
-        description: "REST server including authentication using JWT and refresh token",
+        version: "1.0.0",
+        description: "REST server including authentication using JWT and refresh token - Creators: Amit Kaplan & Matan Azarzar",
       },
       servers: [{ url: "http://localhost:3000", },],
     },
