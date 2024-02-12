@@ -2,9 +2,9 @@ import { Express } from "express";
 import request from "supertest";
 import initApp from "../app";
 import mongoose from "mongoose";
-import CourseReview, { IcourseReview } from "../models/courses_reviews_model";
+import CourseReview from "../models/courses_reviews_model";
 import User, { IUser } from "../models/user_model";
-import Course , { ICourse } from "../models/course_model";
+import Course  from "../models/course_model";
 
 let app: Express;
 const user: IUser = {
@@ -13,9 +13,27 @@ const user: IUser = {
   user_name: "course_review_tester",
 }
 let accessToken = "";
+interface ICourse {
+  name: string;
+  _id?: string;
+  owner: string;
+  owner_name: string;
+  description: string;
+  videoUrl: string;
+  Count: number;
+}
+interface IcourseReview {
+  _id?: string;
+  course_id: string;
+  course_name: string;
+  title?: string;
+  message?: string;
+  score?: number;
+  owner_id: string;
+  owner_name: string;
+}
 const course: ICourse = {
     name: "course1",
-    _id: "9876543210",
     owner: "", // this is the user id
     owner_name: "",
     description: "description1",
@@ -111,54 +129,54 @@ describe("Course_reviews tests", () => {
   });
 
 
-  // test("Test Get All reviews [there is only one]", async () => {
-  //   console.log("Test Get All reviews  [there is only one]");
-  //   const response = await request(app).get("/review");
-  //   expect(response.statusCode).toBe(200);
-  //   const rc = response.body[0];
-  //   expect(rc.title).toBe(review.title);
-  //   expect(rc.message).toBe(review.message);
-  // });
+  test("Test Get All reviews [there is only one]", async () => {
+    console.log("Test Get All reviews  [there is only one]");
+    const response = await request(app).get("/review");
+    expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
 
-  // test("Test Get reviews by user id", async () => {
-  //   console.log("Test Get reviews by user id");
-  //   const response = await request(app).get(`/review/${review.owner_id}`);
-  //   expect(response.statusCode).toBe(200);
-  //   const rc = response.body[0];
-  //   expect(rc.title).toBe(review.title);
-  //   expect(rc.message).toBe(review.message);
-  // });
+  test("Test Get reviews by user id", async () => {
+    console.log("Test Get reviews by user id");
+    const response = await request(app).get(`/review/${review.owner_id}`);
+    expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
 
-  // test ("Test Get reviews by course id", async () => {
-  //   console.log("Test Get reviews by course id");
-  //   const response = await request(app)
-  //   .get(`/review`)
-  //   .query({ course_id: review.course_id });
-  //   expect(response.statusCode).toBe(200);
-  //   const rc = response.body[0];
-  //   expect(rc.title).toBe(review.title);
-  //   expect(rc.message).toBe(review.message);
-  // });
+  test ("Test Get reviews by course id", async () => {
+    console.log("Test Get reviews by course id");
+    const response = await request(app)
+    .get(`/review`)
+    .query({ course_id: review.course_id });
+    expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
   
-  // test ("Test Get reviews by course name", async () => {
-  //   console.log("Test Get reviews by course name");
-  //   const response = await request(app)
-  //       .get(`/review/`)
-  //       .query({ course_name: review.course_name });
-  //       expect(response.statusCode).toBe(200);
-  //   const rc = response.body[0];
-  //   expect(rc.title).toBe(review.title);
-  //   expect(rc.message).toBe(review.message);
-  // });
+  test ("Test Get reviews by course name", async () => {
+    console.log("Test Get reviews by course name");
+    const response = await request(app)
+        .get(`/review/`)
+        .query({ course_name: review.course_name });
+        expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
 
-  // test("Test Get reviews by course id and course name", async () => {
-  //   console.log("Test Get reviews by course id and course name");
-  //   const response = await request(app)
-  //       .get(`/review/`)
-  //       .query({ course_id: review.course_id, course_name: review.course_name });
-  //       expect(response.statusCode).toBe(200);
-  //   const rc = response.body[0];
-  //   expect(rc.title).toBe(review.title);
-  //   expect(rc.message).toBe(review.message);
-  // });
+  test("Test Get reviews by course id and course name", async () => {
+    console.log("Test Get reviews by course id and course name");
+    const response = await request(app)
+        .get(`/review/`)
+        .query({ course_id: review.course_id, course_name: review.course_name });
+        expect(response.statusCode).toBe(200);
+    const rc = response.body[0];
+    expect(rc.title).toBe(review.title);
+    expect(rc.message).toBe(review.message);
+  });
 });
