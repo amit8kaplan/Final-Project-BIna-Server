@@ -17,13 +17,15 @@ class course_controller extends BaseController<ICourse> {
             extractUserName (_id).then((result :string) => {
                 console.log("the user name:" + result);
                 req.body.owner_name = result;
+                req.body.Count = 0;
+                req.body.owner = _id;
+                super.post(req, res);
             });
         }catch (err) {
             console.log("problem with find the user of the builder of the course" +err);
             res.status(500).json({ message: err.message });
         }
-        req.body.owner = _id;
-        super.post(req, res);
+
     }
     async postVideo(req: AuthResquest, res: Response) {
         console.log("newVideo:" + base + req.file.path);

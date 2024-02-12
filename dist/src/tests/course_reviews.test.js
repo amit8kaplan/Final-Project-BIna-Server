@@ -27,7 +27,7 @@ const user = {
 let accessToken = "";
 const course = {
     name: "course1",
-    _id: "12345678901234567",
+    _id: "9876543210",
     owner: "", // this is the user id
     owner_name: "",
     description: "description1",
@@ -67,12 +67,14 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     console.log("review.course_id: " + review.course_id);
     console.log("review.course_name: " + review.course_name);
     console.log("review.title: " + review.title);
+    console.log("course.count: " + response3.body.Count);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
 }));
 describe("Course_reviews tests", () => {
     const addReview = (review) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("rev.course_id in Course_reviews test: " + review.course_id);
         console.log("rev.tirle in Course_reviews test: " + review.title);
         const response = yield (0, supertest_1.default)(app)
             .post("/review")

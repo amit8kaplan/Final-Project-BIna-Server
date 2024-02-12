@@ -15,7 +15,7 @@ const user: IUser = {
 let accessToken = "";
 const course: ICourse = {
     name: "course1",
-    _id: "12345678901234567",
+    _id: "9876543210",
     owner: "", // this is the user id
     owner_name: "",
     description: "description1",
@@ -59,6 +59,7 @@ beforeAll(async () => {
     console.log("review.course_id: " + review.course_id);
     console.log("review.course_name: " + review.course_name);
     console.log("review.title: " + review.title);
+    console.log("course.count: " + response3.body.Count);
 });
 
 afterAll(async () => {
@@ -67,6 +68,7 @@ afterAll(async () => {
 
 describe("Course_reviews tests", () => {
   const addReview = async (review: IcourseReview) => {
+    console.log("rev.course_id in Course_reviews test: " + review.course_id);
     console.log("rev.tirle in Course_reviews test: " + review.title)
     const response = await request(app)
       .post("/review")

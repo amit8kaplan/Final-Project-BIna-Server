@@ -9,9 +9,6 @@ const couseSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    _id: {
-        type: String,
-    },
     owner: {
         type: String, //this is the user id
         required: true,

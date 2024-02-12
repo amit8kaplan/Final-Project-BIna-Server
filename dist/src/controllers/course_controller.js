@@ -31,14 +31,15 @@ class course_controller extends base_controller_1.BaseController {
                 (0, utils_1.extractUserName)(_id).then((result) => {
                     console.log("the user name:" + result);
                     req.body.owner_name = result;
+                    req.body.Count = 0;
+                    req.body.owner = _id;
+                    _super.post.call(this, req, res);
                 });
             }
             catch (err) {
                 console.log("problem with find the user of the builder of the course" + err);
                 res.status(500).json({ message: err.message });
             }
-            req.body.owner = _id;
-            _super.post.call(this, req, res);
         });
     }
     postVideo(req, res) {

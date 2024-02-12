@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 export interface ICourse {
     name: string;
-    _id: string;
+    _id?: string;
     owner: string; // this is the user id
     owner_name: string;
     description?: string;
@@ -13,9 +13,6 @@ const couseSchema = new mongoose.Schema<ICourse>({
   name: {
     type: String,
     required: true,
-  },
-  _id: {
-    type: String,
   },
   owner: {
     type: String,//this is the user id

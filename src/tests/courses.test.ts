@@ -9,6 +9,7 @@ let app: Express;
 let accessToken: string;
 let newUrl : string;
 let userid : string;
+let user_name :string
 const user = {
   email: "user_check_course@test.com",
   password: "1234567890",
@@ -36,7 +37,7 @@ afterAll(async () => {
 
 interface ICourse {
   name: string;
-  _id: string;
+  _id?: string;
   owner?: string;
   owner_name: string;
   videoUrl?: string;
@@ -46,7 +47,6 @@ interface ICourse {
 
 const course: ICourse = {
   name: "John Doe",
-  _id: "1234567890",
   description: "data base course",
   videoUrl: "",
   owner: "",
@@ -112,7 +112,6 @@ describe("Course tests", () => {
             expect(response.body.length).toBe(1);
             const st = response.body[0];
             expect(st.name).toBe(course.name);
-            expect(st._id).toBe(course._id);
     });
     
     test ("Test get the spesific course by id", async () => {
@@ -135,7 +134,7 @@ describe("Course tests", () => {
         expect(response.body.length).toBe(1);
         const st = response.body[0];
         expect(st.name).toBe(course.name);
-        expect(st._id).toBe(course._id);
+        course._id = st._id;
     });
 
     test("Test Post duplicate Course", async () => {
@@ -147,16 +146,15 @@ describe("Course tests", () => {
         expect(response.statusCode).toBe(406);
     });
 
-
     test("Test Get /course/:id", async () => {
         console.log("Test Get /course/:id");
         const response = await request(app)
             .get(`/course/${userid}`)
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).toBe(200);
-        expect(response.body[0]._id).toBe(course._id);
-        
+        expect(response.body[0]._id).toBe(course._id); 
     });
+
     test("Test PUT /course/:id", async () => {
         console.log("Test PUT /course/:id" + `/course/${course._id}`);
         
@@ -168,7 +166,7 @@ describe("Course tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.name).toBe(updateCourse.name);
         expect(response.body.videoUrl).toBe(updateCourse.videoUrl);
-    }  );
+    });
 
     test("Test DELETE /course/:id", async () => {
         console.log("Test DELETE /course/:id");
@@ -176,7 +174,6 @@ describe("Course tests", () => {
             .delete(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).toBe(200);
-    }
-    );
+    });
 
 });

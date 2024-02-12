@@ -21,6 +21,7 @@ let app;
 let accessToken;
 let newUrl;
 let userid;
+let user_name;
 const user = {
     email: "user_check_course@test.com",
     password: "1234567890",
@@ -45,7 +46,6 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
 }));
 const course = {
     name: "John Doe",
-    _id: "1234567890",
     description: "data base course",
     videoUrl: "",
     owner: "",
@@ -107,7 +107,6 @@ describe("Course tests", () => {
         expect(response.body.length).toBe(1);
         const st = response.body[0];
         expect(st.name).toBe(course.name);
-        expect(st._id).toBe(course._id);
     }));
     test("Test get the spesific course by id", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test get the spesific course by id");
@@ -128,7 +127,7 @@ describe("Course tests", () => {
         expect(response.body.length).toBe(1);
         const st = response.body[0];
         expect(st.name).toBe(course.name);
-        expect(st._id).toBe(course._id);
+        course._id = st._id;
     }));
     test("Test Post duplicate Course", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test Post duplicate Course");
