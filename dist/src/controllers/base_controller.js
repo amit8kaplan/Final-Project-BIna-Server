@@ -97,13 +97,14 @@ class BaseController {
     }
     deleteById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("deleteObjectById:" + req.params.id);
+            console.log("deleteObjectById in base_Controller:" + req.params.id);
+            console.log("type of the id in base controller: " + typeof (req.params.id));
             try {
                 const deletedDoc = yield this.model.findByIdAndDelete(req.params.id);
                 if (!deletedDoc) {
                     return res.status(404).json({ message: "Document not found" });
                 }
-                res.status(200).json(deletedDoc);
+                res.status(200);
             }
             catch (err) {
                 res.status(500).json({ message: err.message });

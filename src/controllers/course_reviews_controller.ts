@@ -1,10 +1,12 @@
 import CourseReview, { IcourseReview } from "../models/courses_reviews_model";
 import { BaseController } from "./base_controller";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
 import {extractUserName, incCountInCourseName} from "../common/utils";
-import { mongo } from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import user_model from "../models/user_model";
+import { ParamsDictionary } from "express-serve-static-core";
+import { ParsedQs } from "qs";
 class coursesReviewsController extends BaseController<IcourseReview>{
     constructor() {
         super(CourseReview)
@@ -34,16 +36,6 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         }
         console.log("rev.title" + req.body.title);
         super.post(req, res);
-        // try {
-        //     const course_idtoInc = req.body.course_id as string;
-        //     await incCountInCourseName(course_idtoInc).then((result : string) => {
-        //         console.log("the count of the course:" + result);
-        // });
-        // }catch (err) {
-        //     console.log("problem with find the course the buileder the reviews" +err);
-        //     res.status(500).json({ message: err.message });
-        // }
-
     }
     async getByUserId(req: AuthResquest, res: Response) {
         console.log("get all the reviews By User Id:" + req.params.id);
@@ -54,6 +46,30 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
+    }
+    async deleteById(req: AuthResquest, res: Response) {
+        let objdeleted;
+        console.log("deleteReviewById:" + req.params.id);
+        try{
+            // console.log("the review id:" + id);
+            // console.log("the type of the review id:" + typeof(id));
+            // const review = await CourseReview.findById(req.params.id);
+            // console.log("the review:" + review);
+            // // const course_idtoDec = review.course_id ;
+            // // const objcourse_idtoDec = new mongoose.Types.ObjectId(course_idtoDec);
+            // await incCountInCourseName(review.course_id).then((result : number) => {
+            //     console.log("the count of the course:" + result);
+            // });
+            // objdeleted = super.deleteById(req, res);
+            const deletedReview = await CourseReview.findOneAndDelete({_id: req.params.id});
+            if (!deletedReview) {
+                return res.status(404).json({ message: "Document not found" });
+            }
+            res.status(200);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+        
     }
     
 

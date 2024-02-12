@@ -53,15 +53,6 @@ class coursesReviewsController extends base_controller_1.BaseController {
             }
             console.log("rev.title" + req.body.title);
             _super.post.call(this, req, res);
-            // try {
-            //     const course_idtoInc = req.body.course_id as string;
-            //     await incCountInCourseName(course_idtoInc).then((result : string) => {
-            //         console.log("the count of the course:" + result);
-            // });
-            // }catch (err) {
-            //     console.log("problem with find the course the buileder the reviews" +err);
-            //     res.status(500).json({ message: err.message });
-            // }
         });
     }
     getByUserId(req, res) {
@@ -71,6 +62,32 @@ class coursesReviewsController extends base_controller_1.BaseController {
                 const obj = yield courses_reviews_model_1.default.find({ owner_id: req.params.id });
                 console.log("obj to getByUserId:" + obj);
                 res.status(200).send(obj);
+            }
+            catch (err) {
+                res.status(500).json({ message: err.message });
+            }
+        });
+    }
+    deleteById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let objdeleted;
+            console.log("deleteReviewById:" + req.params.id);
+            try {
+                // console.log("the review id:" + id);
+                // console.log("the type of the review id:" + typeof(id));
+                // const review = await CourseReview.findById(req.params.id);
+                // console.log("the review:" + review);
+                // // const course_idtoDec = review.course_id ;
+                // // const objcourse_idtoDec = new mongoose.Types.ObjectId(course_idtoDec);
+                // await incCountInCourseName(review.course_id).then((result : number) => {
+                //     console.log("the count of the course:" + result);
+                // });
+                // objdeleted = super.deleteById(req, res);
+                const deletedReview = yield courses_reviews_model_1.default.findOneAndDelete({ _id: req.params.id });
+                if (!deletedReview) {
+                    return res.status(404).json({ message: "Document not found" });
+                }
+                res.status(200);
             }
             catch (err) {
                 res.status(500).json({ message: err.message });

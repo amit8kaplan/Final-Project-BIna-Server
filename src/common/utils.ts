@@ -39,3 +39,27 @@ export async function incCountInCourseName(id) {
         return { message: err.message };
     }
 }
+
+export async function decCountInCourseName(id) {
+    console.log("the course id:" + id);
+    const objId = new mongoose.Types.ObjectId(id);
+    console.log("the course objId:" + objId)
+    try{
+        const courseModel = await course_model.findOneAndUpdate(
+            {_id: objId}, 
+            {$inc: {Count: -1}, $min: {Count: 0}}, 
+            {new: true}
+          );
+        if (!courseModel) {
+            return { message: "Course not found or Count<0" };
+        }
+        else{
+            console.log("the count in the utils:" + courseModel.Count);
+            return courseModel.Count ;
+        }
+    }
+    catch (err) {
+        console.log("problem with find the course the buileder the reviews" +err);
+        return { message: err.message };
+    }
+}
