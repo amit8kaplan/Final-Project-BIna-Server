@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tsc && jest --detectOpenHandles --forceExit",
     "testCourse": "tsc && jest --detectOpenHandles --forceExit ./src/tests/courses.test.ts",
-    "testReview": "tsc && jest --detectOpenHandles ./src/tests/course_reviews.test.ts",
+    "testReview": "tsc && jest --detectOpenHandles --forceExit ./src/tests/course_reviews.test.ts",
     "testStudent" : "tsc && jest --detectOpenHandles --forceExit ./src/tests/student.test.ts",
     "testAuth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "testPost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/student_post.test.ts",
