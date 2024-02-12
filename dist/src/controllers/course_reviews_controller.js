@@ -24,7 +24,7 @@ class coursesReviewsController extends base_controller_1.BaseController {
             get: { get: () => super.get }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Get by query parameter:");
+            //console.log("Get by query parameter:");
             _super.get.call(this, req, res);
         });
     }
@@ -34,33 +34,33 @@ class coursesReviewsController extends base_controller_1.BaseController {
         });
         return __awaiter(this, void 0, void 0, function* () {
             let UserObj;
-            console.log("newReviewToCourse:" + req.body);
+            //console.log("newReviewToCourse:" + req.body);
             req.body.owner_id = req.user._id;
-            console.log("the user id:" + req.body.owner_id);
+            //console.log("the user id:" + req.body.owner_id);
             try {
                 yield (0, utils_1.extractUserName)(req.body.owner_id).then((result) => {
                     req.body.owner_name = result;
-                    console.log("the user name:" + req.body.owner_name);
+                    //console.log("the user name:" + req.body.owner_name);
                 });
                 const course_idtoInc = req.body.course_id;
                 yield (0, utils_1.incCountInCourseName)(course_idtoInc).then((result) => {
-                    console.log("the count of the course:" + result);
+                    //console.log("the count of the course:" + result);
                 });
             }
             catch (err) {
-                console.log("problem with find the user of the builder " + err);
+                //console.log("problem with find the user of the builder " +err);
                 res.status(500).json({ message: err.message });
             }
-            console.log("rev.title" + req.body.title);
+            //console.log("rev.title" + req.body.title);
             _super.post.call(this, req, res);
         });
     }
     getByUserId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("get all the reviews By User Id:" + req.params.id);
+            //console.log("get all the reviews By User Id:" + req.params.id);
             try {
                 const obj = yield courses_reviews_model_1.default.find({ owner_id: req.params.id });
-                console.log("obj to getByUserId:" + obj);
+                //console.log("obj to getByUserId:" + obj);
                 res.status(200).send(obj);
             }
             catch (err) {
@@ -69,25 +69,18 @@ class coursesReviewsController extends base_controller_1.BaseController {
         });
     }
     deleteById(req, res) {
+        const _super = Object.create(null, {
+            deleteById: { get: () => super.deleteById }
+        });
         return __awaiter(this, void 0, void 0, function* () {
-            let objdeleted;
-            console.log("deleteReviewById:" + req.params.id);
+            //console.log("deleteReviewById:" + req.params.id);
             try {
-                // console.log("the review id:" + id);
-                // console.log("the type of the review id:" + typeof(id));
-                // const review = await CourseReview.findById(req.params.id);
-                // console.log("the review:" + review);
-                // // const course_idtoDec = review.course_id ;
-                // // const objcourse_idtoDec = new mongoose.Types.ObjectId(course_idtoDec);
-                // await incCountInCourseName(review.course_id).then((result : number) => {
-                //     console.log("the count of the course:" + result);
-                // });
-                // objdeleted = super.deleteById(req, res);
-                const deletedReview = yield courses_reviews_model_1.default.findOneAndDelete({ _id: req.params.id });
-                if (!deletedReview) {
-                    res.status(404).json({ message: "Document not found" });
-                }
-                res.status(200);
+                const review = yield courses_reviews_model_1.default.findById(req.params.id);
+                //console.log("the review:" + review);
+                yield (0, utils_1.decCountInCourseName)(review.course_id).then((result) => {
+                    //console.log("the count of the course:" + result);
+                });
+                _super.deleteById.call(this, req, res);
             }
             catch (err) {
                 res.status(500).json({ message: err.message });

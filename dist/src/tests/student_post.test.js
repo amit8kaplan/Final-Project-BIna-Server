@@ -26,7 +26,7 @@ const user = {
 let accessToken = "";
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    console.log("beforeAll");
+    //console.log("beforeAll");
     yield student_post_model_1.default.deleteMany();
     yield user_model_1.default.deleteMany({ 'email': user.email });
     const response = yield (0, supertest_1.default)(app).post("/auth/register").send(user);

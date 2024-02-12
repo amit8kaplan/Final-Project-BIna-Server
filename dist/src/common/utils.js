@@ -18,21 +18,21 @@ const user_model_1 = __importDefault(require("../models/user_model"));
 const course_model_1 = __importDefault(require("../models/course_model"));
 function extractUserName(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("the user id:" + id);
+        //console.log("the user id:" + id);
         const objId = new mongoose_1.default.Types.ObjectId(id);
-        console.log("the user objId:" + objId);
+        //console.log("the user objId:" + objId);
         try {
             const userModel = yield user_model_1.default.findById(objId);
             if (!userModel) {
                 return { message: "User not found" };
             }
             else {
-                console.log("the user name in utils:" + userModel.user_name);
+                //console.log("the user name in utils:" + userModel.user_name);
                 return userModel.user_name;
             }
         }
         catch (err) {
-            console.log("problem with find the user of the builder of the course" + err);
+            //console.log("problem with find the user of the builder of the course" +err);
             return { message: err.message };
         }
     });
@@ -40,21 +40,22 @@ function extractUserName(id) {
 exports.extractUserName = extractUserName;
 function incCountInCourseName(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("the course id:" + id);
+        //console.log("the course id:" + id);
         const objId = new mongoose_1.default.Types.ObjectId(id);
-        console.log("the course objId:" + objId);
+        //console.log("the course objId:" + objId)
         try {
             const courseModel = yield course_model_1.default.findOneAndUpdate({ _id: objId }, { $inc: { Count: 1 } }, { new: true });
+            console.log("the count in the utils:" + courseModel.Count);
             if (!courseModel) {
                 return { message: "Course not found" };
             }
             else {
-                console.log("the count in the utils:" + courseModel.Count);
+                //console.log("the count in the utils:" + courseModel.Count);
                 return courseModel.Count;
             }
         }
         catch (err) {
-            console.log("problem with find the course the buileder the reviews" + err);
+            //console.log("problem with find the course the buileder the reviews" +err);
             return { message: err.message };
         }
     });
@@ -62,21 +63,24 @@ function incCountInCourseName(id) {
 exports.incCountInCourseName = incCountInCourseName;
 function decCountInCourseName(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("the course id:" + id);
+        //console.log("the course id:" + id);
         const objId = new mongoose_1.default.Types.ObjectId(id);
-        console.log("the course objId:" + objId);
+        //console.log("the course objId:" + objId)
         try {
-            const courseModel = yield course_model_1.default.findOneAndUpdate({ _id: objId }, { $inc: { Count: -1 }, $min: { Count: 0 } }, { new: true });
+            const courseModel = yield course_model_1.default.findOne({ _id: objId }, { new: true });
+            courseModel.Count = courseModel.Count - 1;
+            yield course_model_1.default.updateOne({ _id: courseModel._id }, courseModel);
+            console.log("the count in the utils:" + courseModel.Count);
             if (!courseModel) {
                 return { message: "Course not found or Count<0" };
             }
             else {
-                console.log("the count in the utils:" + courseModel.Count);
+                //console.log("the count in the utils:" + courseModel.Count);
                 return courseModel.Count;
             }
         }
         catch (err) {
-            console.log("problem with find the course the buileder the reviews" + err);
+            //console.log("problem with find the course the buileder the reviews" +err);
             return { message: err.message };
         }
     });

@@ -25,11 +25,11 @@ const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
     const specs = (0, swagger_jsdoc_1.default)(options);
     app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
     if (process.env.NODE_ENV !== 'production') {
-        console.log('development');
+        //console.log('development');
         http_1.default.createServer(app).listen(process.env.PORT);
     }
     else {
-        console.log('PRODUCTION');
+        //console.log('PRODUCTION');
         const options2 = {
             key: fs_1.default.readFileSync('../client-key.pem'),
             cert: fs_1.default.readFileSync('../client-cert.pem')

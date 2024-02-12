@@ -18,7 +18,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const google_auth_library_1 = require("google-auth-library");
 const client = new google_auth_library_1.OAuth2Client();
 const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
+    //console.log(req.body);
     try {
         const ticket = yield client.verifyIdToken({
             idToken: req.body.credential,
@@ -122,7 +122,7 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (refreshToken == null)
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(err);
+        //console.log(err);
         if (err)
             return res.sendStatus(401);
         try {
@@ -150,7 +150,7 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
-            console.log(err);
+            //console.log(err);
             return res.sendStatus(401);
         }
         try {
