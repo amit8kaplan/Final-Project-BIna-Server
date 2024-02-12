@@ -85,7 +85,7 @@ class coursesReviewsController extends base_controller_1.BaseController {
                 // objdeleted = super.deleteById(req, res);
                 const deletedReview = yield courses_reviews_model_1.default.findOneAndDelete({ _id: req.params.id });
                 if (!deletedReview) {
-                    return res.status(404).json({ message: "Document not found" });
+                    res.status(404).json({ message: "Document not found" });
                 }
                 res.status(200);
             }

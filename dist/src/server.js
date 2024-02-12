@@ -16,7 +16,7 @@ const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
             info: {
                 title: "Web Advanced Application development 2023 REST API",
                 version: "1.0.0",
-                description: "REST server including authentication using JWT and refresh token",
+                description: "REST server including authentication using JWT and refresh token - Creators: Amit Kaplan & Matan Azarzar",
             },
             servers: [{ url: "http://localhost:3000", },],
         },

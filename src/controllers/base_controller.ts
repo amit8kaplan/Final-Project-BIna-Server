@@ -77,7 +77,7 @@ export class BaseController<ModelType>{
             const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             console.log("putObjectById:" + obj);
             if (!obj) {
-                return res.status(404).json({ message: "Object not found" });
+                res.status(404).json({ message: "Object not found" });
             }
             res.status(200).json(obj);
         } catch (err) {
@@ -92,7 +92,7 @@ export class BaseController<ModelType>{
         try {
             const deletedDoc = await this.model.findByIdAndDelete(req.params.id);
             if (!deletedDoc) {
-                return res.status(404).json({ message: "Document not found" });
+                res.status(404).json({ message: "Document not found" });
             }
             res.status(200);
         } catch (err) {

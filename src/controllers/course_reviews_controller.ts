@@ -63,7 +63,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
             // objdeleted = super.deleteById(req, res);
             const deletedReview = await CourseReview.findOneAndDelete({_id: req.params.id});
             if (!deletedReview) {
-                return res.status(404).json({ message: "Document not found" });
+                res.status(404).json({ message: "Document not found" });
             }
             res.status(200);
         } catch (err) {
@@ -71,7 +71,9 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         }
         
     }
-    
+    // async async putById(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>): Promise<Response<any, Record<string, any>>> {
+    //     super.putById(req, res);
+    // }
 
 
 }
