@@ -43,9 +43,8 @@ class coursesReviewsController extends base_controller_1.BaseController {
                     //console.log("the user name:" + req.body.owner_name);
                 });
                 const course_idtoInc = req.body.course_id;
-                yield (0, utils_1.incCountInCourseName)(course_idtoInc).then((result) => {
-                    //console.log("the count of the course:" + result);
-                });
+                const count = yield (0, utils_1.incCountInCourseName)(course_idtoInc);
+                console.log("the count of the course++:" + count);
             }
             catch (err) {
                 //console.log("problem with find the user of the builder " +err);
@@ -77,9 +76,8 @@ class coursesReviewsController extends base_controller_1.BaseController {
             try {
                 const review = yield courses_reviews_model_1.default.findById(req.params.id);
                 //console.log("the review:" + review);
-                yield (0, utils_1.decCountInCourseName)(review.course_id).then((result) => {
-                    //console.log("the count of the course:" + result);
-                });
+                const count = yield (0, utils_1.decCountInCourseName)(review.course_id);
+                console.log("the count of the course--:" + count);
                 _super.deleteById.call(this, req, res);
             }
             catch (err) {

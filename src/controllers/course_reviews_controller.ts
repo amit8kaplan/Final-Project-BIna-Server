@@ -26,10 +26,8 @@ class coursesReviewsController extends BaseController<IcourseReview>{
                 //console.log("the user name:" + req.body.owner_name);
             });
             const course_idtoInc = req.body.course_id ;
-            await incCountInCourseName(course_idtoInc).then((result : number) => {
-                //console.log("the count of the course:" + result);
-            
-            });
+            const count = await incCountInCourseName(course_idtoInc)
+            console.log("the count of the course++:" + count);
         }catch (err) {
             //console.log("problem with find the user of the builder " +err);
             res.status(500).json({ message: err.message });
@@ -54,9 +52,8 @@ class coursesReviewsController extends BaseController<IcourseReview>{
             const review = await CourseReview.findById(req.params.id);
             
             //console.log("the review:" + review);
-            await decCountInCourseName(review.course_id).then((result : number) => {
-                //console.log("the count of the course:" + result);
-            });
+            const count =await decCountInCourseName(review.course_id);
+            console.log("the count of the course--:" + count);
             super.deleteById(req, res);
         } catch (err) {
             res.status(500).json({ message: err.message });
