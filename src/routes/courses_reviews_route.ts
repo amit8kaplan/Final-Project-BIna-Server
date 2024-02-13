@@ -157,7 +157,6 @@ export default router;
  *         description: Failed request, object already exists or other error
  */
 
-//todo - dont allow to change the owner_id, owner_name, course_id, course_name
 /**
  * @swagger
  * /{id}:
