@@ -14,6 +14,7 @@ const couseSchema = new mongoose.Schema<ICourse>({
     type: String,
     required: true,
   },
+
   owner: {
     type: String,//this is the user id
     required : true,

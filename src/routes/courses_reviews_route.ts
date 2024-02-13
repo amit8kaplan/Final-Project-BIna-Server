@@ -162,9 +162,9 @@ export default router;
  * @swagger
  * /{id}:
  *   put:
- *     summary: Update a course review by ID
+ *     summary: Update a course review by Course ID
  *     tags: [Course Reviews]
- *     description: Update an existing course review by its ID with authentication, no valid fields are required to update - all the validateion is in FrontEnd
+ *     description: Update an existing course review by its ID with authentication, no valid fields are required to update - all the validateion is inFrontEnd
  *     security:
  *       - BearerAuth: []
  *     parameters:
@@ -179,7 +179,7 @@ export default router;
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CourseReviewUpdate'
+ *             $ref: '#/components/schemas/CourseReview'
  *     responses:
  *       '200':
  *         description: Course review updated successfully
@@ -191,6 +191,31 @@ export default router;
  *         description: Unauthorized request
  *       '404':
  *         description: Course review not found
+ *       '500':
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /{id}:
+ *   delete:
+ *     summary: Delete a course review by Course ID
+ *     tags: [Course Reviews]
+ *     description: Delete an existing course review by its ID with authentication
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the course review to delete
+ *     responses:
+ *       '200':
+ *         description: Course review deleted successfully
+ *       '401':
+ *         description: Unauthorized request
  *       '500':
  *         description: Internal server error
  */
