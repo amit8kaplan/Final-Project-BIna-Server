@@ -13,7 +13,7 @@ const user = {
 }
 beforeAll(async () => {
   app = await initApp();
-  //console.log("beforeAll");
+  ////console.log("beforeAll");
   await Student.deleteMany();
 
   User.deleteMany({ 'email': user.email });

@@ -9,7 +9,7 @@ class StudentPostController extends BaseController<IStudentPost>{
     }
 
     async post(req: AuthResquest, res: Response) {
-        //console.log("postStudent:" + req.body);
+        ////console.log("postStudent:" + req.body);
         const _id = req.user._id;
         req.body.owner = _id;
         super.post(req, res);

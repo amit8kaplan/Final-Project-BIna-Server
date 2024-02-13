@@ -24,7 +24,7 @@ const user = {
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    //console.log("beforeAll");
+    ////console.log("beforeAll");
     yield user_model_1.default.deleteMany({ 'email': user.email });
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,13 +35,13 @@ let refreshToken;
 let newRefreshToken;
 describe("Auth tests", () => {
     test("Test Register", () => __awaiter(void 0, void 0, void 0, function* () {
-        //console.log("Test Register");
+        ////console.log("Test Register");
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
             .send(user);
         expect(response.statusCode).toBe(201);
         // expect(response.body.user_name).toBe(user.user_name);
-        // //console.log("response.body: " + response.body.password);
+        // ////console.log("response.body: " + response.body.password);
     }));
     test("Test Register exist email", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)

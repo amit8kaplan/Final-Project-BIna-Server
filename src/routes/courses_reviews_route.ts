@@ -143,7 +143,7 @@ export default router;
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/NewCourseReview'
+ *             $ref: '#/components/schemas/CourseReview'
  *     responses:
  *       '201':
  *         description: Course review created successfully
@@ -163,7 +163,8 @@ export default router;
  * /{id}:
  *   put:
  *     summary: Update a course review by ID
- *     description: Update an existing course review by its ID with authentication
+ *     tags: [Course Reviews]
+ *     description: Update an existing course review by its ID with authentication, no valid fields are required to update - all the validateion is in FrontEnd
  *     security:
  *       - BearerAuth: []
  *     parameters:

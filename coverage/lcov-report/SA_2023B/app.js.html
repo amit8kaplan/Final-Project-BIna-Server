@@ -121,7 +121,7 @@ const bodyParser = require("body-parser");
 const initApp = () =&gt; {
   const promise = new Promise((resolve, reject) =&gt; {
     const db = mongoose.connection;
-    db.once("open", () =&gt; //console.log("Connected to Database"));
+    db.once("open", () =&gt; ////console.log("Connected to Database"));
     db.on("error", <span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; <span class="cstat-no" title="statement not covered" >console.error(error))</span>;
     mongoose.connect(process.env.DB_URL).then(() =&gt; {
       const app = express();

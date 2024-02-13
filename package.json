@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "tsc && jest --detectOpenHandles --forceExit",
+    "test": "tsc && jest --coverage --detectOpenHandles --forceExit --runInBand",
     "testCourse": "tsc && jest --detectOpenHandles --forceExit ./src/tests/courses.test.ts",
     "testReview": "tsc && jest --detectOpenHandles --forceExit ./src/tests/course_reviews.test.ts",
     "testStudent": "tsc && jest --detectOpenHandles --forceExit ./src/tests/student.test.ts",

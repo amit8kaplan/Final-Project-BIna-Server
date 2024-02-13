@@ -11,12 +11,12 @@ const authMiddleware = (req, res, next) => {
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
         try {
-            //console.log("err" +err);
+            ////console.log("err" +err);
             if (err)
                 return res.sendStatus(401);
             req.user = user;
-            // //console.log("the auth" + req.user);
-            //console.log("the auth" + req.user._id);
+            // ////console.log("the auth" + req.user);
+            ////console.log("the auth" + req.user._id);
             next();
         }
         catch (err) {
