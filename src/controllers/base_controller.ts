@@ -13,17 +13,17 @@ export class BaseController<ModelType>{
         try {
             const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
             const queryValue = req.query[queryKey]; // Get the value of the first query parameter
-            console.log("Query parameter key:", queryKey);
-            console.log("Query parameter value:", queryValue);
+            // console.log("Query parameter key:", queryKey);
+            // console.log("Query parameter value:", queryValue);
     
             if (queryKey && queryValue) {
                 const filter: FilterQuery<ModelType> = { [queryKey]: queryValue } as FilterQuery<ModelType>; // Type assertion
                 const obj = await this.model.find(filter);
-                console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
+                // console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
                 res.send(obj);
             } else {
                 const obj = await this.model.find();
-                console.log("All res:", JSON.stringify(obj, null, 2));
+                // console.log("All res:", JSON.stringify(obj, null, 2));
                 res.send(obj);
             }
         } catch (err) {

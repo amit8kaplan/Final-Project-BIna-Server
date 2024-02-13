@@ -20,17 +20,17 @@ class BaseController {
             try {
                 const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
                 const queryValue = req.query[queryKey]; // Get the value of the first query parameter
-                console.log("Query parameter key:", queryKey);
-                console.log("Query parameter value:", queryValue);
+                // console.log("Query parameter key:", queryKey);
+                // console.log("Query parameter value:", queryValue);
                 if (queryKey && queryValue) {
                     const filter = { [queryKey]: queryValue }; // Type assertion
                     const obj = yield this.model.find(filter);
-                    console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
+                    // console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
                     res.send(obj);
                 }
                 else {
                     const obj = yield this.model.find();
-                    console.log("All res:", JSON.stringify(obj, null, 2));
+                    // console.log("All res:", JSON.stringify(obj, null, 2));
                     res.send(obj);
                 }
             }

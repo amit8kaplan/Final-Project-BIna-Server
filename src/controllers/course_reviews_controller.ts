@@ -64,9 +64,18 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         }
     }
     async putById(req: AuthResquest, res: Response) {
-        ////console.log("updateReviewById:" + req.params.id);
-        ////console.log("req.query:" + JSON.stringify(req.query, null, 2)); 
-        super.putById(req, res);
+        console.log("updateReviewById:" + req.params.id);
+        console.log("req.body:" + JSON.stringify(req.body, null, 2));
+        const prevReview = await CourseReview.findById(req.params.id);
+        if (prevReview.course_id == req.body.course_id
+            && prevReview.course_name == req.body.course_name
+            && prevReview.owner_id == req.body.owner_id
+            && prevReview.owner_name == req.body.owner_name
+            && prevReview._id == req.body._id) {
+                super.putById(req, res);
+        } else {
+            res.status(406).send("fail: " + "You can't change the course or the owner of the review");
+        }
     }
 
 }

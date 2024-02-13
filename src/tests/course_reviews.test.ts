@@ -119,7 +119,7 @@ describe("Course_reviews tests", () => {
   });
 
   test("Test Put review by id", async () => {
-    ////console.log("Test Put review by id");
+    console.log("Test Put review by id");
     review.title = "new title";
     review.message = "new message";
     const response = await request(app)
@@ -129,6 +129,15 @@ describe("Course_reviews tests", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.title).toBe(review.title);
     expect(response.body.message).toBe(review.message);
+  });
+
+  test ("Test Put review by id - invalid input", async () => {
+    console.log("Test Put review by id - invalid input");
+    const response = await request(app)
+      .put(`/review/${review._id}`)
+      .set("Authorization", "JWT " + accessToken)
+      .send({...review, course_id: "11d2"});
+    expect(response.statusCode).toBe(406);
   });
 
   test ("Test check if the count of the course is updated by one", async () => {

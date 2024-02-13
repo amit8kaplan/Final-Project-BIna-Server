@@ -103,7 +103,7 @@ describe("Course_reviews tests", () => {
         yield addReview(review);
     }));
     test("Test Put review by id", () => __awaiter(void 0, void 0, void 0, function* () {
-        ////console.log("Test Put review by id");
+        console.log("Test Put review by id");
         review.title = "new title";
         review.message = "new message";
         const response = yield (0, supertest_1.default)(app)
@@ -113,6 +113,15 @@ describe("Course_reviews tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.title).toBe(review.title);
         expect(response.body.message).toBe(review.message);
+    }));
+    test("Test Put review by id - invalid input", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Test Put review by id - invalid input");
+        ;
+        const response = yield (0, supertest_1.default)(app)
+            .put(`/review/${review._id}`)
+            .set("Authorization", "JWT " + accessToken)
+            .send(Object.assign(Object.assign({}, review), { course_id: "11d2" }));
+        expect(response.statusCode).toBe(406);
     }));
     test("Test check if the count of the course is updated by one", () => __awaiter(void 0, void 0, void 0, function* () {
         //console.log("Test check if the count of the user is updated by one");

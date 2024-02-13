@@ -93,9 +93,19 @@ class coursesReviewsController extends base_controller_1.BaseController {
             putById: { get: () => super.putById }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            ////console.log("updateReviewById:" + req.params.id);
-            ////console.log("req.query:" + JSON.stringify(req.query, null, 2)); 
-            _super.putById.call(this, req, res);
+            console.log("updateReviewById:" + req.params.id);
+            console.log("req.body:" + JSON.stringify(req.body, null, 2));
+            const prevReview = yield courses_reviews_model_1.default.findById(req.params.id);
+            if (prevReview.course_id == req.body.course_id
+                && prevReview.course_name == req.body.course_name
+                && prevReview.owner_id == req.body.owner_id
+                && prevReview.owner_name == req.body.owner_name
+                && prevReview._id == req.body._id) {
+                _super.putById.call(this, req, res);
+            }
+            else {
+                res.status(406).send("fail: " + "You can't change the course or the owner of the review");
+            }
         });
     }
 }
