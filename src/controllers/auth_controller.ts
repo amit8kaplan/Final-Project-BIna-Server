@@ -7,7 +7,7 @@ import { Document } from 'mongoose';
 
 const client = new OAuth2Client();
 const googleSignin = async (req: Request, res: Response) => {
-    ////console.log(req.body);
+    ////////console.log(req.body);
     try {
         const ticket = await client.verifyIdToken({
             idToken: req.body.credential,
@@ -128,7 +128,7 @@ const logout = async (req: Request, res: Response) => {
     const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
     if (refreshToken == null) return res.sendStatus(401);
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user: { '_id': string }) => {
-        ////console.log(err);
+        ////////console.log(err);
         if (err) return res.sendStatus(401);
         try {
             const userDb = await User.findOne({ '_id': user._id });
@@ -153,7 +153,7 @@ const refresh = async (req: Request, res: Response) => {
     if (refreshToken == null) return res.sendStatus(401);
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user: { '_id': string }) => {
         if (err) {
-            ////console.log(err);
+            ////////console.log(err);
             return res.sendStatus(401);
         }
         try {

@@ -13,7 +13,7 @@ const user = {
 
 beforeAll(async () => {
   app = await initApp();
-  ////console.log("beforeAll");
+  ////////console.log("beforeAll");
   await User.deleteMany({ 'email': user.email });
 });
 
@@ -27,13 +27,13 @@ let newRefreshToken: string
 
 describe("Auth tests", () => {
   test("Test Register", async () => {
-    ////console.log("Test Register");
+    ////////console.log("Test Register");
     const response = await request(app)
       .post("/auth/register")
       .send(user);
     expect(response.statusCode).toBe(201);
     // expect(response.body.user_name).toBe(user.user_name);
-    // ////console.log("response.body: " + response.body.password);
+    // ////////console.log("response.body: " + response.body.password);
   });
 
   test("Test Register exist email", async () => {

@@ -15,7 +15,7 @@ let accessToken = "";
 
 beforeAll(async () => {
   app = await initApp();
-  ////console.log("beforeAll");
+  ////////console.log("beforeAll");
   await StudentPost.deleteMany();
 
   await User.deleteMany({ 'email': user.email });

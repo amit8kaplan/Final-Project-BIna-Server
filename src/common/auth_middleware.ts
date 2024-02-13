@@ -10,11 +10,11 @@ const  authMiddleware  = (req: AuthResquest, res: Response, next: NextFunction) 
     if (token == null) return res.sendStatus(401);
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         try{
-            ////console.log("err" +err);
+            ////////console.log("err" +err);
             if (err) return res.sendStatus(401);
             req.user = user as { _id: string};
-            // ////console.log("the auth" + req.user);
-            ////console.log("the auth" + req.user._id);
+            // ////////console.log("the auth" + req.user);
+            ////////console.log("the auth" + req.user._id);
             next();
         }
         catch (err) {

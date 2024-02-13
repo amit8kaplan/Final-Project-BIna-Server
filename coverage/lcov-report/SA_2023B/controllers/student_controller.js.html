@@ -180,7 +180,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Student = require("../models/student_model");
 &nbsp;
 const getAllStudents = async (req, res) =&gt; {
-  ////console.log("getAllStudents");
+  ////////console.log("getAllStudents");
   try {
     let students = "";
     <span class="missing-if-branch" title="if path not taken" >I</span>if (req.query.name) {
@@ -195,7 +195,7 @@ const getAllStudents = async (req, res) =&gt; {
 };
 &nbsp;
 const getStudentById = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  ////console.log("getStudentById:" + req.params.id);</span>
+<span class="cstat-no" title="statement not covered" >  ////////console.log("getStudentById:" + req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const student = <span class="cstat-no" title="statement not covered" >await Student.findById(req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >    res.send(student);</span>
@@ -205,13 +205,13 @@ const getStudentById = <span class="fstat-no" title="function not covered" >as</
 };
 &nbsp;
 const postStudent = async (req, res) =&gt; {
-  ////console.log("postStudent:" + req.body);
+  ////////console.log("postStudent:" + req.body);
   const student = new Student(req.body);
   try {
     await student.save();
     res.status(201).send("OK");
   } catch (err) {
-    ////console.log(err);
+    ////////console.log(err);
     res.status(406).send("fail: " + err.message);
   }
 };

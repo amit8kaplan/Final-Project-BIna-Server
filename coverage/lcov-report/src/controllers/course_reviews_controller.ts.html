@@ -39,7 +39,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -129,18 +129,27 @@
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,7 +168,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,8 +193,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -194,7 +205,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import CourseReview, { IcourseReview } from "../models/courses_reviews_model";
 import { BaseController } from "./base_controller";
 import { Request, Response } from "express";
@@ -211,6 +227,7 @@ class coursesReviewsController extends BaseController&lt;IcourseReview&gt;{
     async get(req: AuthResquest, res: Response) {
 &nbsp;
         ////console.log("Get by query parameter:");
+        ////console.log("req.query:" + JSON.stringify(req.query, null, 2));
         super.get(req, res);
     }
     async post(req: AuthResquest, res: Response) {
@@ -225,7 +242,7 @@ class coursesReviewsController extends BaseController&lt;IcourseReview&gt;{
             });
             const course_idtoInc = req.body.course_id ;
             const count = await incCountInCourseName(course_idtoInc)
-            //console.log("the count of the course++:" + count);
+            ////console.log("the count of the course++:" + count);
         }catch (err) {
             ////console.log("problem with find the user of the builder " +err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
@@ -234,10 +251,10 @@ class coursesReviewsController extends BaseController&lt;IcourseReview&gt;{
         super.post(req, res);
     }
     async getByUserId(req: AuthResquest, res: Response) {
-        ////console.log("get all the reviews By User Id:" + req.params.id);
+        ////////console.log("get all the reviews By User Id:" + req.params.id);
         try {
             const obj = await CourseReview.find({ owner_id: req.params.id });
-            ////console.log("obj to getByUserId:" + obj);
+            ////////console.log("obj to getByUserId:" + obj);
             res.status(200).send(obj);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
@@ -250,12 +267,19 @@ class coursesReviewsController extends BaseController&lt;IcourseReview&gt;{
             const review = await CourseReview.findById(req.params.id);
             
             ////console.log("the review:" + review);
-            const count =await decCountInCourseName(review.course_id);
-            //console.log("the count of the course--:" + count);
+            ////console.log("the review.course_id:" + review.course_id);
+            const course_idtodec = review.course_id ;
+            const count =await decCountInCourseName(course_idtodec);
+            ////console.log("the count of the course--:" + count);
             super.deleteById(req, res);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
+    }
+    async putById(req: AuthResquest, res: Response) {
+        ////console.log("updateReviewById:" + req.params.id);
+        ////console.log("req.query:" + JSON.stringify(req.query, null, 2)); 
+        super.putById(req, res);
     }
 &nbsp;
 }
@@ -268,7 +292,7 @@ export default new coursesReviewsController();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-13T17:17:19.360Z
+                at 2024-02-13T21:38:47.545Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
