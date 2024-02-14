@@ -101,7 +101,7 @@ describe("Course tests", () => {
         await addCourse(course);
     });   
     test ("Test add video to course", async () => {
-        ////////console.log("Test add video to course");
+        console.log("Test add video to course");
         const filePath = `${__dirname}/vid.mp4`;
         ////////console.log("filePath " + filePath);
         try{
@@ -113,6 +113,7 @@ describe("Course tests", () => {
             ////////console.log("url " + url);
             url = url.replace(/^.*\/\/[^/]+/, '')
             const res = await request(app).get(url)
+            console.log("url"+ url);
             newUrl = url;
             course.videoUrl = url;
             expect(res.statusCode).toBe(200);

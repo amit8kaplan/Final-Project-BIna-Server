@@ -116,7 +116,6 @@ describe("Course_reviews tests", () => {
     }));
     test("Test Put review by id - invalid input", () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Test Put review by id - invalid input");
-        ;
         const response = yield (0, supertest_1.default)(app)
             .put(`/review/${review._id}`)
             .set("Authorization", "JWT " + accessToken)

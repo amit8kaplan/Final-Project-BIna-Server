@@ -85,7 +85,7 @@ describe("Course tests", () => {
         yield addCourse(course);
     }));
     test("Test add video to course", () => __awaiter(void 0, void 0, void 0, function* () {
-        ////////console.log("Test add video to course");
+        console.log("Test add video to course");
         const filePath = `${__dirname}/vid.mp4`;
         ////////console.log("filePath " + filePath);
         try {
@@ -97,6 +97,7 @@ describe("Course tests", () => {
             ////////console.log("url " + url);
             url = url.replace(/^.*\/\/[^/]+/, '');
             const res = yield (0, supertest_1.default)(app).get(url);
+            console.log("url" + url);
             newUrl = url;
             course.videoUrl = url;
             expect(res.statusCode).toBe(200);

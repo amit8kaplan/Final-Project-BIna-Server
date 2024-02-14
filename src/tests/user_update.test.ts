@@ -135,6 +135,11 @@ describe("File Tests", () => {
             .delete("/user")
             .set("Authorization", "JWT " + accessToken)
         expect(response.statusCode).toEqual(200);
+        const response2 = await request(app)
+            .get(`/user/${id}`) 
+            .set("Authorization", "JWT " + accessToken)
+        expect(response.statusCode).toEqual(200);
+        expect(response2.body.imgUrl).toBe("");
       
     });
 

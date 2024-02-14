@@ -3,6 +3,7 @@ import { BaseController } from "./base_controller";
 import { Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
 const base = process.env.URL;
+import fs from 'fs';
 class UserController extends BaseController<IUser>{
     constructor() {
         super(User)
@@ -10,11 +11,32 @@ class UserController extends BaseController<IUser>{
 
     async deletePhotoOfUser(req: AuthResquest, res: Response) {
         ////////console.log("deletePhotoOfUser:" + req.user._id);
+        
+    //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
+    //         if (err) {
+    //             console.log("failed to delete local image:" + err);
+    //         } else {
+    //             console.log('successfully deleted local image');
+    //         }
+    //     });
+    // }
+        let prevuser;
         try {
+            prevuser = await User.findById(req.user._id);
+            if (prevuser.imgUrl != "") {
+                res.status(500).json({ message: "the user has no photo" });
+            }
+            fs.unlinkSync("./"+prevuser.imgUrl, (err) => { // Remove the second argument
+                if (err) {
+                    console.log("failed to delete local image:" + err);
+                } else {
+                    console.log('successfully deleted local image');
+                }
+            });
             const user = await User.findByIdAndUpdate(req.user._id, { imgUrl: "" });
             res.status(200).send(user);
         } catch (err) {
-            ////////console.log(err);
+            console.log(err);
             res.status(500).json({ message: err.message });
         }
     }

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = __importDefault(require("../models/user_model"));
 const base_controller_1 = require("./base_controller");
 const base = process.env.URL;
+const fs_1 = __importDefault(require("fs"));
 class UserController extends base_controller_1.BaseController {
     constructor() {
         super(user_model_1.default);
@@ -22,12 +23,26 @@ class UserController extends base_controller_1.BaseController {
     deletePhotoOfUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             ////////console.log("deletePhotoOfUser:" + req.user._id);
+            //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
+            //         if (err) {
+            //             console.log("failed to delete local image:" + err);
+            //         } else {
+            //             console.log('successfully deleted local image');
+            //         }
+            //     });
+            // }
+            let prevuser;
             try {
+                prevuser = yield user_model_1.default.findById(req.user._id);
+                if (prevuser.imgUrl != "") {
+                    res.status(500).json({ message: "the user has no photo" });
+                }
+                fs_1.default.unlinkSync("./" + prevuser.imgUrl);
                 const user = yield user_model_1.default.findByIdAndUpdate(req.user._id, { imgUrl: "" });
                 res.status(200).send(user);
             }
             catch (err) {
-                ////////console.log(err);
+                console.log(err);
                 res.status(500).json({ message: err.message });
             }
         });
