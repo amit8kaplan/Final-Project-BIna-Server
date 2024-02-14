@@ -197,3 +197,89 @@ export default router;
  *         description: Internal server error
  */
 
+/**
+ * @swagger
+ * /courses/{id}:
+ *   put:
+ *     summary: Update a course by ID
+ *     tags: [Courses]
+ *     description: Update an existing course by its ID with authentication. Only the course owner can modify the course, and they can only change certain fields (not owner_name and _id). If the user is not authorized or the course is not found, appropriate error messages are returned.
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the course to update
+ *       - in: body
+ *         name: body
+ *         description: Updated course object
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *               format: uuid
+ *               description: The ID of the course (must match the ID in the path)
+ *             owner_name:
+ *               type: string
+ *               description: The name of the course owner
+ *     responses:
+ *       '200':
+ *         description: Course updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Course'
+ *       '401':
+ *         description: Unauthorized request
+ *       '403':
+ *         description: User not authorized to change this course
+ *       '404':
+ *         description: Course not found
+ *       '500':
+ *         description: Internal server error
+ */
+
+
+
+/**
+ * @swagger
+ * /courses/{id}:
+ *   delete:
+ *     summary: Delete a course by ID
+ *     tags: [Courses]
+ *     description: Delete an existing course by its ID with authentication. Only the course owner can delete the course. This endpoint also deletes all associated course reviews. If the user is not authorized or the course is not found, appropriate error messages are returned.
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the course to delete
+ *     responses:
+ *       '200':
+ *         description: Course deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 n:
+ *                   type: number
+ *                   description: Number of deleted documents
+ *                 ok:
+ *                   type: number
+ *                   description: Indicates if the operation was successful
+ *       '401':
+ *         description: Unauthorized request
+ *       '404':
+ *         description: Course not found
+ *       '500':
+ *         description: Internal server error
+ */
