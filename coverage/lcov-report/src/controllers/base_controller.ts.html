@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.08% </span>
+                <span class="strong">82.05% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/37</span>
+                <span class='fraction'>32/39</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.08% </span>
+                <span class="strong">82.05% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>30/37</span>
+                <span class='fraction'>32/39</span>
             </div>
         
             
@@ -190,11 +190,11 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,17 +290,17 @@ export class BaseController&lt;ModelType&gt;{
         try {
             const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
             const queryValue = req.query[queryKey]; // Get the value of the first query parameter
-            // console.log("Query parameter key:", queryKey);
-            // console.log("Query parameter value:", queryValue);
+            // //console.log("Query parameter key:", queryKey);
+            // //console.log("Query parameter value:", queryValue);
     
             if (queryKey &amp;&amp; queryValue) {
                 const filter: FilterQuery&lt;ModelType&gt; = { [queryKey]: queryValue } as FilterQuery&lt;ModelType&gt;; // Type assertion
                 const obj = await this.model.find(filter);
-                // console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
+                console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
                 res.send(obj);
             } else {
                 const obj = await this.model.find();
-                // console.log("All res:", JSON.stringify(obj, null, 2));
+                console.log("All res:", JSON.stringify(obj, null, 2));
                 res.send(obj);
             }
         } catch (err) {
@@ -311,10 +311,10 @@ export class BaseController&lt;ModelType&gt;{
     
 &nbsp;
     async getById(req: Request, res: Response) {
-        //console.log("getById:" + req.params.id);
+        ////console.log("getById:" + req.params.id);
         try {
             const obj = await this.model.findById(req.params.id);
-            //console.log("getById obj :", JSON.stringify(obj, null, 2));
+            ////console.log("getById obj :", JSON.stringify(obj, null, 2));
             res.send(obj);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
@@ -322,19 +322,19 @@ export class BaseController&lt;ModelType&gt;{
     }
 &nbsp;
     async post(req: Request, res: Response) {
-        // ////console.log("postooObj:");
-        // ////console.log(req.body.title);
+        // //////console.log("postooObj:");
+        // //////console.log(req.body.title);
         try {
             const isExist = await this.model.findById(req.body._id);
-            // ////console.log("isExist:" + isExist);
-            // ////console.log(req.body.title)
+            // //////console.log("isExist:" + isExist);
+            // //////console.log(req.body.title)
             const body = req.body;
-            // ////console.log("body.title:" + body.title);
+            // //////console.log("body.title:" + body.title);
             if (isExist == null)
             {
                 const obj = await this.model.create(body);
-                ////console.log("postnewObj:" + obj);
-                // ////console.log("title" + req.body.title);
+                //////console.log("postnewObj:" + obj);
+                // //////console.log("title" + req.body.title);
                 res.status(201).send(obj);
             }
             else
@@ -343,34 +343,34 @@ export class BaseController&lt;ModelType&gt;{
             }
         }
         catch (err) {
-        ////console.log(err);
+        //////console.log(err);
 <span class="cstat-no" title="statement not covered" >        res.status(406).send("fail: " + err.message);</span>
             }
    }
 &nbsp;
     async putById(req: Request, res: Response) {
-        ////////console.log("putObjectById:" + req.params.id);
+        //////////console.log("putObjectById:" + req.params.id);
         try {
             const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            ////////console.log("putObjectById:" + obj);
+            //////////console.log("putObjectById:" + obj);
             <span class="missing-if-branch" title="if path not taken" >I</span>if (!obj) {
 <span class="cstat-no" title="statement not covered" >                res.status(404).json({ message: "Object not found" });</span>
             }
             res.status(200).json(obj);
         } catch (err) {
-            ////////console.log(err);
+            //////////console.log(err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
     }
     
     async deleteById(req: Request, res: Response) {
-        ////////console.log("deleteObjectById in base_Controller:" + req.params.id);
-        ////////console.log("type of the id in base controller: " + typeof(req.params.id));
+        //////////console.log("deleteObjectById in base_Controller:" + req.params.id);
+        //////////console.log("type of the id in base controller: " + typeof(req.params.id));
         this.model.deleteOne({ _id: req.params.id }).then((result) =&gt; {
-            ////console.log("result:" + result);
+            //////console.log("result:" + result);
             res.status(200).json(result);
         }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-            ////console.log("err:" + err);
+            //////console.log("err:" + err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         });
     }
@@ -388,7 +388,7 @@ export default createController;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-15T19:15:45.313Z
+                at 2024-02-15T22:35:00.425Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

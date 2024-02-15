@@ -22,12 +22,12 @@ class UserController extends base_controller_1.BaseController {
     }
     deletePhotoOfUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            ////////console.log("deletePhotoOfUser:" + req.user._id);
+            //////////console.log("deletePhotoOfUser:" + req.user._id);
             //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
             //         if (err) {
-            //             console.log("failed to delete local image:" + err);
+            //             //console.log("failed to delete local image:" + err);
             //         } else {
-            //             console.log('successfully deleted local image');
+            //             //console.log('successfully deleted local image');
             //         }
             //     });
             // }
@@ -42,7 +42,7 @@ class UserController extends base_controller_1.BaseController {
                 res.status(200).send(user);
             }
             catch (err) {
-                console.log(err);
+                //console.log(err);
                 res.status(500).json({ message: err.message });
             }
         });
@@ -50,11 +50,11 @@ class UserController extends base_controller_1.BaseController {
     postPhotoOfUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                ////////console.log("router.post(/user: " + base + req.file.path)
+                //////////console.log("router.post(/user: " + base + req.file.path)
                 res.status(200).send({ url: base + req.file.path });
             }
             catch (err) {
-                ////////console.log(err);
+                //////////console.log(err);
                 res.status(500).json({ message: err.message });
             }
         });
@@ -64,7 +64,7 @@ class UserController extends base_controller_1.BaseController {
             get: { get: () => super.get }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            ////////console.log("getAllUsers:" + req.query.name);
+            //////////console.log("getAllUsers:" + req.query.name);
             _super.get.call(this, req, res);
         });
     }
@@ -73,7 +73,7 @@ class UserController extends base_controller_1.BaseController {
             getById: { get: () => super.getById }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            ////////console.log("getUserById user_controller:" + req.params.id);
+            //////////console.log("getUserById user_controller:" + req.params.id);
             _super.getById.call(this, req, res);
         });
     }

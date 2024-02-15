@@ -54,7 +54,7 @@ const review: IcourseReview = {
    
 beforeAll(async () => {
     app = await initApp();
-    ////////console.log("beforeAll");
+    //////////console.log("beforeAll");
     await CourseReview.deleteMany();
 
     await User.deleteMany({ 'email': user.email });
@@ -72,12 +72,12 @@ beforeAll(async () => {
     review.course_name = response3.body.name;
     review.owner_id = course.owner;
     review.owner_name = response3.body.owner_name;
-    ////////console.log("review.owner_id: " + review.owner_id);
-    ////////console.log("review.owner_name: " + review.owner_name);
-    ////////console.log("review.course_id: " + review.course_id);
-    ////////console.log("review.course_name: " + review.course_name);
-    ////////console.log("review.title: " + review.title);
-    ////////console.log("course.count: " + response3.body.Count);
+    //////////console.log("review.owner_id: " + review.owner_id);
+    //////////console.log("review.owner_name: " + review.owner_name);
+    //////////console.log("review.course_id: " + review.course_id);
+    //////////console.log("review.course_name: " + review.course_name);
+    //////////console.log("review.title: " + review.title);
+    //////////console.log("course.count: " + response3.body.Count);
 });
 
 afterAll(async () => {
@@ -86,14 +86,14 @@ afterAll(async () => {
 
 describe("Course_reviews tests", () => {
   const addReview = async (review: IcourseReview) => {
-    ////////console.log("rev.course_id in Course_reviews test: " + review.course_id);
-    ////////console.log("rev.tirle in Course_reviews test: " + review.title)
+    //////////console.log("rev.course_id in Course_reviews test: " + review.course_id);
+    //////////console.log("rev.tirle in Course_reviews test: " + review.title)
     const response = await request(app)
       .post("/review")
       .set("Authorization", "JWT " + accessToken)
       .send(review);
     review._id = response.body._id;
-    ////////console.log("response.body.title: " + response.body.title)
+    //////////console.log("response.body.title: " + response.body.title)
     expect(response.statusCode).toBe(201);
     expect(response.body.owner_id).toBe(review.owner_id);
     expect(response.body.owner_name).toBe(review.owner_name);
@@ -101,11 +101,11 @@ describe("Course_reviews tests", () => {
     expect(response.body.course_name).toBe(review.course_name);
     expect(response.body.title).toBe(review.title);
     expect(response.body.message).toBe(review.message);
-    ////////console.log("response.body.message: " + response.body.message);
+    //////////console.log("response.body.message: " + response.body.message);
   };
 
   test("Test Get All the reviews - empty response", async () => {
-    ////////console.log("Test Get All the reviews - empty response");
+    //////////console.log("Test Get All the reviews - empty response");
     const response = await request(app)
         .get("/review")
     expect(response.statusCode).toBe(200);
@@ -113,13 +113,13 @@ describe("Course_reviews tests", () => {
   });
 
   test("Test review for a course", async () => {
-    ////////console.log("Test review for a course");
-    ////////console.log("review.rev: " + review.title);
+    //////////console.log("Test review for a course");
+    //////////console.log("review.rev: " + review.title);
     await addReview(review);
   });
 
   test("Test Put review by id", async () => {
-    console.log("Test Put review by id");
+    //console.log("Test Put review by id");
     review.title = "new title";
     review.message = "new message";
     const response = await request(app)
@@ -132,7 +132,7 @@ describe("Course_reviews tests", () => {
   });
 
   test ("Test Put review by id - invalid input", async () => {
-    console.log("Test Put review by id - invalid input");
+    //console.log("Test Put review by id - invalid input");
     const response = await request(app)
       .put(`/review/${review._id}`)
       .set("Authorization", "JWT " + accessToken)
@@ -141,22 +141,22 @@ describe("Course_reviews tests", () => {
   });
 
   test ("Test check if the count of the course is updated by one", async () => {
-    //console.log("Test check if the count of the user is updated by one");
-    //console.log("review.owner_id: " + review.owner_id);
+    ////console.log("Test check if the count of the user is updated by one");
+    ////console.log("review.owner_id: " + review.owner_id);
     const response = await request(app)
       .get("/course/")
       .query({ owner: review.owner_id })
       .set("Authorization", "JWT " + accessToken);
-      //console.log("Test response:", JSON.stringify(response, null, 2));
+      ////console.log("Test response:", JSON.stringify(response, null, 2));
     expect(response.statusCode).toBe(200);
     const user = response.body;
-    //console.log("Test user:", JSON.stringify(user, null, 2));
+    ////console.log("Test user:", JSON.stringify(user, null, 2));
     expect(user[0].Count).toBe(1);
   });
 
 
   test("Test Get All reviews [there is only one]", async () => {
-    ////////console.log("Test Get All reviews  [there is only one]");
+    //////////console.log("Test Get All reviews  [there is only one]");
     const response = await request(app).get("/review");
     expect(response.statusCode).toBe(200);
     const rc = response.body[0];
@@ -165,7 +165,7 @@ describe("Course_reviews tests", () => {
   });
 
   test("Test Get reviews by user id", async () => {
-    ////////console.log("Test Get reviews by user id");
+    //////////console.log("Test Get reviews by user id");
     const response = await request(app).get(`/review/${review.owner_id}`);
     expect(response.statusCode).toBe(200);
     const rc = response.body[0];
@@ -174,7 +174,7 @@ describe("Course_reviews tests", () => {
   });
 
   test ("Test Get reviews by course id", async () => {
-    ////////console.log("Test Get reviews by course id");
+    //////////console.log("Test Get reviews by course id");
     const response = await request(app)
     .get(`/review`)
     .query({ course_id: review.course_id });
@@ -185,7 +185,7 @@ describe("Course_reviews tests", () => {
   });
   
   test ("Test Get reviews by course name", async () => {
-    ////////console.log("Test Get reviews by course name");
+    //////////console.log("Test Get reviews by course name");
     const response = await request(app)
         .get(`/review/`)
         .query({ course_name: review.course_name });
@@ -196,7 +196,7 @@ describe("Course_reviews tests", () => {
   });
 
   test("Test Get reviews by course id and course name", async () => {
-    ////////console.log("Test Get reviews by course id and course name");
+    //////////console.log("Test Get reviews by course id and course name");
     const response = await request(app)
         .get(`/review/`)
         .query({ course_id: review.course_id, course_name: review.course_name });
@@ -207,8 +207,8 @@ describe("Course_reviews tests", () => {
   });
 
   test("Test delete review by id", async () => {
-    ////////console.log("Test delete review by id");
-    ////////console.log("review._id: " + review._id);
+    //////////console.log("Test delete review by id");
+    //////////console.log("review._id: " + review._id);
     const response = await request(app)
       .delete(`/review/${review._id}`)
       .set("Authorization", "JWT " + accessToken);
@@ -216,14 +216,14 @@ describe("Course_reviews tests", () => {
   });
 
   test ("Test check if the count of the course is updated by -1 to 0", async () => {
-    ////////console.log("Test check if the count of the course is updated by -1 to 0");
+    //////////console.log("Test check if the count of the course is updated by -1 to 0");
     const response = await request(app)
       .get("/course")
       .query({ owner: review.owner_id })
       .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     const user = response.body;
-    console.log("Test user:", JSON.stringify(user, null, 2));
+    //console.log("Test user:", JSON.stringify(user, null, 2));
     expect(user[0].Count).toBe(0);
   } );
 });

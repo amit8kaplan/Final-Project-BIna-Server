@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">89.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/30</span>
+                <span class='fraction'>25/28</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">89.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/30</span>
+                <span class='fraction'>25/28</span>
             </div>
         
             
@@ -212,8 +212,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,35 +244,35 @@ class coursesReviewsController extends BaseController&lt;IcourseReview&gt;{
     }
     async get(req: AuthResquest, res: Response) {
 &nbsp;
-        ////console.log("Get by query parameter:");
-        ////console.log("req.query:" + JSON.stringify(req.query, null, 2));
+        //////console.log("Get by query parameter:");
+        //////console.log("req.query:" + JSON.stringify(req.query, null, 2));
         super.get(req, res);
     }
     async post(req: AuthResquest, res: Response) {
         let UserObj;
-        ////console.log("newReviewToCourse:" + req.body);
+        //////console.log("newReviewToCourse:" + req.body);
         req.body.owner_id = req.user._id;
-        ////console.log("the user id:" + req.body.owner_id);
+        //////console.log("the user id:" + req.body.owner_id);
         try{
              await extractUserName (req.body.owner_id).then((result :string) =&gt; {
                 req.body.owner_name = result;
-                ////console.log("the user name:" + req.body.owner_name);
+                //////console.log("the user name:" + req.body.owner_name);
             });
             const course_idtoInc = req.body.course_id ;
             const count = await incCountInCourseName(course_idtoInc)
-            ////console.log("the count of the course++:" + count);
+            //////console.log("the count of the course++:" + count);
         }catch (err) {
-            ////console.log("problem with find the user of the builder " +err);
+            //////console.log("problem with find the user of the builder " +err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
-        ////console.log("rev.title" + req.body.title);
+        //////console.log("rev.title" + req.body.title);
         super.post(req, res);
     }
     async getByUserId(req: AuthResquest, res: Response) {
-        ////////console.log("get all the reviews By User Id:" + req.params.id);
+        //////////console.log("get all the reviews By User Id:" + req.params.id);
         try {
             const obj = await CourseReview.find({ owner_id: req.params.id });
-            ////////console.log("obj to getByUserId:" + obj);
+            //////////console.log("obj to getByUserId:" + obj);
             res.status(200).send(obj);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
@@ -280,23 +280,23 @@ class coursesReviewsController extends BaseController&lt;IcourseReview&gt;{
     }
     
     async deleteById(req: AuthResquest, res: Response) {
-        ////console.log("deleteReviewById:" + req.params.id);
+        //////console.log("deleteReviewById:" + req.params.id);
         try{
             const review = await CourseReview.findById(req.params.id);
             
-            ////console.log("the review:" + review);
-            ////console.log("the review.course_id:" + review.course_id);
+            //////console.log("the review:" + review);
+            //////console.log("the review.course_id:" + review.course_id);
             const course_idtodec = review.course_id ;
             const count =await decCountInCourseName(course_idtodec);
-            ////console.log("the count of the course--:" + count);
+            //////console.log("the count of the course--:" + count);
             super.deleteById(req, res);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
     }
     async putById(req: AuthResquest, res: Response) {
-        console.log("updateReviewById:" + req.params.id);
-        console.log("req.body:" + JSON.stringify(req.body, null, 2));
+        //console.log("updateReviewById:" + req.params.id);
+        //console.log("req.body:" + JSON.stringify(req.body, null, 2));
         const prevReview = await CourseReview.findById(req.params.id);
         if (prevReview.course_id == req.body.course_id
             &amp;&amp; prevReview.course_name == req.body.course_name
@@ -319,7 +319,7 @@ export default new coursesReviewsController();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-15T19:15:45.313Z
+                at 2024-02-15T22:35:00.425Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

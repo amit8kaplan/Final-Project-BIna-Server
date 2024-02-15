@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.57% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/38</span>
+                <span class='fraction'>30/36</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.57% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/38</span>
+                <span class='fraction'>30/36</span>
             </div>
         
             
@@ -239,14 +239,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -273,36 +273,36 @@ class course_controller extends BaseController&lt;ICourse&gt; {
     }
 &nbsp;
     async post(req: AuthResquest, res: Response) {
-        ////////console.log("newCourse:" + req.body);
+        //////////console.log("newCourse:" + req.body);
         const _id = req.user._id;
         try{
             extractUserName (_id).then((result :string) =&gt; {
-                ////////console.log("the user name:" + result);
+                //////////console.log("the user name:" + result);
                 req.body.owner_name = result;
                 req.body.Count = 0;
                 req.body.owner = _id;
                 super.post(req, res);
             });
         }catch (err) {
-            ////////console.log("problem with find the user of the builder of the course" +err);
+            //////////console.log("problem with find the user of the builder of the course" +err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
 &nbsp;
     }
     async postVideo(req: AuthResquest, res: Response) {
-        ////////console.log("newVideo:" + base + req.file.path);
+        //////////console.log("newVideo:" + base + req.file.path);
         try {
             res.status(200).send({ url: base + req.file.path })
         } catch (err) {
-            ////////console.log(err);
+            //////////console.log(err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message , url : base + req.file.path});</span>
         }
     }
     async getByUserId(req: AuthResquest, res: Response) {
-        ////////console.log("getByUserId:" + req.params.id);
+        //////////console.log("getByUserId:" + req.params.id);
         try {
             const obj = await course_model.find({ owner: req.params.id });
-            ////////console.log("obj to getByUserId:" + obj);
+            //////////console.log("obj to getByUserId:" + obj);
             res.status(200).send(obj);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
@@ -310,9 +310,9 @@ class course_controller extends BaseController&lt;ICourse&gt; {
     }
     async putById(req: AuthResquest, res: Response) {
         const oldCourse = await course_model.findById(req.params.id);
-        //////console.log("Request body:", JSON.stringify(req.body, null, 2));
+        ////////console.log("Request body:", JSON.stringify(req.body, null, 2));
 &nbsp;
-        //////console.log("oldCourse:", JSON.stringify(oldCourse, null, 2));
+        ////////console.log("oldCourse:", JSON.stringify(oldCourse, null, 2));
         if (oldCourse.owner == req.user._id
              &amp;&amp; oldCourse.owner_name == req.body.owner_name
               &amp;&amp; oldCourse.id == req.body._id) {
@@ -322,27 +322,27 @@ class course_controller extends BaseController&lt;ICourse&gt; {
         }
     }
     async deleteById(req: AuthResquest, res: Response) {
-        //////console.log("deleteById:" + req.params.id);
-        //////console.log("req body:", JSON.stringify(req.body, null, 2));
-        //////console.log("req user:", JSON.stringify(req.user, null, 2));
-        //////console.log("req params:", JSON.stringify(req.params, null, 2));
-        //////console.log("req query:", JSON.stringify(req.query, null, 2));
+        ////////console.log("deleteById:" + req.params.id);
+        ////////console.log("req body:", JSON.stringify(req.body, null, 2));
+        ////////console.log("req user:", JSON.stringify(req.user, null, 2));
+        ////////console.log("req params:", JSON.stringify(req.params, null, 2));
+        ////////console.log("req query:", JSON.stringify(req.query, null, 2));
         req.query = { course_id: req.params.id };
-        //////console.log("req query after change:" + JSON.stringify(req.query, null, 2));
+        ////////console.log("req query after change:" + JSON.stringify(req.query, null, 2));
         await courses_reviews_model.deleteMany({ course_id: req.params.id }).then((result) =&gt; {
-            //////console.log("result" + result);
+            ////////console.log("result" + result);
         });
         let prevuser;
         try {
             prevuser = await course_model.findById(req.params.id);
-            console.log("prevuser" + JSON.stringify(prevuser, null, 2));
+            //console.log("prevuser" + JSON.stringify(prevuser, null, 2));
             <span class="missing-if-branch" title="if path not taken" >I</span>if (prevuser.videoUrl === "") {
 <span class="cstat-no" title="statement not covered" >                res.status(500).json({ message: "the course has no vid" });</span>
             }
             fs.unlinkSync("./"+prevuser.videoUrl)
             super.deleteById(req, res);
         } catch (err) {
-<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+            //console.log(err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
     }
@@ -358,7 +358,7 @@ export default new course_controller;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-15T19:15:45.313Z
+                at 2024-02-15T22:35:00.425Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

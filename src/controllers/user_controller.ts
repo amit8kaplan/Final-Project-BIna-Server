@@ -10,13 +10,13 @@ class UserController extends BaseController<IUser>{
     }
 
     async deletePhotoOfUser(req: AuthResquest, res: Response) {
-        ////////console.log("deletePhotoOfUser:" + req.user._id);
+        //////////console.log("deletePhotoOfUser:" + req.user._id);
         
     //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
     //         if (err) {
-    //             console.log("failed to delete local image:" + err);
+    //             //console.log("failed to delete local image:" + err);
     //         } else {
-    //             console.log('successfully deleted local image');
+    //             //console.log('successfully deleted local image');
     //         }
     //     });
     // }
@@ -30,25 +30,25 @@ class UserController extends BaseController<IUser>{
             const user = await User.findByIdAndUpdate(req.user._id, { imgUrl: "" });
             res.status(200).send(user);
         } catch (err) {
-            console.log(err);
+            //console.log(err);
             res.status(500).json({ message: err.message });
         }
     }
     async postPhotoOfUser(req: AuthResquest, res: Response) {
         try{
-            ////////console.log("router.post(/user: " + base + req.file.path)
+            //////////console.log("router.post(/user: " + base + req.file.path)
             res.status(200).send({ url: base + req.file.path })
         }catch(err){
-            ////////console.log(err);
+            //////////console.log(err);
             res.status(500).json({ message: err.message });
         }
     }
     async get(req: AuthResquest, res: Response) {
-        ////////console.log("getAllUsers:" + req.query.name);
+        //////////console.log("getAllUsers:" + req.query.name);
         super.get(req, res);
     }
     async getById(req: AuthResquest, res: Response) {
-        ////////console.log("getUserById user_controller:" + req.params.id);
+        //////////console.log("getUserById user_controller:" + req.params.id);
 
         super.getById(req, res);
     }

@@ -112,7 +112,7 @@ class StudentPostController extends BaseController&lt;IStudentPost&gt;{
     }
 &nbsp;
     async <span class="fstat-no" title="function not covered" >post(</span>req: AuthResquest, res: Response) {
-        ////////console.log("postStudent:" + req.body);
+        //////////console.log("postStudent:" + req.body);
         const _id = <span class="cstat-no" title="statement not covered" >req.user._id;</span>
 <span class="cstat-no" title="statement not covered" >        req.body.owner = _id;</span>
 <span class="cstat-no" title="statement not covered" >        super.post(req, res);</span>

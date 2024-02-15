@@ -7,7 +7,7 @@ import { Document } from 'mongoose';
 
 const client = new OAuth2Client();
 const googleSignin = async (req: Request, res: Response) => {
-    ////////console.log(req.body);
+    //////////console.log(req.body);
     try {
         const ticket = await client.verifyIdToken({
             idToken: req.body.credential,
@@ -102,11 +102,11 @@ const login = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({ 'email': email });
         if (user == null) {
-            return res.status(401).send("email or password incorrect");
+            return res.status(401).send("email  incorrect");
         }
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            return res.status(401).send("email or password incorrect");
+            return res.status(401).send(" password incorrect");
         }
 
         const tokens = await generateTokens(user)
@@ -126,13 +126,13 @@ const login = async (req: Request, res: Response) => {
 const logout = async (req: Request, res: Response) => {
     const authHeader = req.headers['authorization'];
     const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
-    console.log(refreshToken);
+    //console.log(refreshToken);
     // if (refreshToken === null){
-    //     console.log("refreshToken == null");
+    //     //console.log("refreshToken == null");
     //     return res.sendStatus(401);
     
     //     }
-    console.log("refreshToken != null");
+    //console.log("refreshToken != null");
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user: { '_id': string }) => {
         console.log("err" +err);
         if (err) return res.status(400).send("problem with jwt" +err);
@@ -141,6 +141,8 @@ const logout = async (req: Request, res: Response) => {
             console.log("userDb:" + JSON.stringify(userDb, null, 2));
             if (!userDb.refreshTokens || !userDb.refreshTokens.includes(refreshToken)) {
                 console.log("inside the if")
+                console.log("userDb.refreshTokens:" + !userDb.refreshTokens);
+                console.log("userDb.refreshTokens.includes(refreshToken:" + !userDb.refreshTokens.includes(refreshToken));
                 userDb.refreshTokens = [];
                 await userDb.save();
                 return res.status(401).send("refresh token not found");
@@ -148,7 +150,7 @@ const logout = async (req: Request, res: Response) => {
                 console.log("inside the else")
                 userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
                 await userDb.save();
-                return res.status(200).send(userDb);
+                return res.sendStatus(200);
             }
         } catch (err) {
             res.status(500).send(err.message);
@@ -162,34 +164,40 @@ const refresh = async (req: Request, res: Response) => {
     if (refreshToken == null) return res.sendStatus(401);
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user: { '_id': string }) => {
         if (err) {
-            ////////console.log(err);
+            //////////console.log(err);
             return res.sendStatus(401);
         }
         try {
             const userDb = await User.findOne({ '_id': user._id });
             if (!userDb.refreshTokens || !userDb.refreshTokens.includes(refreshToken)) {
-                console.log("inside the if refresh");
+                //console.log("inside the if refresh");
                 userDb.refreshTokens = [];
                 await userDb.save();
                 return res.sendStatus(401);
             }
             const accessToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
             const newRefreshToken = jwt.sign({ _id: user._id }, process.env.JWT_REFRESH_SECRET);
+            console.log("before Filter:"+ JSON.stringify(userDb, null, 2));
             userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
-            console.log("newRefreshToken in auth_controller:" + newRefreshToken);
+            console.log("after Filter:"+ JSON.stringify(userDb, null, 2))
+            //console.log("newRefreshToken in auth_controller:" + newRefreshToken);
             userDb.refreshTokens.push(newRefreshToken);
             await userDb.save();
-            console.log("ater refresh this meed to be with the new refresh token")
-            console.log(JSON.stringify(userDb, null, 2));
+            //console.log("ater refresh this meed to be with the new refresh token")
+            //console.log(JSON.stringify(userDb, null, 2));
             return res.status(200).send({
                 'accessToken': accessToken,
-                'refreshToken': newRefreshToken
+                'refreshToken': newRefreshToken,
+                'userdb': userDb
             });
         } catch (err) {
             res.sendStatus(401).send(err.message);
         }
     });
+
+
 }
+
 
 export default {
     googleSignin,

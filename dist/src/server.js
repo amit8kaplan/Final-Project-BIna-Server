@@ -9,6 +9,7 @@ const http_1 = __importDefault(require("http"));
 const fs_1 = __importDefault(require("fs"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
+const PORT = process.env.PORT || 3000;
 (0, app_1.default)().then((app) => {
     const options = {
         definition: {
@@ -25,11 +26,11 @@ const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
     const specs = (0, swagger_jsdoc_1.default)(options);
     app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
     if (process.env.NODE_ENV !== 'production') {
-        ////////console.log('development');
-        http_1.default.createServer(app).listen(process.env.PORT);
+        //////////console.log('development');
+        http_1.default.createServer(app).listen(PORT);
     }
     else {
-        ////////console.log('PRODUCTION');
+        //////////console.log('PRODUCTION');
         const options2 = {
             key: fs_1.default.readFileSync('../client-key.pem'),
             cert: fs_1.default.readFileSync('../client-cert.pem')

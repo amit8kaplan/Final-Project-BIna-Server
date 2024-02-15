@@ -4,7 +4,7 @@ import http from 'http';
 import fs from 'fs';
 import swaggerUI from "swagger-ui-express"
 import swaggerJsDoc from "swagger-jsdoc"
-
+const PORT = process.env.PORT || 3000;
 initApp().then((app) => {
   const options = {
     definition: {
@@ -22,10 +22,10 @@ initApp().then((app) => {
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
   if (process.env.NODE_ENV !== 'production') {
-    ////////console.log('development');
-    http.createServer(app).listen(process.env.PORT);
+    //////////console.log('development');
+    http.createServer(app).listen(PORT);
   } else {
-    ////////console.log('PRODUCTION');
+    //////////console.log('PRODUCTION');
     const options2 = {
       key: fs.readFileSync('../client-key.pem'),
       cert: fs.readFileSync('../client-cert.pem')
