@@ -34,7 +34,7 @@ class UserController extends base_controller_1.BaseController {
             let prevuser;
             try {
                 prevuser = yield user_model_1.default.findById(req.user._id);
-                if (prevuser.imgUrl != "") {
+                if (prevuser.imgUrl === "") {
                     res.status(500).json({ message: "the user has no photo" });
                 }
                 fs_1.default.unlinkSync("./" + prevuser.imgUrl);
