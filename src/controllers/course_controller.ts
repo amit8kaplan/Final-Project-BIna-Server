@@ -8,6 +8,7 @@ import { ParsedQs } from "qs";
 import courses_reviews_model from "../models/courses_reviews_model";
 import course_reviews_controller from "./course_reviews_controller";
 const base = process.env.URL;
+import fs from 'fs';
 
 class course_controller extends BaseController<ICourse> {
     constructor() {
@@ -74,8 +75,19 @@ class course_controller extends BaseController<ICourse> {
         await courses_reviews_model.deleteMany({ course_id: req.params.id }).then((result) => {
             //////console.log("result" + result);
         });
-
-        super.deleteById(req, res);
+        let prevuser;
+        try {
+            prevuser = await course_model.findById(req.params.id);
+            console.log("prevuser" + JSON.stringify(prevuser, null, 2));
+            if (prevuser.videoUrl === "") {
+                res.status(500).json({ message: "the course has no vid" });
+            }
+            fs.unlinkSync("./"+prevuser.videoUrl)
+            super.deleteById(req, res);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: err.message });
+        }
     }
 }
 

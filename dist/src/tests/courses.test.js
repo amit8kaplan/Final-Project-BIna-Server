@@ -166,6 +166,7 @@ describe("Course tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.name).toBe(updateCourse.name);
         expect(response.body.videoUrl).toBe(updateCourse.videoUrl);
+        course.videoUrl = updateCourse.videoUrl;
     }));
     test("Test add review to course", () => __awaiter(void 0, void 0, void 0, function* () {
         ////console.log("Test add review to course");

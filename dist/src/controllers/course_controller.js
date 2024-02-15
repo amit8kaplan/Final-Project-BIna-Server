@@ -17,6 +17,7 @@ const base_controller_1 = require("./base_controller");
 const utils_1 = require("../common/utils");
 const courses_reviews_model_1 = __importDefault(require("../models/courses_reviews_model"));
 const base = process.env.URL;
+const fs_1 = __importDefault(require("fs"));
 class course_controller extends base_controller_1.BaseController {
     constructor() {
         super(course_model_1.default);
@@ -101,7 +102,20 @@ class course_controller extends base_controller_1.BaseController {
             yield courses_reviews_model_1.default.deleteMany({ course_id: req.params.id }).then((result) => {
                 //////console.log("result" + result);
             });
-            _super.deleteById.call(this, req, res);
+            let prevuser;
+            try {
+                prevuser = yield course_model_1.default.findById(req.params.id);
+                console.log("prevuser" + JSON.stringify(prevuser, null, 2));
+                if (prevuser.videoUrl === "") {
+                    res.status(500).json({ message: "the course has no vid" });
+                }
+                fs_1.default.unlinkSync("./" + prevuser.videoUrl);
+                _super.deleteById.call(this, req, res);
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).json({ message: err.message });
+            }
         });
     }
 }

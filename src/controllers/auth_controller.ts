@@ -126,23 +126,32 @@ const login = async (req: Request, res: Response) => {
 const logout = async (req: Request, res: Response) => {
     const authHeader = req.headers['authorization'];
     const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
-    if (refreshToken == null) return res.sendStatus(401);
+    console.log(refreshToken);
+    // if (refreshToken === null){
+    //     console.log("refreshToken == null");
+    //     return res.sendStatus(401);
+    
+    //     }
+    console.log("refreshToken != null");
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user: { '_id': string }) => {
-        ////////console.log(err);
-        if (err) return res.sendStatus(401);
+        console.log("err" +err);
+        if (err) return res.status(400).send("problem with jwt" +err);
         try {
             const userDb = await User.findOne({ '_id': user._id });
+            console.log("userDb:" + JSON.stringify(userDb, null, 2));
             if (!userDb.refreshTokens || !userDb.refreshTokens.includes(refreshToken)) {
+                console.log("inside the if")
                 userDb.refreshTokens = [];
                 await userDb.save();
-                return res.sendStatus(401);
+                return res.status(401).send("refresh token not found");
             } else {
+                console.log("inside the else")
                 userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
                 await userDb.save();
-                return res.sendStatus(200);
+                return res.status(200).send(userDb);
             }
         } catch (err) {
-            res.sendStatus(401).send(err.message);
+            res.status(500).send(err.message);
         }
     });
 }
@@ -159,6 +168,7 @@ const refresh = async (req: Request, res: Response) => {
         try {
             const userDb = await User.findOne({ '_id': user._id });
             if (!userDb.refreshTokens || !userDb.refreshTokens.includes(refreshToken)) {
+                console.log("inside the if refresh");
                 userDb.refreshTokens = [];
                 await userDb.save();
                 return res.sendStatus(401);
@@ -166,11 +176,14 @@ const refresh = async (req: Request, res: Response) => {
             const accessToken = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
             const newRefreshToken = jwt.sign({ _id: user._id }, process.env.JWT_REFRESH_SECRET);
             userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
+            console.log("newRefreshToken in auth_controller:" + newRefreshToken);
             userDb.refreshTokens.push(newRefreshToken);
             await userDb.save();
+            console.log("ater refresh this meed to be with the new refresh token")
+            console.log(JSON.stringify(userDb, null, 2));
             return res.status(200).send({
                 'accessToken': accessToken,
-                'refreshToken': refreshToken
+                'refreshToken': newRefreshToken
             });
         } catch (err) {
             res.sendStatus(401).send(err.message);
