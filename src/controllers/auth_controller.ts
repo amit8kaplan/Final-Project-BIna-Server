@@ -196,7 +196,9 @@ const refresh = async (req: Request, res: Response) => {
     });
 }
 import Unsplash from 'unsplash-js';
+
 const randomPhoto = async (req: Request, res: Response) => {
+    console.log("inside randomPhoto")
     const unsplash =   Unsplash.createApi({
         accessKey: process.env.UNSPLASH_ACCESS_KEY,
     });

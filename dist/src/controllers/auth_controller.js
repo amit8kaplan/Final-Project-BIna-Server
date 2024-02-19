@@ -193,6 +193,7 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const unsplash_js_1 = __importDefault(require("unsplash-js"));
 const randomPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("inside randomPhoto");
     const unsplash = unsplash_js_1.default.createApi({
         accessKey: process.env.UNSPLASH_ACCESS_KEY,
     });
