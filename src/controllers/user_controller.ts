@@ -36,7 +36,8 @@ class UserController extends BaseController<IUser>{
     }
     async postPhotoOfUser(req: AuthResquest, res: Response) {
         try{
-            //////////console.log("router.post(/user: " + base + req.file.path)
+            console.log("router.post(/user: " + base + req.file.path)
+            await User.findByIdAndUpdate(req.user._id, { imgUrl: req.file.path });
             res.status(200).send({ url: base + req.file.path })
         }catch(err){
             //////////console.log(err);

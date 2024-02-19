@@ -196,6 +196,7 @@ const randomPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     console.log("inside randomPhoto");
     const unsplash = unsplash_js_1.default.createApi({
         accessKey: process.env.UNSPLASH_ACCESS_KEY,
+        fetch: fetch
     });
     const response = yield unsplash.photos.getRandom({ query: 'people,man,woman,portrait' });
     console.log(JSON.stringify(response, null, 2));
