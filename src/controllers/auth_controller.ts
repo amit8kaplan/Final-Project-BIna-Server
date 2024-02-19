@@ -194,15 +194,22 @@ const refresh = async (req: Request, res: Response) => {
             res.sendStatus(401).send(err.message);
         }
     });
-
-
 }
-
-
+import Unsplash from 'unsplash-js';
+const randomPhoto = async (req: Request, res: Response) => {
+    const unsplash =   Unsplash.createApi({
+        accessKey: process.env.UNSPLASH_ACCESS_KEY,
+    });
+    const response = await unsplash.photos.getRandom({ query: 'people,man,woman,portrait' });
+    console.log(JSON.stringify(response, null, 2));
+    // const randomPhoto = await User.aggregate([{ $sample: { size: 1 } }]);
+    res.status(200).send({response});
+}
 export default {
     googleSignin,
     register,
     login,
     logout,
-    refresh
+    refresh,
+    randomPhoto
 }

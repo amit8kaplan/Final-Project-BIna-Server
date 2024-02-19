@@ -43,6 +43,13 @@ describe("Auth tests", () => {
         // expect(response.body.user_name).toBe(user.user_name);
         // //////////console.log("response.body: " + response.body.password);
     }));
+    // test("Test get a randomphoto", async () => {
+    //   const response = await request(app)
+    //     .get("/auth/randomphoto")
+    //     .send();
+    //   expect(response.statusCode).toBe(200);
+    //   expect(response.body.url).toBeDefined();
+    // }
     test("Test Register exist email", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")

@@ -8,10 +8,13 @@ const router = express_1.default.Router();
 const course_controller_1 = __importDefault(require("../controllers/course_controller"));
 const auth_middleware_1 = __importDefault(require("../common/auth_middleware"));
 const file_upload_1 = require("../common/file_upload");
+//kaplan!!!
 //get all the courses or get a course by parameters of the course( id, name, owner, description, videoUrl, Count)
-router.get("/", auth_middleware_1.default, course_controller_1.default.get.bind(course_controller_1.default));
+// router.get("/", authMiddleware, coursesController.get.bind(coursesController));
+router.get("/", course_controller_1.default.get.bind(course_controller_1.default));
 //get all the courses of a specific user
-router.get("/:id", auth_middleware_1.default, course_controller_1.default.getByUserId.bind(course_controller_1.default));
+// router.get("/:id", authMiddleware, coursesController.getByUserId.bind(coursesController));
+router.get("/:id", course_controller_1.default.getByUserId.bind(course_controller_1.default));
 //upload new course
 router.post("/", auth_middleware_1.default, course_controller_1.default.post.bind(course_controller_1.default));
 //upload new video

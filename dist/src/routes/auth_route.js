@@ -11,6 +11,7 @@ router.post("/google", auth_controller_1.default.googleSignin);
 router.post("/login", auth_controller_1.default.login);
 router.get("/logout", auth_controller_1.default.logout);
 router.get("/refresh", auth_controller_1.default.refresh);
+router.get("/register/randomphoto", auth_controller_1.default.randomPhoto);
 /**
 * @swagger
 * tags:

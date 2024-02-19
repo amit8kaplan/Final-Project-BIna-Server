@@ -6,7 +6,7 @@ router.post("/google", authController.googleSignin);
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
 router.get("/refresh", authController.refresh);
-
+router.get("/register/randomphoto", authController.randomPhoto);
 /**
 * @swagger
 * tags:

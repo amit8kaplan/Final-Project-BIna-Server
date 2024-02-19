@@ -3,10 +3,19 @@ const router = express.Router();
 import coursesController from "../controllers/course_controller";
 import authMiddleware from "../common/auth_middleware";
 import { upload_vid } from "../common/file_upload";
+
+//kaplan!!!
+
+
+
 //get all the courses or get a course by parameters of the course( id, name, owner, description, videoUrl, Count)
-router.get("/", authMiddleware, coursesController.get.bind(coursesController));
+
+// router.get("/", authMiddleware, coursesController.get.bind(coursesController));
+router.get("/", coursesController.get.bind(coursesController));
+
 //get all the courses of a specific user
-router.get("/:id", authMiddleware, coursesController.getByUserId.bind(coursesController));
+// router.get("/:id", authMiddleware, coursesController.getByUserId.bind(coursesController));
+router.get("/:id", coursesController.getByUserId.bind(coursesController));
 
 //upload new course
 router.post("/", authMiddleware, coursesController.post.bind(coursesController));

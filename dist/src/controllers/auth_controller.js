@@ -191,11 +191,22 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }));
 });
+const unsplash_js_1 = __importDefault(require("unsplash-js"));
+const randomPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const unsplash = unsplash_js_1.default.createApi({
+        accessKey: process.env.UNSPLASH_ACCESS_KEY,
+    });
+    const response = yield unsplash.photos.getRandom({ query: 'people,man,woman,portrait' });
+    console.log(JSON.stringify(response, null, 2));
+    // const randomPhoto = await User.aggregate([{ $sample: { size: 1 } }]);
+    res.status(200).send({ response });
+});
 exports.default = {
     googleSignin,
     register,
     login,
     logout,
-    refresh
+    refresh,
+    randomPhoto
 };
 //# sourceMappingURL=auth_controller.js.map

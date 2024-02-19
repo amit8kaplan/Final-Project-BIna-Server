@@ -36,6 +36,13 @@ describe("Auth tests", () => {
     // //////////console.log("response.body: " + response.body.password);
   });
 
+  // test("Test get a randomphoto", async () => {
+  //   const response = await request(app)
+  //     .get("/auth/randomphoto")
+  //     .send();
+  //   expect(response.statusCode).toBe(200);
+  //   expect(response.body.url).toBeDefined();
+  // }
   test("Test Register exist email", async () => {
     const response = await request(app)
       .post("/auth/register")
