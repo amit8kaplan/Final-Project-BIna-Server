@@ -5,7 +5,7 @@ export interface AuthResquest extends Request {
     user?: { _id: string};
 }
 const  authMiddleware  = (req: AuthResquest, res: Response, next: NextFunction) => {
-    console.log("authMiddleware")
+    // console.log("authMiddleware")
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
     if (token == null){ 
