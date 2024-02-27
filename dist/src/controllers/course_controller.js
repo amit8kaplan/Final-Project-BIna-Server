@@ -27,11 +27,11 @@ class course_controller extends base_controller_1.BaseController {
             post: { get: () => super.post }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            //////////console.log("newCourse:" + req.body);
+            console.log("newCourse:" + req.body);
             const _id = req.user._id;
             try {
                 (0, utils_1.extractUserName)(_id).then((result) => {
-                    //////////console.log("the user name:" + result);
+                    console.log("the user name:" + result);
                     req.body.owner_name = result;
                     req.body.Count = 0;
                     req.body.owner = _id;
@@ -39,19 +39,19 @@ class course_controller extends base_controller_1.BaseController {
                 });
             }
             catch (err) {
-                //////////console.log("problem with find the user of the builder of the course" +err);
+                console.log("problem with find the user of the builder of the course" + err);
                 res.status(500).json({ message: err.message });
             }
         });
     }
     postVideo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //////////console.log("newVideo:" + base + req.file.path);
+            console.log("newVideo:" + base + req.file.path);
             try {
                 res.status(200).send({ url: base + req.file.path });
             }
             catch (err) {
-                //////////console.log(err);
+                console.log(err);
                 res.status(500).json({ message: err.message, url: base + req.file.path });
             }
         });

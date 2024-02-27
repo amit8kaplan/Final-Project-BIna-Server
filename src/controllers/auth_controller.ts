@@ -135,7 +135,7 @@ const logout = async (req: Request, res: Response) => {
     //     }
     //console.log("refreshToken != null");
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, user: { '_id': string }) => {
-        console.log("err" +err);
+        console.log("err1 " +err);
         if (err) return res.status(400).send("problem with jwt" +err);
         try {
             const userDb = await User.findOne({ '_id': user._id });

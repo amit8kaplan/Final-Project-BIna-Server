@@ -126,7 +126,7 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //     }
     //console.log("refreshToken != null");
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("err" + err);
+        console.log("err1 " + err);
         if (err)
             return res.status(400).send("problem with jwt" + err);
         try {

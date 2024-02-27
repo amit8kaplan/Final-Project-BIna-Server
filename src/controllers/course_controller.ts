@@ -16,28 +16,32 @@ class course_controller extends BaseController<ICourse> {
     }
 
     async post(req: AuthResquest, res: Response) {
-        //////////console.log("newCourse:" + req.body);
+        console.log("all the req" + JSON.stringify(req, getCircularReplacer(), 2));
+        console.log("newCourse:" + JSON.stringify(req.body, null, 2));
+        console.log("the course des:" + req.body.description);
+        console.log("the course name:" + req.body.name);
+        // console.log("newCourse:" + req.body);
         const _id = req.user._id;
         try{
             extractUserName (_id).then((result :string) => {
-                //////////console.log("the user name:" + result);
+                console.log("the user name:" + result);
                 req.body.owner_name = result;
                 req.body.Count = 0;
                 req.body.owner = _id;
                 super.post(req, res);
             });
         }catch (err) {
-            //////////console.log("problem with find the user of the builder of the course" +err);
+            console.log("problem with find the user of the builder of the course" +err);
             res.status(500).json({ message: err.message });
         }
 
     }
     async postVideo(req: AuthResquest, res: Response) {
-        //////////console.log("newVideo:" + base + req.file.path);
+        console.log("newVideo:" + base + req.file.path);
         try {
             res.status(200).send({ url: base + req.file.path })
         } catch (err) {
-            //////////console.log(err);
+            console.log(err);
             res.status(500).json({ message: err.message , url : base + req.file.path});
         }
     }
@@ -94,3 +98,16 @@ class course_controller extends BaseController<ICourse> {
 export default new course_controller;
 
 
+function getCircularReplacer() {
+    const seen = new WeakSet();
+    return (key: any, value: any) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  }
+  

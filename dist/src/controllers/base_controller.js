@@ -54,27 +54,28 @@ class BaseController {
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            // //////console.log("postooObj:");
-            // //////console.log(req.body.title);
+            console.log("postooObj:");
+            console.log(req.body.title);
             try {
                 const isExist = yield this.model.findById(req.body._id);
-                // //////console.log("isExist:" + isExist);
-                // //////console.log(req.body.title)
+                console.log("isExist:" + isExist);
+                console.log(req.body.title);
                 const body = req.body;
-                // //////console.log("body.title:" + body.title);
+                console.log("body.title:" + body.title);
                 if (isExist == null) {
                     const obj = yield this.model.create(body);
-                    //////console.log("postnewObj:" + obj);
-                    // //////console.log("title" + req.body.title);
+                    console.log("postnewObj:" + obj);
+                    console.log("title" + req.body.title);
                     res.status(201).send(obj);
                 }
                 else {
-                    res.status(406).send("fail: " + "Object already exist");
+                    console.log("Object already exist");
+                    res.status(406).send("fail2: " + "Object already exist");
                 }
             }
             catch (err) {
-                //////console.log(err);
-                res.status(406).send("fail: " + err.message);
+                console.log(err);
+                res.status(406).send("fail 1: " + err.message);
             }
         });
     }
