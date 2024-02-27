@@ -51,6 +51,7 @@ class UserController extends base_controller_1.BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log("router.post(/user: " + base + req.file.path);
+                yield user_model_1.default.findByIdAndUpdate(req.user._id, { imgUrl: req.file.path });
                 res.status(200).send({ url: base + req.file.path });
             }
             catch (err) {
