@@ -12,7 +12,7 @@ router.get('/:id', authMiddleware, UserController.getById.bind(UserController));
 //change the user's data - canot upload new photo only change the url of the photo and all the data
 router.put('/:id', authMiddleware, UserController.putById.bind(UserController));
 //the codes to change photo of user
-router.post('/', authMiddleware , upload_img.single("file"), UserController.postPhotoOfUser.bind(UserController));
+router.post('/', authMiddleware , upload_img.single("image"), UserController.postPhotoOfUser.bind(UserController));
 router.delete('/', authMiddleware, UserController.deletePhotoOfUser.bind(UserController));
 
 export = router;
