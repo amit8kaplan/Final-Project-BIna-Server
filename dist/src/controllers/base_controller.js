@@ -56,22 +56,31 @@ class BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("postooObj:");
             console.log(req.body.title);
+            console.log("the body _id:" + req.body._id);
             try {
-                const isExist = yield this.model.findById(req.body._id);
-                console.log("isExist:" + isExist);
-                console.log(req.body.title);
+                let isExist = null;
+                // if (req.body._id is not null)
+                // {   
+                //     isExist = await this.model.findById(req.body._id);
+                //     console.log("isExist:" + isExist);
+                // }
+                // console.log("isExist:" + isExist);
+                console.log(req.body.name);
                 const body = req.body;
                 console.log("body.title:" + body.title);
-                if (isExist == null) {
-                    const obj = yield this.model.create(body);
-                    console.log("postnewObj:" + obj);
-                    console.log("title" + req.body.title);
-                    res.status(201).send(obj);
-                }
-                else {
-                    console.log("Object already exist");
-                    res.status(406).send("fail2: " + "Object already exist");
-                }
+                console.log("body:" + JSON.stringify(body, null, 2));
+                // if (isExist == null)
+                // {
+                const obj = yield this.model.create(body);
+                console.log("postnewObj:" + obj);
+                console.log("title" + req.body.title);
+                res.status(201).send(obj);
+                // }
+                // else
+                // {
+                //     console.log("Object already exist");
+                //     res.status(406).send("fail2: " + "Object already exist");
+                // }
             }
             catch (err) {
                 console.log(err);

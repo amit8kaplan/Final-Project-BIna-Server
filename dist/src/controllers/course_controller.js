@@ -27,7 +27,11 @@ class course_controller extends base_controller_1.BaseController {
             post: { get: () => super.post }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("newCourse:" + req.body);
+            console.log("all the req" + JSON.stringify(req, getCircularReplacer(), 2));
+            console.log("newCourse:" + JSON.stringify(req.body, null, 2));
+            console.log("the course des:" + req.body.description);
+            console.log("the course name:" + req.body.name);
+            // console.log("newCourse:" + req.body);
             const _id = req.user._id;
             try {
                 (0, utils_1.extractUserName)(_id).then((result) => {
@@ -120,4 +124,16 @@ class course_controller extends base_controller_1.BaseController {
     }
 }
 exports.default = new course_controller;
+function getCircularReplacer() {
+    const seen = new WeakSet();
+    return (key, value) => {
+        if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+                return;
+            }
+            seen.add(value);
+        }
+        return value;
+    };
+}
 //# sourceMappingURL=course_controller.js.map
