@@ -9,12 +9,51 @@ import courses_reviews_model from "../models/courses_reviews_model";
 import course_reviews_controller from "./course_reviews_controller";
 const base = process.env.URL;
 import fs from 'fs';
+import { FilterQuery } from "mongoose";
 
 class course_controller extends BaseController<ICourse> {
     constructor() {
         super(course_model)
     }
-
+    async get(req: Request, res: Response) {
+        try {
+            const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
+            const queryValue = req.query[queryKey]; // Get the value of the first query parameter
+    
+            if (queryKey && queryValue) {
+                let filter: FilterQuery<ICourse>;
+    
+                switch (queryKey) {
+                    case 'owner_name':
+                    case 'name':
+                    case 'description':
+                    case '_id':
+                        // Use regular expression for partial match
+                        filter = { [queryKey]: { $regex: new RegExp(String(queryValue), 'i') } };
+                        break;
+                    case 'Count':
+                        console.log("Count:" + queryValue);
+                        // Check if the Count in the result is greater than the client sent value
+                        filter = { Count: { $gte: parseInt(queryValue as string) } };
+                        break;
+                    default:
+                        // Return all documents if the query key is not recognized
+                        filter = {};
+                        break;
+                }
+    
+                const obj = await this.model.find(filter);
+                res.send(obj);
+            } else {
+                // If no query parameters provided, return all documents
+                const obj = await this.model.find();
+                res.send(obj);
+            }
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    
     async post(req: AuthResquest, res: Response) {
         ////console.log("all the req" + JSON.stringify(req, getCircularReplacer(), 2));
         ////console.log("newCourse:" + JSON.stringify(req.body, null, 2));
