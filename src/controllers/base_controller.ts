@@ -17,7 +17,8 @@ export class BaseController<ModelType>{
             // //////console.log("Query parameter value:", queryValue);
     
             if (queryKey && queryValue) {
-                const filter: FilterQuery<ModelType> = { [queryKey]: queryValue } as FilterQuery<ModelType>; // Type assertion
+                const filter: FilterQuery<ModelType> = { [queryKey]: { $regex: new RegExp(String(queryValue), 'i') } } as FilterQuery<ModelType>; 
+                        
                 const obj = await this.model.find(filter);
                 ////console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
                 res.send(obj);
