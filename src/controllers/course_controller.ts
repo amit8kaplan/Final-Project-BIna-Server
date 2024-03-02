@@ -26,8 +26,7 @@ class course_controller extends BaseController<ICourse> {
     
                 switch (queryKey) {
                     case 'id':
-                        const id = "_id";
-                        filter = { [id]: queryValue };
+                        filter = { "_id": queryValue };
                         break;
                     case 'owner_name':
                     case 'name':
