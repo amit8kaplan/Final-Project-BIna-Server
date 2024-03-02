@@ -51,9 +51,18 @@ class UserController extends BaseController<IUser>{
     }
     async getById(req: AuthResquest, res: Response) {
         //////////////console.log("getUserById user_controller:" + req.params.id);
-
-        super.getById(req, res);
-    }
+        try {
+            const obj = await this.model.findById(req.user._id);
+            const resUser = {
+                email : obj.email,
+                imgUrl: obj.imgUrl,
+                user_name: obj.user_name,
+            }
+            console.log("getById obj :", JSON.stringify(resUser, null, 2));
+            res.send(resUser);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }    }
 
 }
 export default new UserController();
