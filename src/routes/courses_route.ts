@@ -15,7 +15,7 @@ router.get("/", coursesController.get.bind(coursesController));
 
 //get all the courses of a specific user
 // router.get("/:id", authMiddleware, coursesController.getByUserId.bind(coursesController));
-router.get("/:id", coursesController.getByUserId.bind(coursesController));
+router.get("/:id",authMiddleware, coursesController.getByUserId.bind(coursesController));
 
 //upload new course
 router.post("/", authMiddleware, coursesController.post.bind(coursesController));

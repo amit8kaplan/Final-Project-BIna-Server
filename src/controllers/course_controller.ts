@@ -90,10 +90,13 @@ class course_controller extends BaseController<ICourse> {
         }
     }
     async getByUserId(req: AuthResquest, res: Response) {
-        //////////////console.log("getByUserId:" + req.params.id);
+        console.log("getByUserId:" + req.params.id);
+        console.log("req.user._id:" + req.user._id)
+
         try {
-            const obj = await course_model.find({ owner: req.params.id });
-            //////////////console.log("obj to getByUserId:" + obj);
+            const obj = await course_model.find({ owner: req.user._id });
+            // console.log("obj to getByUserId:" + obj);
+            console.log("obj to getByUserId:" + JSON.stringify(obj, null, 2));
             res.status(200).send(obj);
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -127,19 +130,15 @@ class course_controller extends BaseController<ICourse> {
         ////////////console.log("req user:", JSON.stringify(req.user, null, 2));
         ////////////console.log("req params:", JSON.stringify(req.params, null, 2));
         ////////////console.log("req query:", JSON.stringify(req.query, null, 2));
-        req.query = { course_id: req.params.id };
+        req.query = { _id: req.params.id };
+        console.log("req query after change:" + JSON.stringify(req.query, null, 2));
         ////////////console.log("req query after change:" + JSON.stringify(req.query, null, 2));
-        await courses_reviews_model.deleteMany({ course_id: req.params.id }).then((result) => {
-            ////////////console.log("result" + result);
-        });
-        let prevuser;
+        
         try {
-            prevuser = await course_model.findById(req.params.id);
-            //////console.log("prevuser" + JSON.stringify(prevuser, null, 2));
-            if (prevuser.videoUrl === "") {
-                res.status(500).json({ message: "the course has no vid" });
-            }
-            fs.unlinkSync("./"+prevuser.videoUrl)
+            await courses_reviews_model.deleteMany({ course_id: req.params.id });
+            const prevuser = await course_model.findById(req.params.id);
+            console.log("prevuser" + JSON.stringify(prevuser, null, 2));
+            // fs.unlinkSync("./"+prevuser.videoUrl)
             super.deleteById(req, res);
         } catch (err) {
             //////console.log(err);
@@ -151,16 +150,3 @@ class course_controller extends BaseController<ICourse> {
 export default new course_controller;
 
 
-function getCircularReplacer() {
-    const seen = new WeakSet();
-    return (key: any, value: any) => {
-      if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-          return;
-        }
-        seen.add(value);
-      }
-      return value;
-    };
-  }
-  
