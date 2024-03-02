@@ -3,7 +3,7 @@ import { BaseController } from "./base_controller";
 import { Request, Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
 import {extractUserName, incCountInCourseName, decCountInCourseName} from "../common/utils";
-import mongoose, { mongo } from "mongoose";
+import mongoose, { FilterQuery, mongo } from "mongoose";
 import user_model from "../models/user_model";
 import { ParamsDictionary } from "express-serve-static-core";
 import { ParsedQs } from "qs";
@@ -12,10 +12,42 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         super(CourseReview)
     }
     async get(req: AuthResquest, res: Response) {
-
-        //////////console.log("Get by query parameter:");
-        //////////console.log("req.query:" + JSON.stringify(req.query, null, 2));
-        super.get(req, res);
+        try{
+            // console.log("get by query parameter:");
+            // console.log("req.query:" + JSON.stringify(req.query, null, 2));
+            const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
+            const queryValue = req.query[queryKey]; // Get the value of the first query parameter
+            if (queryKey && queryValue) {
+                let filter: FilterQuery<IcourseReview>;
+                switch (queryKey) {
+                    
+                    case 'owner_id':
+                    case 'course_id':
+                        filter = { [queryKey]: queryValue };
+                        break;
+                    // case 'course_name':
+                    //     // Use regular expression for partial match
+                    //     filter = { [queryKey]: { $regex: new RegExp(String(queryValue), 'i') } };
+                    //     break;
+                    case 'score':
+                        // Check if the score in the result is greater than the client sent value
+                        filter = { score: { $gte: parseInt(queryValue as string) } };
+                        break;
+                    default:
+                        // Return all documents if the query key is not recognized
+                        filter = {};
+                        break;
+                }
+                const obj = await this.model.find(filter);
+                res.status(200).send(obj);
+            } else {
+                // If no query parameters provided, return all documents
+                const obj = await this.model.find();
+                res.send(obj);
+            }
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
     async post(req: AuthResquest, res: Response) {
         let UserObj;

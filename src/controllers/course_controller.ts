@@ -19,15 +19,19 @@ class course_controller extends BaseController<ICourse> {
         try {
             const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
             const queryValue = req.query[queryKey]; // Get the value of the first query parameter
-    
+            // console.log("queryKey:" + queryKey);
+            // console.log("queryValue:" + queryValue);
             if (queryKey && queryValue) {
                 let filter: FilterQuery<ICourse>;
     
                 switch (queryKey) {
+                    case 'id':
+                        const id = "_id";
+                        filter = { [id]: queryValue };
+                        break;
                     case 'owner_name':
                     case 'name':
                     case 'description':
-                    case '_id':
                         // Use regular expression for partial match
                         filter = { [queryKey]: { $regex: new RegExp(String(queryValue), 'i') } };
                         break;
@@ -39,17 +43,19 @@ class course_controller extends BaseController<ICourse> {
                     default:
                         // Return all documents if the query key is not recognized
                         filter = {};
+                        console.log("defult")
                         break;
                 }
     
                 const obj = await this.model.find(filter);
-                res.send(obj);
+                res.status(200).send(obj);
             } else {
                 // If no query parameters provided, return all documents
                 const obj = await this.model.find();
-                res.send(obj);
+                res.status(200).send(obj);
             }
         } catch (err) {
+            console.log("err" +err);
             res.status(500).json({ message: err.message });
         }
     }
@@ -76,11 +82,11 @@ class course_controller extends BaseController<ICourse> {
 
     }
     async postVideo(req: AuthResquest, res: Response) {
-        ////console.log("newVideo:" + base + req.file.path);
+        console.log("newVideo:" + base + req.file.path);
         try {
             res.status(200).send({ url: base + req.file.path })
         } catch (err) {
-            ////console.log(err);
+            console.log(err);
             res.status(500).json({ message: err.message , url : base + req.file.path});
         }
     }
@@ -99,7 +105,16 @@ class course_controller extends BaseController<ICourse> {
         ////////////console.log("Request body:", JSON.stringify(req.body, null, 2));
 
         ////////////console.log("oldCourse:", JSON.stringify(oldCourse, null, 2));
-        if (oldCourse.owner == req.user._id
+        if (oldCourse.Count-1 == req.body.Count
+            && oldCourse.owner_name == req.body.owner_name
+            && oldCourse.id == req.body._id
+            && (oldCourse.description != ''  || oldCourse.description ==req.body.description)
+            && oldCourse.name == req.body.name
+            && oldCourse.videoUrl != '' || oldCourse.videoUrl == req.body.videoUrl) {
+            super.putById(req, res);
+            }
+        
+        else if (oldCourse.owner == req.user._id
              && oldCourse.owner_name == req.body.owner_name
               && oldCourse.id == req.body._id) {
             super.putById(req, res);}
