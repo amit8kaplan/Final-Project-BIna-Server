@@ -13,10 +13,12 @@ class coursesReviewsController extends BaseController<IcourseReview>{
     }
     async get(req: AuthResquest, res: Response) {
         try{
-            // console.log("get by query parameter:");
-            // console.log("req.query:" + JSON.stringify(req.query, null, 2));
-            const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
+            console.log("get by query parameter:");
+            console.log("req.query:" + JSON.stringify(req.query, null, 2));
+            let queryKey = Object.keys(req.query)[0]; // Get the first query parameter
             const queryValue = req.query[queryKey]; // Get the value of the first query parameter
+            queryKey = queryKey.substring(1)
+            console.log("queryKey:" + queryKey);
             if (queryKey && queryValue) {
                 let filter: FilterQuery<IcourseReview>;
                 switch (queryKey) {
@@ -24,6 +26,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
                     case 'owner_id':
                     case 'course_id':
                         filter = { [queryKey]: queryValue };
+                        console.log("course_id:")
                         break;
                     // case 'course_name':
                     //     // Use regular expression for partial match
@@ -36,6 +39,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
                     default:
                         // Return all documents if the query key is not recognized
                         filter = {};
+                        console.log("default:")
                         break;
                 }
                 const obj = await this.model.find(filter);
