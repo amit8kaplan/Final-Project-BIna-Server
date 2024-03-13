@@ -5,7 +5,7 @@ export interface AuthResquest extends Request {
     user?: { _id: string};
 }
 const  authMiddleware  = (req: AuthResquest, res: Response, next: NextFunction) => {
-    ////console.log("authMiddleware")
+    console.log("authMiddleware")
     
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
@@ -20,11 +20,11 @@ const  authMiddleware  = (req: AuthResquest, res: Response, next: NextFunction) 
             req.user = user as { _id: string};
             //////////////console.log("the auth" + req.user);
             ////console.log("the auth" + req.user._id);
-            ////console.log("authMiddleware next")
+            console.log("authMiddleware next")
             next();
         }
         catch (err) {
-            ////console.log("authMiddleware error")
+            console.log("authMiddleware error")
             res.status(500).json({ message: err.message });
         }
     });

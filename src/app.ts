@@ -3,10 +3,12 @@ env.config();
 import express, { Express } from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import spesRoute from "./routes/specific_route";
 import authRoute from "./routes/auth_route";
 import userRoute from "./routes/user_update_route";
 import cousreRoute from "./routes/courses_route";
 import courseReviewRoute from "./routes/courses_reviews_route";
+
 
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -27,6 +29,7 @@ const initApp = (): Promise<Express> => {
       })
       app.use("/course", cousreRoute);
       app.use("/review", courseReviewRoute);
+      app.use("/specific", spesRoute)
       app.use("/auth", authRoute);
       app.use("/user", userRoute);
       app.use("/public", express.static("public"));

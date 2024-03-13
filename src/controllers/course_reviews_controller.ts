@@ -74,16 +74,27 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         super.post(req, res);
     }
     async getByUserId(req: AuthResquest, res: Response) {
-        //////////////console.log("get all the reviews By User Id:" + req.params.id);
+        // console.log("get all the reviews By User Id:" + req.params.id);
         try {
             const obj = await CourseReview.find({ owner_id: req.params.id });
-            //////////////console.log("obj to getByUserId:" + obj);
+            // console.log("obj to getByUserId:" + obj);
             res.status(200).send(obj);
         } catch (err) {
+            // console.log("error")
             res.status(500).json({ message: err.message });
         }
     }
-    
+    async getUsingSpesificUser(req: AuthResquest, res: Response){
+        console.log("req.user._id:" + req.user._id);
+        try {
+            const obj = await CourseReview.find({ owner_id: req.user._id });
+            console.log("obj to getUsingSpesificUser:" + obj);
+            res.status(200).send(1);
+        } catch (err) {
+            console.log("error")
+            res.status(500).json({ message: err.message });
+        }
+    }
     async deleteById(req: AuthResquest, res: Response) {
         //////////console.log("deleteReviewById:" + req.params.id);
         try{

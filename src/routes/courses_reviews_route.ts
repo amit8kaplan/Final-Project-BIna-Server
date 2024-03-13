@@ -8,6 +8,7 @@ router.get("/", coursesReviewsController.get.bind(coursesReviewsController));
 
 router.get("/:id", coursesReviewsController.getByUserId.bind(coursesReviewsController));
 
+router.get("/User", authMiddleware, (coursesReviewsController.getUsingSpesificUser.bind(coursesReviewsController)));
 //post a new review - the front end should send the course_id and the course_name in the body
 //the owner_id and owner_name will be added by the server
 router.post("/", authMiddleware, coursesReviewsController.post.bind(coursesReviewsController));
