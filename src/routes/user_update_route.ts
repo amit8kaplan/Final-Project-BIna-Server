@@ -15,6 +15,8 @@ router.put('/:id', authMiddleware, UserController.putById.bind(UserController));
 router.post('/', authMiddleware , upload_img.single("image"), UserController.postPhotoOfUser.bind(UserController));
 router.delete('/', authMiddleware, UserController.deletePhotoOfUser.bind(UserController));
 
+router.patch('/user/:id', authMiddleware, UserController.patchById.bind(UserController));
+
 export = router;
 
 

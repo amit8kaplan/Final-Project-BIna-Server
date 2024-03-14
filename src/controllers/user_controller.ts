@@ -10,16 +10,7 @@ class UserController extends BaseController<IUser>{
     }
 
     async deletePhotoOfUser(req: AuthResquest, res: Response) {
-        //////////////console.log("deletePhotoOfUser:" + req.user._id);
-        
-    //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
-    //         if (err) {
-    //             //////console.log("failed to delete local image:" + err);
-    //         } else {
-    //             //////console.log('successfully deleted local image');
-    //         }
-    //     });
-    // }
+
         let prevuser;
         try {
             prevuser = await User.findById(req.user._id);
@@ -62,7 +53,33 @@ class UserController extends BaseController<IUser>{
             res.send(resUser);
         } catch (err) {
             res.status(500).json({ message: err.message });
-        }    }
+        }   
+     }
 
+     async patchById(req: AuthResquest, res: Response) {
+        try {
+            const userId = req.params.id; // Ensure this is the correct user ID parameter from your route
+            const updates = req.body;
+
+            // Find the user and apply updates
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).send({ message: 'User not found' });
+            }
+
+            Object.keys(updates).forEach((key) => {
+                if (key in user) {
+                    user[key] = updates[key];
+                }
+            });
+
+            await user.save();
+            res.send(user);
+        } catch (error) {
+            console.error('Error updating user:', error);
+            res.status(500).send({ message: 'Internal Server Error' });
+        }
+    }
 }
+
 export default new UserController();

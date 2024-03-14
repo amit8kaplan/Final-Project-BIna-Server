@@ -84,6 +84,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
             res.status(500).json({ message: err.message });
         }
     }
+    
     async getUsingSpesificUser(req: AuthResquest, res: Response){
         console.log("req.user._id:" + req.user._id);
         try {
@@ -95,6 +96,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
             res.status(500).json({ message: err.message });
         }
     }
+
     async deleteById(req: AuthResquest, res: Response) {
         //////////console.log("deleteReviewById:" + req.params.id);
         try{
