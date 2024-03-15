@@ -36,6 +36,7 @@ class UserController extends BaseController<IUser>{
     }
     async postPhotoOfUser(req: AuthResquest, res: Response) {
         console.log("postPhotoOfUser")
+        console.log("postPhotoOfUser", JSON.stringify(req.file, null, 2));
         try{
             console.log("router.post(/user: " + base + req.file.path)
             await User.findByIdAndUpdate(req.user._id, { imgUrl: base + req.file.path });
@@ -57,6 +58,7 @@ class UserController extends BaseController<IUser>{
                 email : obj.email,
                 imgUrl: obj.imgUrl,
                 user_name: obj.user_name,
+                password: obj.user_name
             }
             console.log("getById obj :", JSON.stringify(resUser, null, 2));
             res.send(resUser);

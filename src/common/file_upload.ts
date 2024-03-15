@@ -2,9 +2,12 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        
+        console.log("in storage")
         cb(null, 'public/')
     },
     filename: function (req, file, cb) {
+        console.log("in filename")
         const ext = file.originalname.split('.')
             .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
             .slice(1)
@@ -21,6 +24,7 @@ const upload_img = multer({
     },
     fileFilter: function (req, file, cb) {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']; // Allowed image MIME types
+        console.log(file)
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
