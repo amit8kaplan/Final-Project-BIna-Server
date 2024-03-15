@@ -8,6 +8,7 @@ dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const specific_route_1 = __importDefault(require("./routes/specific_route"));
 const auth_route_1 = __importDefault(require("./routes/auth_route"));
 const user_update_route_1 = __importDefault(require("./routes/user_update_route"));
 const courses_route_1 = __importDefault(require("./routes/courses_route"));
@@ -31,6 +32,7 @@ const initApp = () => {
             });
             app.use("/course", courses_route_1.default);
             app.use("/review", courses_reviews_route_1.default);
+            app.use("/specific", specific_route_1.default);
             app.use("/auth", auth_route_1.default);
             app.use("/user", user_update_route_1.default);
             app.use("/public", express_1.default.static("public"));

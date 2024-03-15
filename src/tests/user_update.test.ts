@@ -2,7 +2,7 @@ import initApp from "../app";
 import request from "supertest";
 import mongoose from "mongoose";
 import { Express } from "express";
-import Student from "../models/student_model";
+
 
 import User from "../models/user_model";
 let app: Express;

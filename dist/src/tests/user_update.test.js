@@ -28,14 +28,14 @@ let user = {
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    //////////console.log("beforeAll");
+    //////////////console.log("beforeAll");
     yield user_model_1.default.deleteMany();
     // User.deleteMany({ 'email': user.email });
     yield (0, supertest_1.default)(app).post("/auth/register").send(user);
     const response = yield (0, supertest_1.default)(app).post("/auth/login").send(user);
     accessToken = response.body.accessToken;
-    //////////console.log("accessToken: " + accessToken);
-    //////////console.log("response.body_id: " + response.body._id);
+    //////////////console.log("accessToken: " + accessToken);
+    //////////////console.log("response.body_id: " + response.body._id);
     id = response.body._id;
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,26 +47,26 @@ const student = {
 };
 describe("File Tests", () => {
     test("get user by id before upload photo", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("get user by id before upload photo");
+        //////////////console.log("get user by id before upload photo");
         const response = yield (0, supertest_1.default)(app)
             .get(`/user/${id}`)
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).toEqual(200);
-        //////////console.log("the used data: "   +response.body);
+        //////////////console.log("the used data: "   +response.body);
         // const st = respon;
         expect(response.body.email).toBe(user.email);
     }));
     test("upload photo to user", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("upload photo to user");
+        //////////////console.log("upload photo to user");
         const filePath = `${__dirname}/capten.webp`;
-        //////////console.log(filePath);
+        //////////////console.log(filePath);
         try {
             const response = yield (0, supertest_1.default)(app)
                 .post("/user?file=123.webp").attach('file', filePath)
                 .set("Authorization", "JWT " + accessToken);
             expect(response.statusCode).toEqual(200);
             let url = response.body.url;
-            //////////console.log(url);
+            //////////////console.log(url);
             url = url.replace(/^.*\/\/[^/]+/, '');
             const res = yield (0, supertest_1.default)(app).get(url);
             newUrl = url;
@@ -74,24 +74,24 @@ describe("File Tests", () => {
             expect(res.statusCode).toEqual(200);
         }
         catch (err) {
-            //////////console.log(err);
+            //////////////console.log(err);
             expect(1).toEqual(2);
         }
     }));
     //     expect(response.statusCode).toEqual(200);
     //     let url = response.body.url;
-    //     //////////console.log(url);
+    //     //////////////console.log(url);
     //     url = url.replace(/^.*\/\/[^/]+/, '')
     //     const res = await request(app).get(url)
     //     newUrl = url;
     //     user.imgUrl = url;
     //     expect(res.statusCode).toEqual(200);
     // } catch (err) {
-    //     //////////console.log(err);
+    //     //////////////console.log(err);
     //     expect(1).toEqual(2);
     // }
     test("change user's data", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("change user's data");
+        //////////////console.log("change user's data");
         const response = yield (0, supertest_1.default)(app)
             .put(`/user/${id}`)
             .set("Authorization", "JWT " + accessToken)
@@ -99,11 +99,11 @@ describe("File Tests", () => {
         expect(response.statusCode).toEqual(200);
         const url = response.body.imgUrl;
         const newuser = response.body._id;
-        //////////console.log("newuser" + newuser);
-        //////////console.log("url" + url);
+        //////////////console.log("newuser" + newuser);
+        //////////////console.log("url" + url);
     }));
     test("get user by id", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("get user by id");
+        //////////////console.log("get user by id");
         const response = yield (0, supertest_1.default)(app)
             .get(`/user/${id}`)
             .set("Authorization", "JWT " + accessToken);
@@ -113,7 +113,7 @@ describe("File Tests", () => {
         // expect(response.body.password).toBe(user.password);
     }));
     test("get all users", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("get all users");
+        //////////////console.log("get all users");
         const response = yield (0, supertest_1.default)(app)
             .get("/user")
             .set("Authorization", "JWT " + accessToken);
@@ -124,7 +124,7 @@ describe("File Tests", () => {
         // expect(response.body.password).toBe(user.password);
     }));
     test("delete photo from user", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("delete photo from user");
+        //////////////console.log("delete photo from user");
         const response = yield (0, supertest_1.default)(app)
             .delete("/user")
             .set("Authorization", "JWT " + accessToken);
@@ -136,18 +136,18 @@ describe("File Tests", () => {
         expect(response2.body.imgUrl).toBe("");
     }));
     test("upload videq to user instead of img", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////console.log("upload photo to user");
+        //////////////console.log("upload photo to user");
         const filePath = `${__dirname}/vid.mp4`;
-        //////////console.log(filePath);
+        //////////////console.log(filePath);
         try {
             const response = yield (0, supertest_1.default)(app)
                 .post("/user?file=123.mp4").attach('file', filePath)
                 .set("Authorization", "JWT " + accessToken);
             expect(response.statusCode).toEqual(500);
-            //////////console.log(response.statusCode);
+            //////////////console.log(response.statusCode);
         }
         catch (err) {
-            //////////console.log(err);
+            //////////////console.log(err);
             expect(1).toEqual(2);
         }
     }));
