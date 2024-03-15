@@ -65,6 +65,20 @@ class UserController extends BaseController<IUser>{
         } catch (err) {
             res.status(500).json({ message: err.message });
         }    }
-
+    async putById(req: AuthResquest, res: Response){
+        console.log("putById in User_Controller", JSON.stringify(req.body, null,2))
+        try {
+            const user = await this.model.findByIdAndUpdate(req.user._id, req.body, { new: true });
+            if (!user) {
+                res.status(404).json({ message: "user not found" });
+            }
+            console.log("the res of putById: ", JSON.stringify(user, null, 2));
+            res.status(200).json(user);
+        } catch (err) {
+            //////////////console.log(err);
+            res.status(500).json({ message: err.message });
+        }
+    }
 }
+
 export default new UserController();
