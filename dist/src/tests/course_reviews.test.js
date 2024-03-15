@@ -151,6 +151,16 @@ describe("Course_reviews tests", () => {
         expect(rc.title).toBe(review.title);
         expect(rc.message).toBe(review.message);
     }));
+    test("Test Get reviews by user id from spesific route", () => __awaiter(void 0, void 0, void 0, function* () {
+        ////////////////console.log("Test Get reviews by user id from spesific route");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/specific`)
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        const rc = response.body[0];
+        expect(rc.title).toBe(review.title);
+        expect(rc.message).toBe(review.message);
+    }));
     test("Test Get reviews by course id", () => __awaiter(void 0, void 0, void 0, function* () {
         ////////////////console.log("Test Get reviews by course id");
         const response = yield (0, supertest_1.default)(app)

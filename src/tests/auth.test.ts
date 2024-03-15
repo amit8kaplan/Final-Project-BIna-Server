@@ -97,7 +97,7 @@ describe("Auth tests", () => {
   });
 
   test("Test forbidden access without token", async () => {
-    const response = await request(app).get("/course");
+    const response = await request(app).get("/specific");
     expect(response.statusCode).toBe(401);
   });
 
@@ -110,7 +110,7 @@ describe("Auth tests", () => {
 
   test("Test access with invalid token", async () => {
     const response = await request(app)
-      .get("/course")
+      .get("/specific")
       .set("Authorization", "JWT 1" + accessToken);
     expect(response.statusCode).toBe(401);
   });
@@ -121,7 +121,7 @@ describe("Auth tests", () => {
     await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
 
     const response = await request(app)
-      .get("/course")
+      .get("/specific")
       .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).not.toBe(200);
   });
@@ -184,7 +184,7 @@ describe("Auth tests", () => {
     expect(response.statusCode).toBe(200);
     //////console.log("try course!!!!!!")
     const response2 = await request(app)
-      .get("/course")
+      .get("/specific")
       .set("Authorization", "JWT " + newRefreshToken);
     expect(response2.statusCode).toBe(401);
   });

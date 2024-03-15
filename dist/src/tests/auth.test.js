@@ -100,7 +100,7 @@ describe("Auth tests", () => {
         // expect(response.body.user_name).toBe(user.user_name);
     }));
     test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/course");
+        const response = yield (0, supertest_1.default)(app).get("/specific");
         expect(response.statusCode).toBe(401);
     }));
     test("Test access with valid token", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -111,7 +111,7 @@ describe("Auth tests", () => {
     }));
     test("Test access with invalid token", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
-            .get("/course")
+            .get("/specific")
             .set("Authorization", "JWT 1" + accessToken);
         expect(response.statusCode).toBe(401);
     }));
@@ -119,7 +119,7 @@ describe("Auth tests", () => {
     test("Test access after timeout of token", () => __awaiter(void 0, void 0, void 0, function* () {
         yield new Promise(resolve => setTimeout(() => resolve("done"), 5000));
         const response = yield (0, supertest_1.default)(app)
-            .get("/course")
+            .get("/specific")
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).not.toBe(200);
     }));
@@ -177,7 +177,7 @@ describe("Auth tests", () => {
         expect(response.statusCode).toBe(200);
         //////console.log("try course!!!!!!")
         const response2 = yield (0, supertest_1.default)(app)
-            .get("/course")
+            .get("/specific")
             .set("Authorization", "JWT " + newRefreshToken);
         expect(response2.statusCode).toBe(401);
     }));
