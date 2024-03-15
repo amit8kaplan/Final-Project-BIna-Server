@@ -13,7 +13,7 @@ const user = {
 
 beforeAll(async () => {
   app = await initApp();
-  //////////////console.log("beforeAll");
+  ////////////////console.log("beforeAll");
   await User.deleteMany({ 'email': user.email });
 });
 
@@ -27,13 +27,13 @@ let newRefreshToken: string
 
 describe("Auth tests", () => {
   test("Test Register", async () => {
-    //////////////console.log("Test Register");
+    ////////////////console.log("Test Register");
     const response = await request(app)
       .post("/auth/register")
       .send(user);
     expect(response.statusCode).toBe(201);
     // expect(response.body.user_name).toBe(user.user_name);
-    // //////////////console.log("response.body: " + response.body.password);
+    // ////////////////console.log("response.body: " + response.body.password);
   });
 
   // test("Test get a randomphoto", async () => {
@@ -91,8 +91,8 @@ describe("Auth tests", () => {
     accessToken = response.body.accessToken;
     refreshToken = response.body.refreshToken;
     expect(accessToken).toBeDefined();
-    //////console.log("Test Login!!!!!!!");
-    //////console.log(JSON.stringify(response.body, null, 2));
+    ////////console.log("Test Login!!!!!!!");
+    ////////console.log(JSON.stringify(response.body, null, 2));
     // expect(response.body.user_name).toBe(user.user_name);
   });
 
@@ -128,18 +128,18 @@ describe("Auth tests", () => {
 
   test("Test refresh token", async () => {
     // await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
-    //////console.log("Test refresh token!!!!!!!");
-    ////console.log("refreshToken: " + refreshToken);
+    ////////console.log("Test refresh token!!!!!!!");
+    //////console.log("refreshToken: " + refreshToken);
     const response = await request(app)
       .get("/auth/refresh")
       .set("Authorization", "JWT " + refreshToken)
       .send();
     expect(response.statusCode).toBe(200);
-    ////console.log("response.body: " + JSON.stringify(response.body, null, 2));
+    //////console.log("response.body: " + JSON.stringify(response.body, null, 2));
     expect(response.body.accessToken).toBeDefined();
     expect(response.body.refreshToken).toBeDefined();
-    // //////console.log("response.body.accessToken: " + response.body.accessToken);
-    // //////console.log("response.body.refreshToken[]: " + JSON.stringify(response.body.refreshToken, null, 2));
+    // ////////console.log("response.body.accessToken: " + response.body.accessToken);
+    // ////////console.log("response.body.refreshToken[]: " + JSON.stringify(response.body.refreshToken, null, 2));
     const newAccessToken = response.body.accessToken;
     newRefreshToken = response.body.refreshToken;
 
@@ -173,16 +173,16 @@ describe("Auth tests", () => {
   });
 
   test("Test Logout with the refreshToken", async () => {
-    ////console.log("Test Logout with the refreshToken!!!");
-    ////console.log("newRefreshToken: " + newRefreshToken);
+    //////console.log("Test Logout with the refreshToken!!!");
+    //////console.log("newRefreshToken: " + newRefreshToken);
     const response = await request(app)
       .get("/auth/logout")
       .set("Authorization", "JWT " + newRefreshToken)
       .send();
     newRefreshToken = null;
-    // ////console.log("response.body: " + JSON.stringify(response.body, null, 2));
+    // //////console.log("response.body: " + JSON.stringify(response.body, null, 2));
     expect(response.statusCode).toBe(200);
-    ////console.log("try course!!!!!!")
+    //////console.log("try course!!!!!!")
     const response2 = await request(app)
       .get("/course")
       .set("Authorization", "JWT " + newRefreshToken);

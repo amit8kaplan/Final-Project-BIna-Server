@@ -24,7 +24,7 @@ const user = {
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    //////////////console.log("beforeAll");
+    ////////////////console.log("beforeAll");
     yield user_model_1.default.deleteMany({ 'email': user.email });
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,13 +35,13 @@ let refreshToken;
 let newRefreshToken;
 describe("Auth tests", () => {
     test("Test Register", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////console.log("Test Register");
+        ////////////////console.log("Test Register");
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
             .send(user);
         expect(response.statusCode).toBe(201);
         // expect(response.body.user_name).toBe(user.user_name);
-        // //////////////console.log("response.body: " + response.body.password);
+        // ////////////////console.log("response.body: " + response.body.password);
     }));
     // test("Test get a randomphoto", async () => {
     //   const response = await request(app)
@@ -95,8 +95,8 @@ describe("Auth tests", () => {
         accessToken = response.body.accessToken;
         refreshToken = response.body.refreshToken;
         expect(accessToken).toBeDefined();
-        //////console.log("Test Login!!!!!!!");
-        //////console.log(JSON.stringify(response.body, null, 2));
+        ////////console.log("Test Login!!!!!!!");
+        ////////console.log(JSON.stringify(response.body, null, 2));
         // expect(response.body.user_name).toBe(user.user_name);
     }));
     test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -125,18 +125,18 @@ describe("Auth tests", () => {
     }));
     test("Test refresh token", () => __awaiter(void 0, void 0, void 0, function* () {
         // await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
-        //////console.log("Test refresh token!!!!!!!");
-        ////console.log("refreshToken: " + refreshToken);
+        ////////console.log("Test refresh token!!!!!!!");
+        //////console.log("refreshToken: " + refreshToken);
         const response = yield (0, supertest_1.default)(app)
             .get("/auth/refresh")
             .set("Authorization", "JWT " + refreshToken)
             .send();
         expect(response.statusCode).toBe(200);
-        ////console.log("response.body: " + JSON.stringify(response.body, null, 2));
+        //////console.log("response.body: " + JSON.stringify(response.body, null, 2));
         expect(response.body.accessToken).toBeDefined();
         expect(response.body.refreshToken).toBeDefined();
-        // //////console.log("response.body.accessToken: " + response.body.accessToken);
-        // //////console.log("response.body.refreshToken[]: " + JSON.stringify(response.body.refreshToken, null, 2));
+        // ////////console.log("response.body.accessToken: " + response.body.accessToken);
+        // ////////console.log("response.body.refreshToken[]: " + JSON.stringify(response.body.refreshToken, null, 2));
         const newAccessToken = response.body.accessToken;
         newRefreshToken = response.body.refreshToken;
         const response2 = yield (0, supertest_1.default)(app)
@@ -166,16 +166,16 @@ describe("Auth tests", () => {
         expect(response.statusCode).toBe(400);
     }));
     test("Test Logout with the refreshToken", () => __awaiter(void 0, void 0, void 0, function* () {
-        ////console.log("Test Logout with the refreshToken!!!");
-        ////console.log("newRefreshToken: " + newRefreshToken);
+        //////console.log("Test Logout with the refreshToken!!!");
+        //////console.log("newRefreshToken: " + newRefreshToken);
         const response = yield (0, supertest_1.default)(app)
             .get("/auth/logout")
             .set("Authorization", "JWT " + newRefreshToken)
             .send();
         newRefreshToken = null;
-        // ////console.log("response.body: " + JSON.stringify(response.body, null, 2));
+        // //////console.log("response.body: " + JSON.stringify(response.body, null, 2));
         expect(response.statusCode).toBe(200);
-        ////console.log("try course!!!!!!")
+        //////console.log("try course!!!!!!")
         const response2 = yield (0, supertest_1.default)(app)
             .get("/course")
             .set("Authorization", "JWT " + newRefreshToken);
