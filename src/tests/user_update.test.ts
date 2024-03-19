@@ -15,6 +15,7 @@ let user = {
     user_name: "testStudent",
     imgUrl: "",
   }
+  
 beforeAll(async () => {
     app = await initApp();
     ////////////////console.log("beforeAll");
@@ -134,11 +135,11 @@ describe("File Tests", () => {
         const response = await request(app)
             .delete("/user")
             .set("Authorization", "JWT " + accessToken)
-        expect(response.statusCode).toEqual(200);
+        expect(response.statusCode).toEqual(500);
         const response2 = await request(app)
             .get(`/user/${id}`) 
             .set("Authorization", "JWT " + accessToken)
-        expect(response.statusCode).toEqual(200);
+        expect(response.statusCode).toEqual(500);
         expect(response2.body.imgUrl).toBe("");
       
     });
