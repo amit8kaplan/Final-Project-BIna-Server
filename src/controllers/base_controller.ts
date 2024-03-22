@@ -62,7 +62,7 @@ export class BaseController<ModelType>{
     }
     
     async deleteById(req: Request, res: Response) {
-        const filterQuery: FilterQuery<ModelType> = { _id: req.params.id };
+        const filterQuery: FilterQuery<any> = { _id: req.params.id };
         this.model.deleteOne(filterQuery).then(result => {
             res.status(200).json(result);
         }).catch(err => {
