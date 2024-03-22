@@ -16,12 +16,32 @@ const supertest_1 = __importDefault(require("supertest"));
 const app_1 = __importDefault(require("../app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const unsplash_js_1 = require("unsplash-js");
 let app;
 const user = {
     email: "test_auth_user@test.com",
     password: "1234567890",
     user_name: "test_auth_user",
 };
+global.fetch = fetch;
+const unsplash = (0, unsplash_js_1.createApi)({
+    accessKey: process.env.UNSPLASH_ACCESS_KEY,
+    // other configuration options
+});
+jest.mock('google-auth-library', () => {
+    return {
+        OAuth2Client: jest.fn().mockImplementation(() => {
+            return {
+                verifyIdToken: jest.fn().mockResolvedValue({
+                    getPayload: () => ({
+                        email: 'test_auth_user@test.com',
+                    })
+                })
+            };
+        })
+    };
+});
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
     ////////////////console.log("beforeAll");
@@ -40,16 +60,7 @@ describe("Auth tests", () => {
             .post("/auth/register")
             .send(user);
         expect(response.statusCode).toBe(201);
-        // expect(response.body.user_name).toBe(user.user_name);
-        // ////////////////console.log("response.body: " + response.body.password);
     }));
-    // test("Test get a randomphoto", async () => {
-    //   const response = await request(app)
-    //     .get("/auth/randomphoto")
-    //     .send();
-    //   expect(response.statusCode).toBe(200);
-    //   expect(response.body.url).toBeDefined();
-    // }
     test("Test Register exist email", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
@@ -95,9 +106,6 @@ describe("Auth tests", () => {
         accessToken = response.body.accessToken;
         refreshToken = response.body.refreshToken;
         expect(accessToken).toBeDefined();
-        ////////console.log("Test Login!!!!!!!");
-        ////////console.log(JSON.stringify(response.body, null, 2));
-        // expect(response.body.user_name).toBe(user.user_name);
     }));
     test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app).get("/specific");
@@ -116,27 +124,30 @@ describe("Auth tests", () => {
         expect(response.statusCode).toBe(401);
     }));
     jest.setTimeout(10000);
+    // test("Test access after timeout of token", async () => {
+    //   await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
+    //   const response = await request(app)
+    //     .get("/specific")
+    //     .set("Authorization", "JWT " + accessToken);
+    //   expect(response.statusCode).not.toBe(200);
+    // }, 20000);
     test("Test access after timeout of token", () => __awaiter(void 0, void 0, void 0, function* () {
-        yield new Promise(resolve => setTimeout(() => resolve("done"), 5000));
+        const userPayload = { _id: 'someUserId' };
+        const shortLivedToken = jsonwebtoken_1.default.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1s' });
+        yield new Promise(resolve => setTimeout(resolve, 2000));
         const response = yield (0, supertest_1.default)(app)
             .get("/specific")
-            .set("Authorization", "JWT " + accessToken);
+            .set("Authorization", `JWT ${shortLivedToken}`);
         expect(response.statusCode).not.toBe(200);
-    }));
+    }), 10000);
     test("Test refresh token", () => __awaiter(void 0, void 0, void 0, function* () {
-        // await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
-        ////////console.log("Test refresh token!!!!!!!");
-        //////console.log("refreshToken: " + refreshToken);
         const response = yield (0, supertest_1.default)(app)
             .get("/auth/refresh")
             .set("Authorization", "JWT " + refreshToken)
             .send();
         expect(response.statusCode).toBe(200);
-        //////console.log("response.body: " + JSON.stringify(response.body, null, 2));
         expect(response.body.accessToken).toBeDefined();
         expect(response.body.refreshToken).toBeDefined();
-        // ////////console.log("response.body.accessToken: " + response.body.accessToken);
-        // ////////console.log("response.body.refreshToken[]: " + JSON.stringify(response.body.refreshToken, null, 2));
         const newAccessToken = response.body.accessToken;
         newRefreshToken = response.body.refreshToken;
         const response2 = yield (0, supertest_1.default)(app)
@@ -144,19 +155,6 @@ describe("Auth tests", () => {
             .set("Authorization", "JWT " + newAccessToken);
         expect(response2.statusCode).toBe(200);
     }));
-    // test("Test double use of refresh token", async () => {
-    //   const response = await request(app)
-    //     .get("/auth/refresh")
-    //     .set("Authorization", "JWT " + refreshToken)
-    //     .send();
-    //   expect(response.statusCode).not.toBe(200);
-    //   //verify that the new token is not valid as well
-    //   const response1 = await request(app)
-    //     .get("/auth/refresh")
-    //     .set("Authorization", "JWT " + newRefreshToken)
-    //     .send();
-    //   expect(response1.statusCode).not.toBe(200);
-    // });
     test("Test logout with null refreshToken or error in jwt", () => __awaiter(void 0, void 0, void 0, function* () {
         const nulltoken = null;
         const response = yield (0, supertest_1.default)(app)
@@ -166,22 +164,32 @@ describe("Auth tests", () => {
         expect(response.statusCode).toBe(400);
     }));
     test("Test Logout with the refreshToken", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////console.log("Test Logout with the refreshToken!!!");
-        //////console.log("newRefreshToken: " + newRefreshToken);
         const response = yield (0, supertest_1.default)(app)
             .get("/auth/logout")
             .set("Authorization", "JWT " + newRefreshToken)
             .send();
         newRefreshToken = null;
-        // //////console.log("response.body: " + JSON.stringify(response.body, null, 2));
         expect(response.statusCode).toBe(200);
-        //////console.log("try course!!!!!!")
         const response2 = yield (0, supertest_1.default)(app)
             .get("/specific")
             .set("Authorization", "JWT " + newRefreshToken);
         expect(response2.statusCode).toBe(401);
     }));
-    /*
-    */
+    test("Test Google Signin", () => __awaiter(void 0, void 0, void 0, function* () {
+        const googleIdToken = "dummy_token";
+        const response = yield (0, supertest_1.default)(app)
+            .post("/auth/google")
+            .send({ credential: googleIdToken });
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("accessToken");
+        expect(response.body).toHaveProperty("refreshToken");
+    }));
+    test("Test Fetch Random Photo", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app)
+            .get("/auth/register/randomphoto")
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        // Add any additional assertions here
+    }), 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
 });
 //# sourceMappingURL=auth.test.js.map

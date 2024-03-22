@@ -306,22 +306,22 @@ export class BaseController&lt;ModelType&gt;{
     }
 &nbsp;
     async get(req: Request, res: Response) {
-        ////console.log("Get by query parameter:");
+        //////console.log("Get by query parameter:");
         try {
             const queryKey = Object.keys(req.query)[0]; // Get the first query parameter
             const queryValue = req.query[queryKey]; // Get the value of the first query parameter
-            // //////console.log("Query parameter key:", queryKey);
-            // //////console.log("Query parameter value:", queryValue);
+            // ////////console.log("Query parameter key:", queryKey);
+            // ////////console.log("Query parameter value:", queryValue);
     
             <span class="missing-if-branch" title="if path not taken" >I</span>if (queryKey &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >queryValue)</span> {
                 const filter: FilterQuery&lt;ModelType&gt; = <span class="cstat-no" title="statement not covered" >{ [queryKey]: { $regex: new RegExp(String(queryValue), 'i') } } as FilterQuery&lt;ModelType&gt;; </span>
                         
                 const obj = <span class="cstat-no" title="statement not covered" >await this.model.find(filter);</span>
-                ////console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
+                //////console.log("Get boobjdy:", JSON.stringify(obj, null, 2));
 <span class="cstat-no" title="statement not covered" >                res.send(obj);</span>
             } else {
                 const obj = await this.model.find();
-                ////console.log("All res:", JSON.stringify(obj, null, 2));
+                //////console.log("All res:", JSON.stringify(obj, null, 2));
                 res.send(obj);
             }
         } catch (err) {
@@ -332,10 +332,10 @@ export class BaseController&lt;ModelType&gt;{
     
 &nbsp;
     async <span class="fstat-no" title="function not covered" >getById(</span>req: Request, res: Response) {
-        ////////console.log("getById:" + req.params.id);
+        //////////console.log("getById:" + req.params.id);
 <span class="cstat-no" title="statement not covered" >        try {</span>
             const obj = <span class="cstat-no" title="statement not covered" >await this.model.findById(req.params.id);</span>
-            ////////console.log("getById obj :", JSON.stringify(obj, null, 2));
+            //////////console.log("getById obj :", JSON.stringify(obj, null, 2));
 <span class="cstat-no" title="statement not covered" >            res.send(obj);</span>
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
@@ -343,64 +343,64 @@ export class BaseController&lt;ModelType&gt;{
     }
 &nbsp;
     async post(req: Request, res: Response) {
-        ////console.log("postooObj:");
-        ////console.log(req.body.title);
-        ////console.log("the body _id:" + req.body._id)
+        //////console.log("postooObj:");
+        //////console.log(req.body.title);
+        //////console.log("the body _id:" + req.body._id)
         try {
             let isExist =null;
             // if (req.body._id is not null)
             // {   
             //     isExist = await this.model.findById(req.body._id);
-            //     ////console.log("isExist:" + isExist);
+            //     //////console.log("isExist:" + isExist);
             // }
-            // ////console.log("isExist:" + isExist);
+            // //////console.log("isExist:" + isExist);
 &nbsp;
-            ////console.log(req.body.name)
+            //////console.log(req.body.name)
             const body = req.body;
-            ////console.log("body.title:" + body.title);
-            ////console.log("body:" + JSON.stringify(body, null, 2));
+            //////console.log("body.title:" + body.title);
+            //////console.log("body:" + JSON.stringify(body, null, 2));
             // if (isExist == null)
             // {
                 const obj = await this.model.create(body);
-                ////console.log("postnewObj:" + obj);
-                ////console.log("title" + req.body.title);
+                //////console.log("postnewObj:" + obj);
+                //////console.log("title" + req.body.title);
                 res.status(201).send(obj);
             // }
             // else
             // {
-            //     ////console.log("Object already exist");
+            //     //////console.log("Object already exist");
             //     res.status(406).send("fail2: " + "Object already exist");
             // }
         }
         catch (err) {
-        ////console.log(err);
+        //////console.log(err);
         res.status(406).send("fail 1: " + err.message);
             }
    }
 &nbsp;
     async putById(req: Request, res: Response) {
-        //////////////console.log("putObjectById:" + req.params.id);
+        ////////////////console.log("putObjectById:" + req.params.id);
         try {
             const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            //////////////console.log("putObjectById:" + obj);
+            ////////////////console.log("putObjectById:" + obj);
             <span class="missing-if-branch" title="if path not taken" >I</span>if (!obj) {
 <span class="cstat-no" title="statement not covered" >                res.status(404).json({ message: "Object not found" });</span>
             }
             res.status(200).json(obj);
         } catch (err) {
-            //////////////console.log(err);
+            ////////////////console.log(err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
     }
     
     async deleteById(req: Request, res: Response) {
-        //////////////console.log("deleteObjectById in base_Controller:" + req.params.id);
-        //////////////console.log("type of the id in base controller: " + typeof(req.params.id));
+        ////////////////console.log("deleteObjectById in base_Controller:" + req.params.id);
+        ////////////////console.log("type of the id in base controller: " + typeof(req.params.id));
         this.model.deleteOne({ _id: req.params.id }).then((result) =&gt; {
-            //////////console.log("result:" + result);
+            ////////////console.log("result:" + result);
             res.status(200).json(result);
         }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-            //////////console.log("err:" + err);
+            ////////////console.log("err:" + err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         });
     }
@@ -418,7 +418,7 @@ export default createController;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-15T21:46:41.573Z
+                at 2024-03-19T21:26:51.555Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

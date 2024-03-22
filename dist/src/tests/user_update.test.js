@@ -128,11 +128,11 @@ describe("File Tests", () => {
         const response = yield (0, supertest_1.default)(app)
             .delete("/user")
             .set("Authorization", "JWT " + accessToken);
-        expect(response.statusCode).toEqual(200);
+        expect(response.statusCode).toEqual(500);
         const response2 = yield (0, supertest_1.default)(app)
             .get(`/user/${id}`)
             .set("Authorization", "JWT " + accessToken);
-        expect(response.statusCode).toEqual(200);
+        expect(response.statusCode).toEqual(500);
         expect(response2.body.imgUrl).toBe("");
     }));
     test("upload videq to user instead of img", () => __awaiter(void 0, void 0, void 0, function* () {

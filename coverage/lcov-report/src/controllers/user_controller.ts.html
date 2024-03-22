@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.86% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/37</span>
+                <span class='fraction'>21/30</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.86% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/37</span>
+                <span class='fraction'>21/30</span>
             </div>
         
             
@@ -184,14 +184,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,27 +201,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -243,13 +243,13 @@ class UserController extends BaseController&lt;IUser&gt;{
     }
 &nbsp;
     async deletePhotoOfUser(req: AuthResquest, res: Response) {
-        //////////////console.log("deletePhotoOfUser:" + req.user._id);
+        ////////////////console.log("deletePhotoOfUser:" + req.user._id);
         
     //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) =&gt; {
     //         if (err) {
-    //             //////console.log("failed to delete local image:" + err);
+    //             ////////console.log("failed to delete local image:" + err);
     //         } else {
-    //             //////console.log('successfully deleted local image');
+    //             ////////console.log('successfully deleted local image');
     //         }
     //     });
     // }
@@ -263,28 +263,28 @@ class UserController extends BaseController&lt;IUser&gt;{
             const user = <span class="cstat-no" title="statement not covered" >await User.findByIdAndUpdate(req.user._id, { imgUrl: "" });</span>
 <span class="cstat-no" title="statement not covered" >            res.status(200).send(user);</span>
         } catch (err) {
-            //////console.log(err);
+            ////////console.log(err);
             res.status(500).json({ message: err.message });
         }
     }
     async <span class="fstat-no" title="function not covered" >postPhotoOfUser(</span>req: AuthResquest, res: Response) {
-<span class="cstat-no" title="statement not covered" >        console.log("postPhotoOfUser")</span>
-<span class="cstat-no" title="statement not covered" >        console.log("postPhotoOfUser", JSON.stringify(req.file, null, 2));</span>
+        //console.log("postPhotoOfUser")
+        //console.log("postPhotoOfUser", JSON.stringify(req.file, null, 2));
 <span class="cstat-no" title="statement not covered" >        try{</span>
-<span class="cstat-no" title="statement not covered" >            console.log("router.post(/user: " + base + req.file.path)</span>
+            //console.log("router.post(/user: " + base + req.file.path)
 <span class="cstat-no" title="statement not covered" >            await User.findByIdAndUpdate(req.user._id, { imgUrl: base + req.file.path });</span>
 <span class="cstat-no" title="statement not covered" >            res.status(200).send({ url: base + req.file.path })</span>
         }catch(err){
-<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+            //console.log(err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
     }
     async get(req: AuthResquest, res: Response) {
-        //////////////console.log("getAllUsers:" + req.query.name);
+        ////////////////console.log("getAllUsers:" + req.query.name);
         super.get(req, res);
     }
     async getById(req: AuthResquest, res: Response) {
-        //////////////console.log("getUserById user_controller:" + req.params.id);
+        ////////////////console.log("getUserById user_controller:" + req.params.id);
         try {
             const obj = await this.model.findById(req.user._id);
             const resUser = {
@@ -293,22 +293,22 @@ class UserController extends BaseController&lt;IUser&gt;{
                 user_name: obj.user_name,
                 password: obj.user_name
             }
-            console.log("getById obj :", JSON.stringify(resUser, null, 2));
+            //console.log("getById obj :", JSON.stringify(resUser, null, 2));
             res.send(resUser);
         } catch (err) {
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }    }
     async putById(req: AuthResquest, res: Response){
-        console.log("putById in User_Controller", JSON.stringify(req.body, null,2))
+        //console.log("putById in User_Controller", JSON.stringify(req.body, null,2))
         try {
             const user = await this.model.findByIdAndUpdate(req.user._id, req.body, { new: true });
             <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
 <span class="cstat-no" title="statement not covered" >                res.status(404).json({ message: "user not found" });</span>
             }
-            console.log("the res of putById: ", JSON.stringify(user, null, 2));
+            //console.log("the res of putById: ", JSON.stringify(user, null, 2));
             res.status(200).json(user);
         } catch (err) {
-            //////////////console.log(err);
+            ////////////////console.log(err);
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({ message: err.message });</span>
         }
     }
@@ -322,7 +322,7 @@ export default new UserController();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-15T21:46:41.573Z
+                at 2024-03-19T21:26:51.555Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

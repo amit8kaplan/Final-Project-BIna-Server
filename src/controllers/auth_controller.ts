@@ -211,6 +211,9 @@ const randomPhoto = async (req: Request, res: Response) => {
     // const randomPhoto = await User.aggregate([{ $sample: { size: 1 } }]);
     res.status(200).send({response});
 }
+
+
+  
 export default {
     googleSignin,
     register,
