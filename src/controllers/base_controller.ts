@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import mongoose, { FilterQuery, Model } from "mongoose";
+import  { FilterQuery, Model } from "mongoose";
 
 export class BaseController<ModelType>{
 
@@ -62,13 +62,13 @@ export class BaseController<ModelType>{
     }
     
     async deleteById(req: Request, res: Response) {
-        this.model.deleteOne({ _id: req.params.id as string }).then((result) => {
+        const filterQuery: FilterQuery<ModelType> = { _id: req.params.id };
+        this.model.deleteOne(filterQuery).then(result => {
             res.status(200).json(result);
-        }).catch((err) => {
+        }).catch(err => {
             res.status(500).json({ message: err.message });
         });
     }
-    
 }
 
 const createController = <ModelType>(model: Model<ModelType>) => {
