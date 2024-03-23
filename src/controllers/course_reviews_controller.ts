@@ -106,9 +106,10 @@ class coursesReviewsController extends BaseController<IcourseReview>{
             ////////////console.log("the review:" + review);
             ////////////console.log("the review.course_id:" + review.course_id);
             const course_idtodec = review.course_id ;
-            const count =await decCountInCourseName(course_idtodec);
-            ////////////console.log("the count of the course--:" + count);
+            console.log("course_id", course_idtodec);
+            await decCountInCourseName(course_idtodec);
             super.deleteById(req, res);
+            
         } catch (err) {
             res.status(500).json({ message: err.message });
         }

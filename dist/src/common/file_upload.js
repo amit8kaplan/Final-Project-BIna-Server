@@ -43,6 +43,7 @@ const upload_vid = (0, multer_1.default)({
         fileSize: 100 * 1024 * 1024 // 100MB limit
     },
     fileFilter: function (req, file, cb) {
+        console.log("file", file);
         const allowedTypes = ['video/mp4', 'video/webm', 'video/quicktime'];
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);

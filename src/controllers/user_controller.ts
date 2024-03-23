@@ -10,23 +10,13 @@ class UserController extends BaseController<IUser>{
     }
 
     async deletePhotoOfUser(req: AuthResquest, res: Response) {
-        ////////////////console.log("deletePhotoOfUser:" + req.user._id);
-        
-    //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
-    //         if (err) {
-    //             ////////console.log("failed to delete local image:" + err);
-    //         } else {
-    //             ////////console.log('successfully deleted local image');
-    //         }
-    //     });
-    // }
         let prevuser;
         try {
             prevuser = await User.findById(req.user._id);
             if (prevuser.imgUrl === "") {
                 res.status(500).json({ message: "the user has no photo" });
             }
-            fs.unlinkSync("./"+prevuser.imgUrl)
+            // fs.unlinkSync("./"+prevuser.imgUrl)
             const user = await User.findByIdAndUpdate(req.user._id, { imgUrl: "" });
             res.status(200).send(user);
         } catch (err) {

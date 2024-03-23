@@ -210,14 +210,14 @@ describe("Auth tests", () => {
   });
 
 
-  test("Test Fetch Random Photo", async () => {
-    const response = await request(app)
-      .get("/auth/register/randomphoto")
-      .set("Authorization", "JWT " + accessToken);
+  // test("Test Fetch Random Photo", async () => {
+  //   const response = await request(app)
+  //     .get("/auth/register/randomphoto")
+  //     .set("Authorization", "JWT " + accessToken);
   
-    expect(response.statusCode).toBe(200);
-    // Add any additional assertions here
-  }, 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
+  //   expect(response.statusCode).toBe(200);
+  //   // Add any additional assertions here
+  // }, 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
   
   
 

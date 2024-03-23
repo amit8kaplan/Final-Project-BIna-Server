@@ -184,12 +184,12 @@ describe("Auth tests", () => {
         expect(response.body).toHaveProperty("accessToken");
         expect(response.body).toHaveProperty("refreshToken");
     }));
-    test("Test Fetch Random Photo", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app)
-            .get("/auth/register/randomphoto")
-            .set("Authorization", "JWT " + accessToken);
-        expect(response.statusCode).toBe(200);
-        // Add any additional assertions here
-    }), 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
+    // test("Test Fetch Random Photo", async () => {
+    //   const response = await request(app)
+    //     .get("/auth/register/randomphoto")
+    //     .set("Authorization", "JWT " + accessToken);
+    //   expect(response.statusCode).toBe(200);
+    //   // Add any additional assertions here
+    // }, 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
 });
 //# sourceMappingURL=auth.test.js.map

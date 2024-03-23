@@ -132,8 +132,8 @@ class coursesReviewsController extends base_controller_1.BaseController {
                 ////////////console.log("the review:" + review);
                 ////////////console.log("the review.course_id:" + review.course_id);
                 const course_idtodec = review.course_id;
-                const count = yield (0, utils_1.decCountInCourseName)(course_idtodec);
-                ////////////console.log("the count of the course--:" + count);
+                console.log("course_id", course_idtodec);
+                yield (0, utils_1.decCountInCourseName)(course_idtodec);
                 _super.deleteById.call(this, req, res);
             }
             catch (err) {

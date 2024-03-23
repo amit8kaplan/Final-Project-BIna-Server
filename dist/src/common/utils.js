@@ -19,18 +19,8 @@ const course_model_1 = __importDefault(require("../models/course_model"));
 function extractUserName(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const objId = new mongoose_1.default.Types.ObjectId(id);
-        try {
-            const userModel = yield user_model_1.default.findById(objId);
-            if (!userModel) {
-                return { message: "User not found" };
-            }
-            else {
-                return userModel.user_name;
-            }
-        }
-        catch (err) {
-            return { message: err.message };
-        }
+        const userModel = yield user_model_1.default.findById(objId);
+        return userModel.user_name;
     });
 }
 exports.extractUserName = extractUserName;
@@ -38,12 +28,7 @@ function incCountInCourseName(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const courseModel = yield course_model_1.default.findOneAndUpdate({ _id: id }, { $inc: { Count: 1 } }, { new: true });
-            if (!courseModel) {
-                return { message: "Course not found" };
-            }
-            else {
-                return courseModel.Count;
-            }
+            return courseModel.Count;
         }
         catch (err) {
             return { message: err.message };
@@ -56,14 +41,9 @@ function decCountInCourseName(id) {
         const objId = new mongoose_1.default.Types.ObjectId(id);
         try {
             const course_obj = yield course_model_1.default.findById(objId);
-            if (!course_obj) {
-                return { message: "Course not found" };
-            }
-            else {
-                course_obj.Count = course_obj.Count - 1;
-                const count = yield course_model_1.default.findByIdAndUpdate({ _id: objId }, { $set: { Count: course_obj.Count } });
-                return count.Count;
-            }
+            course_obj.Count = course_obj.Count - 1;
+            const count = yield course_model_1.default.findByIdAndUpdate({ _id: objId }, { $set: { Count: course_obj.Count } });
+            return count.Count;
         }
         catch (err) {
             return { message: err.message };

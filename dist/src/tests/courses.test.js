@@ -29,7 +29,7 @@ const user = {
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    ////////////////console.log("beforeAll");
+    console.log("beforeAll");
     yield course_model_1.default.deleteMany();
     user_model_1.default.deleteMany({ 'email': user.email });
     yield (0, supertest_1.default)(app).post("/auth/register").send(user);
@@ -84,36 +84,6 @@ describe("Course tests", () => {
         ////////////////console.log("Test Post Course");
         yield addCourse(course);
     }));
-    // test ("Test add video to course", async () => {
-    //     ////////console.log("Test add video to course");
-    //     const filePath = `${__dirname}/vid.mp4`;
-    //     ////////////////console.log("filePath " + filePath);
-    //     try{
-    //         const FormData = require('form-data');
-    // const fs = require('fs');
-    // const formData = new FormData();
-    // const fileBuffer = fs.readFileSync(filePath); // Read the file as a buffer
-    // // Simulate the file object
-    // formData.append('video', fileBuffer, { filename: 'video.mp4' });
-    // const response = await request(app)
-    //   .post("/course/upload_Video")
-    //   .set("Authorization", "JWT " + accessToken)
-    //   .attach(formData.getBuffer(), 'video'); // Attach the file buffer
-    // //console.log("the video response is:", response.body.url);
-    //         expect(response.statusCode).toBe(200);
-    //         let url = response.body.url;
-    //         ////////////////console.log("url " + url);
-    //         url = url.replace(/^.*\/\/[^/]+/, '')
-    //         const res = await request(app).get(url)
-    //         ////////console.log("url"+ url);
-    //         newUrl = url;
-    //         course.videoUrl = url;
-    //         expect(res.statusCode).toBe(200);
-    //     } catch (err) {
-    //         ////////////////console.log(err);
-    //         expect(1).toBe(2);
-    //     }
-    // });
     test("Test Get the specific course using name", () => __awaiter(void 0, void 0, void 0, function* () {
         ////////////////console.log("Test Get the specific course");
         const response = yield (0, supertest_1.default)(app)
@@ -210,6 +180,13 @@ describe("Course tests", () => {
         expect(res2.statusCode).toBe(200);
         expect(res2.body[0].name).toBe(course.name);
         expect(res2.body[0].Count).toBe(0);
+    }));
+    test("Test Delete not good", () => __awaiter(void 0, void 0, void 0, function* () {
+        ////////////console.log("Test Delete not good");
+        const response = yield (0, supertest_1.default)(app)
+            .delete(`/course/111234`)
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(500);
     }));
     test("Test DELETE /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
         ////////////////console.log("Test DELETE /course/:id");

@@ -20,7 +20,7 @@ const authMiddleware = (req, res, next) => {
             req.user = user;
             ////////////////console.log("the auth" + req.user);
             //////console.log("the auth" + req.user._id);
-            //console.log("authMiddleware next")
+            console.log("authMiddleware next");
             next();
         }
         catch (err) {
