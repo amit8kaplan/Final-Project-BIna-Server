@@ -15,14 +15,15 @@ class course_controller extends BaseController<ICourse> {
 
     async get(req: Request, res: Response) {
 
-
-        if (req.query.id || req.query.owner_name || req.query.name || req.query.description || req.query.Count) {
+        console.log("query", req.query)
+        if (req.query.id || req.query.owner || req.query.name || req.query.description || req.query.Count) {
             let filter: FilterQuery<ICourse>;
             if (req.query.id) {
                 filter = { "_id": req.query.id as string };
             }
-            if (req.query.owner_name) {
-                filter = { owner_name: { $regex: new RegExp(req.query.owner_name as string, 'i') } };
+            if (req.query.owner) {
+                filter = { owner_name: { $regex: new RegExp(req.query.owner as string, 'i') } };
+                // console.log("filter owner_name:", filter)
             }
             if (req.query.name) {
                 filter = { name: { $regex: new RegExp(req.query.name as string, 'i') } };
@@ -34,6 +35,7 @@ class course_controller extends BaseController<ICourse> {
                 filter = { Count: { $gte: parseInt(req.query.Count as string) } };
             }
             const obj = await this.model.find(filter);
+            // console.log("obj:", JSON.stringify(obj, null, 2))
             res.status(200).send(obj);
         }
         else {
