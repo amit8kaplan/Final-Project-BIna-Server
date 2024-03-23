@@ -20,18 +20,18 @@ const user = {
 }
 beforeAll(async () => {
   app = await initApp();
-  console.log("beforeAll");
+  //console.log("beforeAll");
   await Course.deleteMany();
 
   User.deleteMany({ 'email': user.email });
   await request(app).post("/auth/register").send(user);
   const response = await request(app).post("/auth/login").send(user);
   expect(response.statusCode).toBe(200);
-  ////////////////console.log(response.statusCode)
+  //////////////////console.log(response.statusCode)
   accessToken = response.body.accessToken;
-  ////////////////console.log("response.body: " + response.body._id);
+  //////////////////console.log("response.body: " + response.body._id);
   userid = response.body._id;
-  ////////////////console.log("user_name: " + response.body.user_name);
+  //////////////////console.log("user_name: " + response.body.user_name);
 });
 
 afterAll(async () => {
@@ -80,18 +80,18 @@ const course: ICourse = {
 describe("Course tests", () => {
     
     const addCourse = async (course: ICourse) => {
-        ////////////////console.log("addCourse");
+        //////////////////console.log("addCourse");
         const response = await request(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);      
         expect(response.statusCode).toBe(201);
         expect(response.body.owner).toBe(userid);
         expect(response.body.owner_name).toBe(course.owner_name);
-        ////////////////console.log("response.body.owner_name : " + response.body.owner_name);
+        //////////////////console.log("response.body.owner_name : " + response.body.owner_name);
     }
     
     test("Test Get All Courses - empty response", async () => {
-        ////////////////console.log("Test Get All Courses - empty response");
+        //////////////////console.log("Test Get All Courses - empty response");
         const response = await request(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
@@ -100,13 +100,29 @@ describe("Course tests", () => {
     });
     
     test("Test Post Course", async () => {
-        ////////////////console.log("Test Post Course");
+        //////////////////console.log("Test Post Course");
         await addCourse(course);
     });   
 
+    test("Test Get Courses by Owner Name", async () => {
+        // Arrange
+        const ownerName = "search_owner_name";
+        const expectedCourses = []; // Replace with expected courses if any
+      
+        // Act
+        const response = await request(app)
+          .get("/course")
+          .query({ owner_name: ownerName })
+          .set("Authorization", "JWT " + accessToken);
+      
+        // Assert
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual(expectedCourses);
+      });
 
+    
     test("Test Get the specific course using name", async () => {
-        ////////////////console.log("Test Get the specific course");
+        //////////////////console.log("Test Get the specific course");
         const response = await request(app)
             .get("/course")
             .query({ name: course.name }) // Add your query parameter here
@@ -118,7 +134,7 @@ describe("Course tests", () => {
     });
     
     test ("Test get the spesific course by id", async () => {
-        ////////////////console.log("Test get the spesific course by id");
+        //////////////////console.log("Test get the spesific course by id");
         const response = await request(app)
             .get(`/course`)
             .query({ _id: course._id }) // Add your query parameter here
@@ -128,11 +144,11 @@ describe("Course tests", () => {
     });
 
     test ("Test Get All Courses", async () => {
-        //////console.log("Test Get All Courses");
+        ////////console.log("Test Get All Courses");
         const response = await request(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
-        //////console.log("res.body: " + JSON.stringify(response.body, null, 2));
+        ////////console.log("res.body: " + JSON.stringify(response.body, null, 2));
             expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         const st = response.body[0];
@@ -141,7 +157,7 @@ describe("Course tests", () => {
     });
 
     test("Test Post duplicate Course", async () => {
-        ////////////////console.log("Test Post duplicate Course");
+        //////////////////console.log("Test Post duplicate Course");
         const response = await request(app)
             .post("/course")
             .set("Authorization", "JWT " + accessToken)
@@ -150,7 +166,7 @@ describe("Course tests", () => {
     });
 
     test("Test Get /course/:id", async () => {
-        ////////////////console.log("Test Get /course/:id");
+        //////////////////console.log("Test Get /course/:id");
         const response = await request(app)
             .get(`/course/${userid}`)
             .set("Authorization", "JWT " + accessToken);
@@ -159,7 +175,7 @@ describe("Course tests", () => {
     });
 
     test("Test PUT /course/:id", async () => {
-        ////////////////console.log("Test PUT /course/:id" + `/course/${course._id}`);
+        //////////////////console.log("Test PUT /course/:id" + `/course/${course._id}`);
         
         const updateCourse = { ...course, name: "Jane Doe 33"};
         course.name = updateCourse.name;
@@ -174,7 +190,7 @@ describe("Course tests", () => {
     });
 
     test("Test add review to course", async () => {
-        ////////////console.log("Test add review to course");
+        //////////////console.log("Test add review to course");
         review.course_id = course._id;
         review.course_name = course.name;
         const response = await request(app)
@@ -196,8 +212,8 @@ describe("Course tests", () => {
     });
     
     test("Test delete is delting the course review", async () => {
-        ////////////console.log("Test delete is delting the course review");
-        ////////////console.log("review._id: " + review._id);
+        //////////////console.log("Test delete is delting the course review");
+        //////////////console.log("review._id: " + review._id);
         const response = await request(app)
             .delete(`/review/${review._id}`)
             .set("Authorization", "JWT " + accessToken);
@@ -213,14 +229,14 @@ describe("Course tests", () => {
     });
 
     test ("Test Delete not good", async () =>{
-        ////////////console.log("Test Delete not good");
+        //////////////console.log("Test Delete not good");
         const response = await request(app)
             .delete(`/course/111234`)
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).toBe(500);
     })
     test("Test DELETE /course/:id", async () => {
-        ////////////////console.log("Test DELETE /course/:id");
+        //////////////////console.log("Test DELETE /course/:id");
         const response = await request(app)
             .delete(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken);

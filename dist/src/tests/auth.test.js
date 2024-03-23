@@ -44,7 +44,7 @@ jest.mock('google-auth-library', () => {
 });
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    ////////////////console.log("beforeAll");
+    //////////////////console.log("beforeAll");
     yield user_model_1.default.deleteMany({ 'email': user.email });
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -55,7 +55,7 @@ let refreshToken;
 let newRefreshToken;
 describe("Auth tests", () => {
     test("Test Register", () => __awaiter(void 0, void 0, void 0, function* () {
-        ////////////////console.log("Test Register");
+        //////////////////console.log("Test Register");
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
             .send(user);

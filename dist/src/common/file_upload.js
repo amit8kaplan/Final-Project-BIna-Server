@@ -7,11 +7,11 @@ exports.upload_vid = exports.upload_img = void 0;
 const multer_1 = __importDefault(require("multer"));
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
-        //console.log("in storage")
+        ////console.log("in storage")
         cb(null, 'public/');
     },
     filename: function (req, file, cb) {
-        //console.log("in filename")
+        ////console.log("in filename")
         const ext = file.originalname.split('.')
             .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
             .slice(1)
@@ -27,7 +27,7 @@ const upload_img = (0, multer_1.default)({
     },
     fileFilter: function (req, file, cb) {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']; // Allowed image MIME types
-        //console.log(file)
+        ////console.log(file)
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         }
@@ -43,7 +43,7 @@ const upload_vid = (0, multer_1.default)({
         fileSize: 100 * 1024 * 1024 // 100MB limit
     },
     fileFilter: function (req, file, cb) {
-        console.log("file", file);
+        //console.log("file", file)
         const allowedTypes = ['video/mp4', 'video/webm', 'video/quicktime'];
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);

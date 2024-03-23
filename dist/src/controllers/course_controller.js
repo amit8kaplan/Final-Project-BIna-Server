@@ -81,9 +81,9 @@ class course_controller extends base_controller_1.BaseController {
     }
     postVideo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("post vid");
+            //console.log("post vid")
             try {
-                console.log("req.file.pathL", req.file.path);
+                //console.log("req.file.pathL" ,req.file.path);
                 res.status(200).send({ url: base + req.file.path });
             }
             catch (err) {

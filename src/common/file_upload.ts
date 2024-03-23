@@ -3,11 +3,11 @@ import multer from "multer";
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         
-        //console.log("in storage")
+        ////console.log("in storage")
         cb(null, 'public/')
     },
     filename: function (req, file, cb) {
-        //console.log("in filename")
+        ////console.log("in filename")
         const ext = file.originalname.split('.')
             .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
             .slice(1)
@@ -24,7 +24,7 @@ const upload_img = multer({
     },
     fileFilter: function (req, file, cb) {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']; // Allowed image MIME types
-        //console.log(file)
+        ////console.log(file)
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
@@ -40,7 +40,7 @@ const upload_vid = multer({
         fileSize: 100 * 1024 * 1024 // 100MB limit
     },
     fileFilter: function (req, file, cb) {
-        console.log("file", file)
+        //console.log("file", file)
         const allowedTypes = ['video/mp4', 'video/webm', 'video/quicktime']; 
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);

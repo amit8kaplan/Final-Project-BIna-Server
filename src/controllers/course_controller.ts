@@ -69,9 +69,9 @@ class course_controller extends BaseController<ICourse> {
 
     }
     async postVideo(req: AuthResquest, res: Response) {
-        console.log("post vid")
+        //console.log("post vid")
         try {
-            console.log("req.file.pathL" ,req.file.path);
+            //console.log("req.file.pathL" ,req.file.path);
             res.status(200).send({ url: base + req.file.path })
         } catch (err) {
             res.status(500).json({ message: err.message , url : base + req.file.path});

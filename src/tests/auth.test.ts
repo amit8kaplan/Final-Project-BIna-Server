@@ -38,7 +38,7 @@ const unsplash = createApi({
 
 beforeAll(async () => {
   app = await initApp();
-  ////////////////console.log("beforeAll");
+  //////////////////console.log("beforeAll");
   await User.deleteMany({ 'email': user.email });
 });
 
@@ -52,7 +52,7 @@ let newRefreshToken: string
 
 describe("Auth tests", () => {
   test("Test Register", async () => {
-    ////////////////console.log("Test Register");
+    //////////////////console.log("Test Register");
     const response = await request(app)
       .post("/auth/register")
       .send(user);
