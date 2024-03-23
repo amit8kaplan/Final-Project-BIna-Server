@@ -4,6 +4,7 @@ import { Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
 const base = process.env.URL;
 import fs from 'fs';
+import { FilterQuery } from "mongoose";
 class UserController extends BaseController<IUser>{
     constructor() {
         super(User)
@@ -42,7 +43,21 @@ class UserController extends BaseController<IUser>{
     }
     async get(req: AuthResquest, res: Response) {
         //////////////////console.log("getAllUsers:" + req.query.name);
-        super.get(req, res);
+        if (req.query.name || req.query.email || req.query.imgUrl || req.query.user_name) {
+            let filter: FilterQuery<IUser>;
+            if (req.query.name) filter = { name: req.query.name as string };
+            if (req.query.email) filter = { email: req.query.email as string };
+            if (req.query.imgUrl) filter = { imgUrl: req.query.imgUrl as string };
+            if (req.query.user_name) filter = { user_name: req.query.user_name as string };
+
+            const obj = await this.model.find(filter);
+            res.status(200).send(obj);
+        }
+        else {
+            const obj = await this.model.find();
+            res.status(200).send(obj);
+        }            
+        // super.get(req, res);
     }
     async getById(req: AuthResquest, res: Response) {
         //////////////////console.log("getUserById user_controller:" + req.params.id);

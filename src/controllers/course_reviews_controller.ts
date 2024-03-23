@@ -23,6 +23,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
       
           if (req.query.course_id) {
             filter = { course_id: req.query.course_id as string}
+            console.log("filter:", filter)
             // filter.course_id = req.query.course_id;
           }
       

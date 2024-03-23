@@ -199,7 +199,6 @@ describe("Course tests", () => {
             .send(course);
         expect(response.statusCode).toBe(406);
     });
-
     test("Test Get /course/:id", async () => {
         //////////////////console.log("Test Get /course/:id");
         const response = await request(app)

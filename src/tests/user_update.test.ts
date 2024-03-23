@@ -119,6 +119,31 @@ describe("File Tests", () => {
         //////////////////console.log("url" + url);
 
     });
+    test ("get user by name", async() =>{
+        //////////////////console.log("get user by name");
+        const response = await request(app)
+            .get("/user")
+            .query({name: user.user_name})
+            .set("Authorization", "JWT " + accessToken)
+        expect(response.statusCode).toEqual(200);
+        
+    });
+
+    test ("get user by email", async ()=>{
+        const res = await request(app)
+        .get("/user")
+        .query({email: user.email})
+        .set("Authorization", "JWT " + accessToken)
+        expect(res.statusCode).toEqual(200);
+    })
+    test("get user by imgUrl", async () => {
+        //////////////////console.log("get user by imgUrl");
+        const response = await request(app)
+            .get("/user")
+            .query({imgUrl: user.imgUrl})
+            .set("Authorization", "JWT " + accessToken)
+        expect(response.statusCode).toEqual(200);
+    });
 
     test ("get user by id", async () => { 
         //////////////////console.log("get user by id");

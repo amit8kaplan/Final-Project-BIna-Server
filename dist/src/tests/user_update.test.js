@@ -112,6 +112,29 @@ describe("File Tests", () => {
         //////////////////console.log("newuser" + newuser);
         //////////////////console.log("url" + url);
     }));
+    test("get user by name", () => __awaiter(void 0, void 0, void 0, function* () {
+        //////////////////console.log("get user by name");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user")
+            .query({ name: user.user_name })
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toEqual(200);
+    }));
+    test("get user by email", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app)
+            .get("/user")
+            .query({ email: user.email })
+            .set("Authorization", "JWT " + accessToken);
+        expect(res.statusCode).toEqual(200);
+    }));
+    test("get user by imgUrl", () => __awaiter(void 0, void 0, void 0, function* () {
+        //////////////////console.log("get user by imgUrl");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user")
+            .query({ imgUrl: user.imgUrl })
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toEqual(200);
+    }));
     test("get user by id", () => __awaiter(void 0, void 0, void 0, function* () {
         //////////////////console.log("get user by id");
         const response = yield (0, supertest_1.default)(app)

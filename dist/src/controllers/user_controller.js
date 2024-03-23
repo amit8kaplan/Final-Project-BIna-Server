@@ -57,12 +57,26 @@ class UserController extends base_controller_1.BaseController {
         });
     }
     get(req, res) {
-        const _super = Object.create(null, {
-            get: { get: () => super.get }
-        });
         return __awaiter(this, void 0, void 0, function* () {
             //////////////////console.log("getAllUsers:" + req.query.name);
-            _super.get.call(this, req, res);
+            if (req.query.name || req.query.email || req.query.imgUrl || req.query.user_name) {
+                let filter;
+                if (req.query.name)
+                    filter = { name: req.query.name };
+                if (req.query.email)
+                    filter = { email: req.query.email };
+                if (req.query.imgUrl)
+                    filter = { imgUrl: req.query.imgUrl };
+                if (req.query.user_name)
+                    filter = { user_name: req.query.user_name };
+                const obj = yield this.model.find(filter);
+                res.status(200).send(obj);
+            }
+            else {
+                const obj = yield this.model.find();
+                res.status(200).send(obj);
+            }
+            // super.get(req, res);
         });
     }
     getById(req, res) {
