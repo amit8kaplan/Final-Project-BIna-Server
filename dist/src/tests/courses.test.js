@@ -108,6 +108,39 @@ describe("Course tests", () => {
         const st = response.body[0];
         expect(st.name).toBe(course.name);
     }));
+    test("test get the spesific course by description", () => __awaiter(void 0, void 0, void 0, function* () {
+        //////////////////console.log("test get the spesific course by description");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/course`)
+            .query({ description: course.description }) // Add your query parameter here
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.description).toBe(course.description);
+    }));
+    test("test get the spesific course by owner name", () => __awaiter(void 0, void 0, void 0, function* () {
+        //////////////////console.log("test get the spesific course by owner name");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/course`)
+            .query({ owner_name: course.owner_name }) // Add your query parameter here
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.owner_name).toBe(course.owner_name);
+    }));
+    test("test get the spesific course by count", () => __awaiter(void 0, void 0, void 0, function* () {
+        //////////////////console.log("test get the spesific course by count");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/course`)
+            .query({ Count: course.Count }) // Add your query parameter here
+            .set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.Count).toBe(course.Count);
+    }));
     test("Test get the spesific course by id", () => __awaiter(void 0, void 0, void 0, function* () {
         //////////////////console.log("Test get the spesific course by id");
         const response = yield (0, supertest_1.default)(app)

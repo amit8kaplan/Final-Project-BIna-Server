@@ -23,8 +23,11 @@ class UserController extends base_controller_1.BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             let prevuser;
             try {
+                console.log("deletePhotoOfUser");
                 prevuser = yield user_model_1.default.findById(req.user._id);
+                console.log("prevuser.imgUrl: ", prevuser.imgUrl);
                 if (prevuser.imgUrl === "") {
+                    console.log("the user has no photo inside the if");
                     res.status(500).json({ message: "the user has no photo" });
                 }
                 // fs.unlinkSync("./"+prevuser.imgUrl)
@@ -32,8 +35,9 @@ class UserController extends base_controller_1.BaseController {
                 res.status(200).send(user);
             }
             catch (err) {
+                console.log("the user have error in deletePhotoOfUser");
                 //////////console.log(err);
-                res.status(500).json({ message: err.message });
+                res.status(500);
             }
         });
     }
@@ -85,9 +89,9 @@ class UserController extends base_controller_1.BaseController {
             ////console.log("putById in User_Controller", JSON.stringify(req.body, null,2))
             try {
                 const user = yield this.model.findByIdAndUpdate(req.user._id, req.body, { new: true });
-                if (!user) {
-                    res.status(404).json({ message: "user not found" });
-                }
+                // if (!user) {
+                //     res.status(404).json({ message: "user not found" });
+                // }
                 ////console.log("the res of putById: ", JSON.stringify(user, null, 2));
                 res.status(200).json(user);
             }

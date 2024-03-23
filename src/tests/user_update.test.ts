@@ -149,9 +149,15 @@ describe("File Tests", () => {
             .delete("/user")
             .set("Authorization", "JWT " + accessToken)
         expect(response.statusCode).toEqual(200);
+        //console.log("delete photo res user ", JSON.stringify(response.body));      
+    });
+    test ("delete photo from user but there is no photo", async ()=>{
+        //////////////////console.log("delete photo from user but there is no photo");
+        const response = await request(app)
+            .delete("/user")
+            .set("Authorization", "JWT " + accessToken)
+        expect(response.statusCode).toEqual(500);
         //console.log("delete photo res user ", JSON.stringify(response.body));
-
-      
     });
 
     test("upload videq to user instead of img", async () => {

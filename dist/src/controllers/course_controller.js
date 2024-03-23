@@ -23,41 +23,63 @@ class course_controller extends base_controller_1.BaseController {
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const queryKey = Object.keys(req.query)[0];
-                let queryValue = req.query[queryKey];
-                if (Array.isArray(queryValue)) {
-                    queryValue = queryValue[0];
+            if (req.query.id || req.query.owner_name || req.query.name || req.query.description || req.query.Count) {
+                let filter;
+                if (req.query.id) {
+                    filter = { "_id": req.query.id };
                 }
-                if (queryKey && queryValue) {
-                    let filter;
-                    switch (queryKey) {
-                        case 'id':
-                            filter = { "_id": queryValue };
-                            break;
-                        case 'owner_name':
-                        case 'name':
-                        case 'description':
-                            filter = { [queryKey]: { $regex: new RegExp(queryValue, 'i') } };
-                            break;
-                        case 'Count':
-                            filter = { Count: { $gte: parseInt(queryValue) } };
-                            break;
-                        default:
-                            filter = {};
-                            break;
-                    }
-                    const obj = yield this.model.find(filter);
-                    res.status(200).send(obj);
+                if (req.query.owner_name) {
+                    filter = { owner_name: { $regex: new RegExp(req.query.owner_name, 'i') } };
                 }
-                else {
-                    const obj = yield this.model.find();
-                    res.status(200).send(obj);
+                if (req.query.name) {
+                    filter = { name: { $regex: new RegExp(req.query.name, 'i') } };
                 }
+                if (req.query.description) {
+                    filter = { description: { $regex: new RegExp(req.query.description, 'i') } };
+                }
+                if (req.query.Count) {
+                    filter = { Count: { $gte: parseInt(req.query.Count) } };
+                }
+                const obj = yield this.model.find(filter);
+                res.status(200).send(obj);
             }
-            catch (err) {
-                res.status(500).json({ message: err.message });
+            else {
+                const obj = yield this.model.find();
+                res.status(200).send(obj);
             }
+            // try {
+            //     const queryKey = Object.keys(req.query)[0];
+            //     let queryValue = req.query[queryKey];
+            //     if (Array.isArray(queryValue)) {
+            //         queryValue = queryValue[0]; 
+            //     }
+            //     if (queryKey && queryValue) {
+            //         let filter: FilterQuery<ICourse>;
+            //         switch (queryKey) {
+            //             case 'id':
+            //                 filter = { "_id": queryValue };
+            //                 break;
+            //             case 'owner_name':
+            //             case 'name':
+            //             case 'description':
+            //                 filter = { [queryKey]: { $regex: new RegExp(queryValue as string, 'i') } };
+            //                 break;
+            //             case 'Count':
+            //                 filter = { Count: { $gte: parseInt(queryValue as string) } };
+            //                 break;
+            //             default:
+            //                 filter = {};
+            //                 break;
+            //         }
+            //         const obj = await this.model.find(filter);
+            //         res.status(200).send(obj);
+            //     } else {
+            //         const obj = await this.model.find();
+            //         res.status(200).send(obj);
+            //     }
+            // } catch (err) {
+            //     res.status(500).json({ message: err.message });
+            // }
         });
     }
     post(req, res) {
@@ -108,22 +130,33 @@ class course_controller extends base_controller_1.BaseController {
         });
         return __awaiter(this, void 0, void 0, function* () {
             const oldCourse = yield course_model_1.default.findById(req.params.id);
-            if (oldCourse.Count - 1 == req.body.Count
-                && oldCourse.owner_name == req.body.owner_name
-                && oldCourse.id == req.body._id
-                && (oldCourse.description != '' || oldCourse.description == req.body.description)
-                && oldCourse.name == req.body.name
-                && oldCourse.videoUrl != '' || oldCourse.videoUrl == req.body.videoUrl) {
-                _super.putById.call(this, req, res);
-            }
-            else if (oldCourse.owner == req.user._id
-                && oldCourse.owner_name == req.body.owner_name
-                && oldCourse.id == req.body._id) {
-                _super.putById.call(this, req, res);
-            }
-            else {
+            if (oldCourse.owner_name !== req.body.owner_name
+                || oldCourse.id !== req.body._id
+                || oldCourse.owner !== req.user._id) {
                 res.status(403).json({ message: "you are not allowed to change this course" });
             }
+            else if (oldCourse.Count - req.body.Count > 1
+                || req.body.Count - oldCourse.Count > 1) {
+                res.status(403).json({ message: "you are not allowed to change the buying in more then one" });
+            }
+            else {
+                _super.putById.call(this, req, res);
+            }
+            // if (oldCourse.Count +1 == req.body.Count
+            //     && oldCourse.owner_name == req.body.owner_name
+            //     && oldCourse.id == req.body._id
+            //     && (oldCourse.description != ''  || oldCourse.description ==req.body.description)
+            //     && oldCourse.name == req.body.name
+            //     && oldCourse.videoUrl != '' || oldCourse.videoUrl == req.body.videoUrl) {
+            //     super.putById(req, res);
+            //     }
+            // else if (oldCourse.owner == req.user._id
+            //      && oldCourse.owner_name == req.body.owner_name
+            //       && oldCourse.id == req.body._id) {
+            //     super.putById(req, res);}
+            // else {
+            //     res.status(403).json({ message: "you are not allowed to change this course" });
+            // }
         });
     }
     deleteById(req, res) {

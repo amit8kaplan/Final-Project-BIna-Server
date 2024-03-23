@@ -42,7 +42,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
           console.log("No query parameters provided");
           // Return all documents if no query parameters are specified
           const obj = await this.model.find();
-          res.send(obj);
+          res.status(200).send(obj);
         }
       }
     // async get(req: AuthResquest, res: Response) {

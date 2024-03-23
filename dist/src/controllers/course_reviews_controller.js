@@ -46,7 +46,7 @@ class coursesReviewsController extends base_controller_1.BaseController {
                 console.log("No query parameters provided");
                 // Return all documents if no query parameters are specified
                 const obj = yield this.model.find();
-                res.send(obj);
+                res.status(200).send(obj);
             }
         });
     }
