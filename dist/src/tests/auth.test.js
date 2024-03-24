@@ -44,7 +44,6 @@ jest.mock('google-auth-library', () => {
 });
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    //////////////////console.log("beforeAll");
     yield user_model_1.default.deleteMany({ 'email': user.email });
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -55,7 +54,6 @@ let refreshToken;
 let newRefreshToken;
 describe("Auth tests", () => {
     test("Test Register", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test Register");
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
             .send(user);
@@ -124,13 +122,6 @@ describe("Auth tests", () => {
         expect(response.statusCode).toBe(401);
     }));
     jest.setTimeout(10000);
-    // test("Test access after timeout of token", async () => {
-    //   await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
-    //   const response = await request(app)
-    //     .get("/specific")
-    //     .set("Authorization", "JWT " + accessToken);
-    //   expect(response.statusCode).not.toBe(200);
-    // }, 20000);
     test("Test access after timeout of token", () => __awaiter(void 0, void 0, void 0, function* () {
         const userPayload = { _id: 'someUserId' };
         const shortLivedToken = jsonwebtoken_1.default.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1s' });
@@ -184,12 +175,5 @@ describe("Auth tests", () => {
         expect(response.body).toHaveProperty("accessToken");
         expect(response.body).toHaveProperty("refreshToken");
     }));
-    // test("Test Fetch Random Photo", async () => {
-    //   const response = await request(app)
-    //     .get("/auth/register/randomphoto")
-    //     .set("Authorization", "JWT " + accessToken);
-    //   expect(response.statusCode).toBe(200);
-    //   // Add any additional assertions here
-    // }, 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
 });
 //# sourceMappingURL=auth.test.js.map

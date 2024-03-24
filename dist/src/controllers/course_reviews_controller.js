@@ -29,15 +29,13 @@ class coursesReviewsController extends base_controller_1.BaseController {
                 let filter;
                 if (req.query.course_id) {
                     filter = { course_id: req.query.course_id };
-                    // filter.course_id = req.query.course_id;
+                    console.log("filter:", filter);
                 }
                 if (req.query.owner_id) {
                     filter = { owner_id: req.query.owner_id };
-                    // filter.owner_id = req.query.owner_id;
                 }
                 if (req.query.score) {
                     filter = { score: { $gte: parseInt(req.query.score) } };
-                    // filter.score = { $gte: parseInt(req.query.score as string) };
                 }
                 const obj = yield this.model.find(filter);
                 res.status(200).send(obj);
@@ -50,89 +48,34 @@ class coursesReviewsController extends base_controller_1.BaseController {
             }
         });
     }
-    // async get(req: AuthResquest, res: Response) {
-    //         console.log("get by query parameter:");
-    //         console.log("req.query:" + JSON.stringify(req.query, null, 2));
-    //         if (req.query[0]!==undefined){
-    //             console.log("if")
-    //             let queryKey = Object.keys(req.query)[0]; // Get the first query parameter
-    //             const queryValue = req.query[queryKey]; // Get the value of the first query parameter
-    //             queryKey = queryKey.substring(1)
-    //             ////console.log("queryKey:" + queryKey);
-    //             if (queryKey && queryValue) {
-    //                 let filter: FilterQuery<IcourseReview>;
-    //                 switch (queryKey) {
-    //                     case 'owner_id':
-    //                     case 'course_id':
-    //                         filter = { [queryKey]: queryValue };
-    //                         break;
-    //                     case 'score':
-    //                         filter = { score: { $gte: parseInt(queryValue as string) } };
-    //                         break;
-    //                     default:
-    //                         filter = {};
-    //                         break;
-    //                 }
-    //                 const obj = await this.model.find(filter);
-    //                 res.status(200).send(obj);
-    //             }
-    //         } else {
-    //             console.log("else")
-    //             // If no query parameters provided, return all documents
-    //             const obj = await this.model.find();
-    //             res.send(obj);
-    //         }
-    // }
     post(req, res) {
         const _super = Object.create(null, {
             post: { get: () => super.post }
         });
         return __awaiter(this, void 0, void 0, function* () {
             let UserObj;
-            //////////////console.log("newReviewToCourse:" + req.body);
             req.body.owner_id = req.user._id;
-            //////////////console.log("the user id:" + req.body.owner_id);
             yield (0, utils_1.extractUserName)(req.body.owner_id).then((result) => {
                 req.body.owner_name = result;
-                //////////////console.log("the user name:" + req.body.owner_name);
             });
             const course_idtoInc = req.body.course_id;
             const count = yield (0, utils_1.incCountInCourseName)(course_idtoInc);
-            //////////////console.log("the count of the course++:" + count);
-            //////////////console.log("rev.title" + req.body.title);
             _super.post.call(this, req, res);
         });
     }
     getByUserId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //console.log("get all the reviews By User Id:" + req.params.id);
             const obj = yield courses_reviews_model_1.default.find({ owner_id: req.params.id });
-            //console.log("obj to getByUserId:" + obj);
             res.status(200).send(obj);
         });
     }
-    // async getUsingSpesificUser(req: AuthResquest, res: Response){
-    //     ////console.log("req.user._id:" + req.user._id);
-    //     try {
-    //         const obj = await CourseReview.find({ owner_id: req.user._id });
-    //         ////console.log("obj to getUsingSpesificUser:" + obj);
-    //         res.status(200).send(1);
-    //     } catch (err) {
-    //         ////console.log("error")
-    //         res.status(500).json({ message: err.message });
-    //     }
-    // }
     deleteById(req, res) {
         const _super = Object.create(null, {
             deleteById: { get: () => super.deleteById }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            //////////////console.log("deleteReviewById:" + req.params.id);
             const review = yield courses_reviews_model_1.default.findById(req.params.id);
-            //////////////console.log("the review:" + review);
-            //////////////console.log("the review.course_id:" + review.course_id);
             const course_idtodec = review.course_id;
-            //console.log("course_id", course_idtodec);
             yield (0, utils_1.decCountInCourseName)(course_idtodec);
             _super.deleteById.call(this, req, res);
         });
@@ -142,8 +85,6 @@ class coursesReviewsController extends base_controller_1.BaseController {
             putById: { get: () => super.putById }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            //////////console.log("updateReviewById:" + req.params.id);
-            //////////console.log("req.body:" + JSON.stringify(req.body, null, 2));
             const prevReview = yield courses_reviews_model_1.default.findById(req.params.id);
             if (prevReview.course_id == req.body.course_id
                 && prevReview.course_name == req.body.course_name

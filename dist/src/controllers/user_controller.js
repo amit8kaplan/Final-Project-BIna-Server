@@ -30,35 +30,28 @@ class UserController extends base_controller_1.BaseController {
                     console.log("the user has no photo inside the if");
                     res.status(500).json({ message: "the user has no photo" });
                 }
-                // fs.unlinkSync("./"+prevuser.imgUrl)
                 const user = yield user_model_1.default.findByIdAndUpdate(req.user._id, { imgUrl: "" });
                 res.status(200).send(user);
             }
             catch (err) {
                 console.log("the user have error in deletePhotoOfUser");
-                //////////console.log(err);
                 res.status(500);
             }
         });
     }
     postPhotoOfUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            ////console.log("postPhotoOfUser")
-            ////console.log("postPhotoOfUser", JSON.stringify(req.file, null, 2));
             try {
-                ////console.log("router.post(/user: " + base + req.file.path)
                 yield user_model_1.default.findByIdAndUpdate(req.user._id, { imgUrl: base + req.file.path });
                 res.status(200).send({ url: base + req.file.path });
             }
             catch (err) {
-                ////console.log(err);
                 res.status(500).json({ message: err.message });
             }
         });
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //////////////////console.log("getAllUsers:" + req.query.name);
             if (req.query.name || req.query.email || req.query.imgUrl || req.query.user_name) {
                 let filter;
                 if (req.query.name)
@@ -76,12 +69,10 @@ class UserController extends base_controller_1.BaseController {
                 const obj = yield this.model.find();
                 res.status(200).send(obj);
             }
-            // super.get(req, res);
         });
     }
     getById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //////////////////console.log("getUserById user_controller:" + req.params.id);
             try {
                 const obj = yield this.model.findById(req.user._id);
                 const resUser = {
@@ -90,7 +81,6 @@ class UserController extends base_controller_1.BaseController {
                     user_name: obj.user_name,
                     password: obj.user_name
                 };
-                ////console.log("getById obj :", JSON.stringify(resUser, null, 2));
                 res.send(resUser);
             }
             catch (err) {
@@ -100,17 +90,11 @@ class UserController extends base_controller_1.BaseController {
     }
     putById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            ////console.log("putById in User_Controller", JSON.stringify(req.body, null,2))
             try {
                 const user = yield this.model.findByIdAndUpdate(req.user._id, req.body, { new: true });
-                // if (!user) {
-                //     res.status(404).json({ message: "user not found" });
-                // }
-                ////console.log("the res of putById: ", JSON.stringify(user, null, 2));
                 res.status(200).json(user);
             }
             catch (err) {
-                //////////////////console.log(err);
                 res.status(500).json({ message: err.message });
             }
         });

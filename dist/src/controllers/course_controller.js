@@ -17,69 +17,43 @@ const base_controller_1 = require("./base_controller");
 const utils_1 = require("../common/utils");
 const courses_reviews_model_1 = __importDefault(require("../models/courses_reviews_model"));
 const base = process.env.URL;
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 class course_controller extends base_controller_1.BaseController {
     constructor() {
         super(course_model_1.default);
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (req.query.id || req.query.owner_name || req.query.name || req.query.description || req.query.Count) {
-                let filter;
-                if (req.query.id) {
-                    filter = { "_id": req.query.id };
-                }
-                if (req.query.owner_name) {
-                    filter = { owner_name: { $regex: new RegExp(req.query.owner_name, 'i') } };
-                }
-                if (req.query.name) {
-                    filter = { name: { $regex: new RegExp(req.query.name, 'i') } };
-                }
-                if (req.query.description) {
-                    filter = { description: { $regex: new RegExp(req.query.description, 'i') } };
-                }
-                if (req.query.Count) {
-                    filter = { Count: { $gte: parseInt(req.query.Count) } };
-                }
+            console.log("query", req.query);
+            let filter = {};
+            if (req.query.id) {
+                filter["_id"] = req.query.id;
+            }
+            if (req.query.owner) {
+                const escapedOwner = escapeRegExp(req.query.owner);
+                filter["owner_name"] = { $regex: new RegExp(escapedOwner, 'i') };
+            }
+            if (req.query.name) {
+                const escapedName = escapeRegExp(req.query.name);
+                filter["name"] = { $regex: new RegExp(escapedName, 'i') };
+            }
+            if (req.query.description) {
+                const escapedDescription = escapeRegExp(req.query.description);
+                filter["description"] = { $regex: new RegExp(escapedDescription, 'i') };
+            }
+            if (req.query.Count) {
+                filter["Count"] = { $gte: parseInt(req.query.Count) };
+            }
+            try {
                 const obj = yield this.model.find(filter);
                 res.status(200).send(obj);
             }
-            else {
-                const obj = yield this.model.find();
-                res.status(200).send(obj);
+            catch (error) {
+                console.error('Error fetching courses:', error);
+                res.status(500).send({ message: 'Error fetching courses' });
             }
-            // try {
-            //     const queryKey = Object.keys(req.query)[0];
-            //     let queryValue = req.query[queryKey];
-            //     if (Array.isArray(queryValue)) {
-            //         queryValue = queryValue[0]; 
-            //     }
-            //     if (queryKey && queryValue) {
-            //         let filter: FilterQuery<ICourse>;
-            //         switch (queryKey) {
-            //             case 'id':
-            //                 filter = { "_id": queryValue };
-            //                 break;
-            //             case 'owner_name':
-            //             case 'name':
-            //             case 'description':
-            //                 filter = { [queryKey]: { $regex: new RegExp(queryValue as string, 'i') } };
-            //                 break;
-            //             case 'Count':
-            //                 filter = { Count: { $gte: parseInt(queryValue as string) } };
-            //                 break;
-            //             default:
-            //                 filter = {};
-            //                 break;
-            //         }
-            //         const obj = await this.model.find(filter);
-            //         res.status(200).send(obj);
-            //     } else {
-            //         const obj = await this.model.find();
-            //         res.status(200).send(obj);
-            //     }
-            // } catch (err) {
-            //     res.status(500).json({ message: err.message });
-            // }
         });
     }
     post(req, res) {
@@ -103,9 +77,7 @@ class course_controller extends base_controller_1.BaseController {
     }
     postVideo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //console.log("post vid")
             try {
-                //console.log("req.file.pathL" ,req.file.path);
                 res.status(200).send({ url: base + req.file.path });
             }
             catch (err) {
@@ -142,21 +114,6 @@ class course_controller extends base_controller_1.BaseController {
             else {
                 _super.putById.call(this, req, res);
             }
-            // if (oldCourse.Count +1 == req.body.Count
-            //     && oldCourse.owner_name == req.body.owner_name
-            //     && oldCourse.id == req.body._id
-            //     && (oldCourse.description != ''  || oldCourse.description ==req.body.description)
-            //     && oldCourse.name == req.body.name
-            //     && oldCourse.videoUrl != '' || oldCourse.videoUrl == req.body.videoUrl) {
-            //     super.putById(req, res);
-            //     }
-            // else if (oldCourse.owner == req.user._id
-            //      && oldCourse.owner_name == req.body.owner_name
-            //       && oldCourse.id == req.body._id) {
-            //     super.putById(req, res);}
-            // else {
-            //     res.status(403).json({ message: "you are not allowed to change this course" });
-            // }
         });
     }
     deleteById(req, res) {

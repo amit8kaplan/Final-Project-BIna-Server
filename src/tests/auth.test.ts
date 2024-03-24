@@ -38,7 +38,6 @@ const unsplash = createApi({
 
 beforeAll(async () => {
   app = await initApp();
-  //////////////////console.log("beforeAll");
   await User.deleteMany({ 'email': user.email });
 });
 
@@ -52,7 +51,6 @@ let newRefreshToken: string
 
 describe("Auth tests", () => {
   test("Test Register", async () => {
-    //////////////////console.log("Test Register");
     const response = await request(app)
       .post("/auth/register")
       .send(user);
@@ -129,15 +127,6 @@ describe("Auth tests", () => {
   });
 
   jest.setTimeout(10000);
-
-  // test("Test access after timeout of token", async () => {
-  //   await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
-
-  //   const response = await request(app)
-  //     .get("/specific")
-  //     .set("Authorization", "JWT " + accessToken);
-  //   expect(response.statusCode).not.toBe(200);
-  // }, 20000);
   
 
 
@@ -207,19 +196,7 @@ describe("Auth tests", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("accessToken");
     expect(response.body).toHaveProperty("refreshToken");
-  });
-
-
-  // test("Test Fetch Random Photo", async () => {
-  //   const response = await request(app)
-  //     .get("/auth/register/randomphoto")
-  //     .set("Authorization", "JWT " + accessToken);
-  
-  //   expect(response.statusCode).toBe(200);
-  //   // Add any additional assertions here
-  // }, 20000); // Increase the timeout to 20000 milliseconds (20 seconds)
-  
-  
+  });  
 
 });
 

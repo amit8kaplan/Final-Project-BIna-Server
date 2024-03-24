@@ -14,30 +14,6 @@ class BaseController {
     constructor(model) {
         this.model = model;
     }
-    // async get(req: Request, res: Response) {
-    //     try {
-    //         const queryKey = Object.keys(req.query)[0];
-    //         const queryValue = req.query[queryKey];
-    //         if (queryKey && queryValue) {
-    //             const filter: FilterQuery<ModelType> = { [queryKey]: { $regex: new RegExp(String(queryValue), 'i') } } as FilterQuery<ModelType>; 
-    //             const obj = await this.model.find(filter);
-    //             res.send(obj);
-    //         } else {
-    //             const obj = await this.model.find();
-    //             res.send(obj);
-    //         }
-    //     } catch (err) {
-    //         res.status(500).json({ message: err.message });
-    //     }
-    // }
-    // async getById(req: Request, res: Response) {
-    //     try {
-    //         const obj = await this.model.findById(req.params.id);
-    //         res.send(obj);
-    //     } catch (err) {
-    //         res.status(500).json({ message: err.message });
-    //     }
-    // }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -62,9 +38,6 @@ class BaseController {
             this.model.deleteOne(filterQuery).then(result => {
                 res.status(200).json(result);
             });
-            // }).catch(err => {
-            //     res.status(500).json({ message: err.message });
-            // });
         });
     }
 }

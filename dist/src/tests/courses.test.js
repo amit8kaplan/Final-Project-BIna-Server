@@ -63,17 +63,14 @@ const course = {
 };
 describe("Course tests", () => {
     const addCourse = (course) => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("addCourse");
         const response = yield (0, supertest_1.default)(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);
         expect(response.statusCode).toBe(201);
         expect(response.body.owner).toBe(userid);
         expect(response.body.owner_name).toBe(course.owner_name);
-        //////////////////console.log("response.body.owner_name : " + response.body.owner_name);
     });
     test("Test Get All Courses - empty response", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test Get All Courses - empty response");
         const response = yield (0, supertest_1.default)(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
@@ -81,24 +78,9 @@ describe("Course tests", () => {
         expect(response.body).toStrictEqual([]);
     }));
     test("Test Post Course", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test Post Course");
         yield addCourse(course);
     }));
-    test("Test Get Courses by Owner Name", () => __awaiter(void 0, void 0, void 0, function* () {
-        // Arrange
-        const ownerName = "search_owner_name";
-        const expectedCourses = []; // Replace with expected courses if any
-        // Act
-        const response = yield (0, supertest_1.default)(app)
-            .get("/course")
-            .query({ owner_name: ownerName })
-            .set("Authorization", "JWT " + accessToken);
-        // Assert
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toEqual(expectedCourses);
-    }));
     test("Test Get the specific course using name", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test Get the specific course");
         const response = yield (0, supertest_1.default)(app)
             .get("/course")
             .query({ name: course.name }) // Add your query parameter here
@@ -109,7 +91,6 @@ describe("Course tests", () => {
         expect(st.name).toBe(course.name);
     }));
     test("test get the spesific course by description", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("test get the spesific course by description");
         const response = yield (0, supertest_1.default)(app)
             .get(`/course`)
             .query({ description: course.description }) // Add your query parameter here
@@ -120,7 +101,6 @@ describe("Course tests", () => {
         expect(st.description).toBe(course.description);
     }));
     test("test get the spesific course by owner name", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("test get the spesific course by owner name");
         const response = yield (0, supertest_1.default)(app)
             .get(`/course`)
             .query({ owner_name: course.owner_name }) // Add your query parameter here
@@ -131,7 +111,6 @@ describe("Course tests", () => {
         expect(st.owner_name).toBe(course.owner_name);
     }));
     test("test get the spesific course by count", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("test get the spesific course by count");
         const response = yield (0, supertest_1.default)(app)
             .get(`/course`)
             .query({ Count: course.Count }) // Add your query parameter here
@@ -142,7 +121,6 @@ describe("Course tests", () => {
         expect(st.Count).toBe(course.Count);
     }));
     test("Test get the spesific course by id", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test get the spesific course by id");
         const response = yield (0, supertest_1.default)(app)
             .get(`/course`)
             .query({ _id: course._id }) // Add your query parameter here
@@ -151,11 +129,9 @@ describe("Course tests", () => {
         expect(response.body[0].name).toBe(course.name);
     }));
     test("Test Get All Courses", () => __awaiter(void 0, void 0, void 0, function* () {
-        ////////console.log("Test Get All Courses");
         const response = yield (0, supertest_1.default)(app)
             .get("/course")
             .set("Authorization", "JWT " + accessToken);
-        ////////console.log("res.body: " + JSON.stringify(response.body, null, 2));
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         const st = response.body[0];
@@ -163,7 +139,6 @@ describe("Course tests", () => {
         course._id = st._id;
     }));
     test("Test Post duplicate Course", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test Post duplicate Course");
         const response = yield (0, supertest_1.default)(app)
             .post("/course")
             .set("Authorization", "JWT " + accessToken)
@@ -171,7 +146,6 @@ describe("Course tests", () => {
         expect(response.statusCode).toBe(406);
     }));
     test("Test Get /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test Get /course/:id");
         const response = yield (0, supertest_1.default)(app)
             .get(`/course/${userid}`)
             .set("Authorization", "JWT " + accessToken);
@@ -179,7 +153,6 @@ describe("Course tests", () => {
         expect(response.body[0]._id).toBe(course._id);
     }));
     test("Test PUT /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test PUT /course/:id" + `/course/${course._id}`);
         const updateCourse = Object.assign(Object.assign({}, course), { name: "Jane Doe 33" });
         course.name = updateCourse.name;
         const response = yield (0, supertest_1.default)(app)
@@ -188,11 +161,9 @@ describe("Course tests", () => {
             .send(updateCourse);
         expect(response.statusCode).toBe(200);
         expect(response.body.name).toBe(updateCourse.name);
-        // expect(response.body.videoUrl).toBe(updateCourse.videoUrl);
         course.videoUrl = updateCourse.videoUrl;
     }));
     test("Test add review to course", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////console.log("Test add review to course");
         review.course_id = course._id;
         review.course_name = course.name;
         const response = yield (0, supertest_1.default)(app)
@@ -212,13 +183,10 @@ describe("Course tests", () => {
         expect(res2.body[0].Count).toBe(1);
     }));
     test("Test delete is delting the course review", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////console.log("Test delete is delting the course review");
-        //////////////console.log("review._id: " + review._id);
         const response = yield (0, supertest_1.default)(app)
             .delete(`/review/${review._id}`)
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).toBe(200);
-        // expect(response.body.length).toBe(0);
         const res2 = yield (0, supertest_1.default)(app)
             .get(`/course`)
             .query({ _id: course._id }) // Add your query parameter here
@@ -228,14 +196,12 @@ describe("Course tests", () => {
         expect(res2.body[0].Count).toBe(0);
     }));
     test("Test Delete not good", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////console.log("Test Delete not good");
         const response = yield (0, supertest_1.default)(app)
             .delete(`/course/111234`)
             .set("Authorization", "JWT " + accessToken);
         expect(response.statusCode).toBe(500);
     }));
     test("Test DELETE /course/:id", () => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////////console.log("Test DELETE /course/:id");
         const response = yield (0, supertest_1.default)(app)
             .delete(`/course/${course._id}`)
             .set("Authorization", "JWT " + accessToken);

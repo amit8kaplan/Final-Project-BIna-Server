@@ -6,14 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const auth_controller_1 = __importDefault(require("../controllers/auth_controller"));
-// import auth_middleware from "../common/auth_middleware";
 router.post("/register", auth_controller_1.default.register);
 router.post("/google", auth_controller_1.default.googleSignin);
 router.post("/login", auth_controller_1.default.login);
 router.get("/logout", auth_controller_1.default.logout);
 router.get("/refresh", auth_controller_1.default.refresh);
 router.get("/register/randomphoto", auth_controller_1.default.randomPhoto);
-// router.get("/isAuth", auth_middleware.isAuth);
 /**
 * @swagger
 * tags:
