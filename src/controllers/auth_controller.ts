@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { Document } from 'mongoose';
+import Unsplash from 'unsplash-js';
 
 const client = new OAuth2Client();
 const googleSignin = async (req: Request, res: Response) => {
@@ -174,10 +175,8 @@ const refresh = async (req: Request, res: Response) => {
         }
     });
 }
-import Unsplash from 'unsplash-js';
 
 const randomPhoto = async (req: Request, res: Response) => {
-    ////////console.log("inside randomPhoto")
     const unsplash =   Unsplash.createApi({
         accessKey: process.env.UNSPLASH_ACCESS_KEY,
         fetch: fetch

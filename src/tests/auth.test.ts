@@ -15,10 +15,6 @@ const user = {
 
 global.fetch = fetch;
 
-const unsplash = createApi({
-  accessKey: process.env.UNSPLASH_ACCESS_KEY,
-  // other configuration options
-});
 
 
   jest.mock('google-auth-library', () => {
