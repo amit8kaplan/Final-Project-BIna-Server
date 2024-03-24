@@ -1,14 +1,13 @@
 import express from "express";
 const router = express.Router();
 import authController from "../controllers/auth_controller";
-// import auth_middleware from "../common/auth_middleware";
 router.post("/register", authController.register);
 router.post("/google", authController.googleSignin);
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
 router.get("/refresh", authController.refresh);
 router.get("/register/randomphoto", authController.randomPhoto);
-// router.get("/isAuth", auth_middleware.isAuth);
+
 /**
 * @swagger
 * tags:

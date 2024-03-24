@@ -5,82 +5,50 @@ import { AuthResquest } from "../common/auth_middleware";
 import {extractUserName} from "../common/utils";
 import courses_reviews_model from "../models/courses_reviews_model";
 const base = process.env.URL;
-import fs from 'fs';
 import { FilterQuery } from "mongoose";
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  }
 
 class course_controller extends BaseController<ICourse> {
     constructor() {
         super(course_model)
     }
 
-    async get(req: Request, res: Response) {
-
-        console.log("query", req.query)
-        if (req.query.id || req.query.owner || req.query.name || req.query.description || req.query.Count) {
-            let filter: FilterQuery<ICourse>;
-            if (req.query.id) {
-                filter = { "_id": req.query.id as string };
-            }
-            if (req.query.owner) {
-                filter = { owner_name: { $regex: new RegExp(req.query.owner as string, 'i') } };
-                // console.log("filter owner_name:", filter)
-            }
-            if (req.query.name) {
-                filter = { name: { $regex: new RegExp(req.query.name as string, 'i') } };
-            }
-            if (req.query.description) {
-                filter = { description: { $regex: new RegExp(req.query.description as string, 'i') } };
-            }
-            if (req.query.Count) {
-                filter = { Count: { $gte: parseInt(req.query.Count as string) } };
-            }
-            const obj = await this.model.find(filter);
-            // console.log("obj:", JSON.stringify(obj, null, 2))
-            res.status(200).send(obj);
-        }
-        else {
-            const obj = await this.model.find();
-            res.status(200).send(obj);
-        }            
-        // try {
-        //     const queryKey = Object.keys(req.query)[0];
-        //     let queryValue = req.query[queryKey];
-            
-        //     if (Array.isArray(queryValue)) {
-        //         queryValue = queryValue[0]; 
-        //     }
-            
-        //     if (queryKey && queryValue) {
-        //         let filter: FilterQuery<ICourse>;
-                
-        //         switch (queryKey) {
-        //             case 'id':
-        //                 filter = { "_id": queryValue };
-        //                 break;
-        //             case 'owner_name':
-        //             case 'name':
-        //             case 'description':
-        //                 filter = { [queryKey]: { $regex: new RegExp(queryValue as string, 'i') } };
-        //                 break;
-        //             case 'Count':
-        //                 filter = { Count: { $gte: parseInt(queryValue as string) } };
-        //                 break;
-        //             default:
-        //                 filter = {};
-        //                 break;
-        //         }
-                
-        //         const obj = await this.model.find(filter);
-        //         res.status(200).send(obj);
-        //     } else {
-        //         const obj = await this.model.find();
-        //         res.status(200).send(obj);
-        //     }
-        // } catch (err) {
-        //     res.status(500).json({ message: err.message });
-        // }
-    }
     
+    async get(req: Request, res: Response) {
+        console.log("query", req.query);
+        let filter: FilterQuery<ICourse> = {};
+    
+        if (req.query.id) {
+            filter["_id"] = req.query.id as string;
+        }
+        if (req.query.owner) {
+            const escapedOwner = escapeRegExp(req.query.owner as string);
+            filter["owner_name"] = { $regex: new RegExp(escapedOwner, 'i') };
+        }
+        if (req.query.name) {
+            const escapedName = escapeRegExp(req.query.name as string);
+            filter["name"] = { $regex: new RegExp(escapedName, 'i') };
+        }
+        if (req.query.description) {
+            const escapedDescription = escapeRegExp(req.query.description as string);
+            filter["description"] = { $regex: new RegExp(escapedDescription, 'i') };
+        }
+        if (req.query.Count) {
+            filter["Count"] = { $gte: parseInt(req.query.Count as string) };
+        }
+    
+        try {
+            const obj = await this.model.find(filter);
+            res.status(200).send(obj);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+            res.status(500).send({ message: 'Error fetching courses' });
+        }
+    }
+            
     
     async post(req: AuthResquest, res: Response) {
         const _id = req.user._id;
@@ -97,9 +65,7 @@ class course_controller extends BaseController<ICourse> {
 
     }
     async postVideo(req: AuthResquest, res: Response) {
-        //console.log("post vid")
         try {
-            //console.log("req.file.pathL" ,req.file.path);
             res.status(200).send({ url: base + req.file.path })
         } catch (err) {
             res.status(500).json({ message: err.message , url : base + req.file.path});
@@ -130,22 +96,6 @@ class course_controller extends BaseController<ICourse> {
             super.putById(req, res);
         }
         
-        // if (oldCourse.Count +1 == req.body.Count
-        //     && oldCourse.owner_name == req.body.owner_name
-        //     && oldCourse.id == req.body._id
-        //     && (oldCourse.description != ''  || oldCourse.description ==req.body.description)
-        //     && oldCourse.name == req.body.name
-        //     && oldCourse.videoUrl != '' || oldCourse.videoUrl == req.body.videoUrl) {
-        //     super.putById(req, res);
-        //     }
-        
-        // else if (oldCourse.owner == req.user._id
-        //      && oldCourse.owner_name == req.body.owner_name
-        //       && oldCourse.id == req.body._id) {
-        //     super.putById(req, res);}
-        // else {
-        //     res.status(403).json({ message: "you are not allowed to change this course" });
-        // }
     }
     async deleteById(req: AuthResquest, res: Response) {
         req.query = { _id: req.params.id };
