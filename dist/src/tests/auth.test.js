@@ -17,7 +17,6 @@ const app_1 = __importDefault(require("../app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const unsplash_js_1 = require("unsplash-js");
 let app;
 const user = {
     email: "test_auth_user@test.com",
@@ -25,10 +24,6 @@ const user = {
     user_name: "test_auth_user",
 };
 global.fetch = fetch;
-const unsplash = (0, unsplash_js_1.createApi)({
-    accessKey: process.env.UNSPLASH_ACCESS_KEY,
-    // other configuration options
-});
 jest.mock('google-auth-library', () => {
     return {
         OAuth2Client: jest.fn().mockImplementation(() => {

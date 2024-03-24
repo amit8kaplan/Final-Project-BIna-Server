@@ -16,6 +16,7 @@ const user_model_1 = __importDefault(require("../models/user_model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const google_auth_library_1 = require("google-auth-library");
+const unsplash_js_1 = __importDefault(require("unsplash-js"));
 const client = new google_auth_library_1.OAuth2Client();
 const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -171,9 +172,7 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }));
 });
-const unsplash_js_1 = __importDefault(require("unsplash-js"));
 const randomPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    ////////console.log("inside randomPhoto")
     const unsplash = unsplash_js_1.default.createApi({
         accessKey: process.env.UNSPLASH_ACCESS_KEY,
         fetch: fetch
