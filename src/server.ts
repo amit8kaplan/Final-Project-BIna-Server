@@ -22,7 +22,7 @@ initApp().then((app) => {
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
   if (process.env.NODE_ENV !== 'production') {
-    ////console.log('development');
+    console.log('development');
     http.createServer(app).listen(PORT);
   } else {
     ////console.log('PRODUCTION');

@@ -16,6 +16,7 @@ router.put('/:id', auth_middleware_1.default, user_controller_1.default.putById.
 //the codes to change photo of user
 router.post('/', auth_middleware_1.default, file_upload_1.upload_img.single("image"), user_controller_1.default.postPhotoOfUser.bind(user_controller_1.default));
 router.delete('/', auth_middleware_1.default, user_controller_1.default.deletePhotoOfUser.bind(user_controller_1.default));
+router.patch('/user/:id', auth_middleware_1.default, user_controller_1.default.patchById.bind(user_controller_1.default));
 module.exports = router;
 /**
  * @swagger

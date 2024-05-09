@@ -29,17 +29,17 @@ const user = {
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    //////////////console.log("beforeAll");
+    console.log("beforeAll");
     yield course_model_1.default.deleteMany();
     user_model_1.default.deleteMany({ 'email': user.email });
     yield (0, supertest_1.default)(app).post("/auth/register").send(user);
     const response = yield (0, supertest_1.default)(app).post("/auth/login").send(user);
     expect(response.statusCode).toBe(200);
-    //////////////console.log(response.statusCode)
+    console.log(response.statusCode);
     accessToken = response.body.accessToken;
-    //////////////console.log("response.body: " + response.body._id);
+    console.log("response.body: " + response.body._id);
     userid = response.body._id;
-    //////////////console.log("user_name: " + response.body.user_name);
+    console.log("user_name: " + response.body.user_name);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
@@ -63,7 +63,7 @@ const course = {
 };
 describe("Course tests", () => {
     const addCourse = (course) => __awaiter(void 0, void 0, void 0, function* () {
-        //////////////console.log("addCourse");
+        console.log("addCourse");
         const response = yield (0, supertest_1.default)(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);

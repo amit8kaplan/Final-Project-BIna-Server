@@ -22,15 +22,6 @@ class UserController extends base_controller_1.BaseController {
     }
     deletePhotoOfUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //////////////console.log("deletePhotoOfUser:" + req.user._id);
-            //     fs.unlinkSync("./src/"+prevuser.imgUrl, (err: string) => {
-            //         if (err) {
-            //             //////console.log("failed to delete local image:" + err);
-            //         } else {
-            //             //////console.log('successfully deleted local image');
-            //         }
-            //     });
-            // }
             let prevuser;
             try {
                 prevuser = yield user_model_1.default.findById(req.user._id);
@@ -85,6 +76,30 @@ class UserController extends base_controller_1.BaseController {
             }
             catch (err) {
                 res.status(500).json({ message: err.message });
+            }
+        });
+    }
+    patchById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.params.id; // Ensure this is the correct user ID parameter from your route
+                const updates = req.body;
+                // Find the user and apply updates
+                const user = yield user_model_1.default.findById(userId);
+                if (!user) {
+                    return res.status(404).send({ message: 'User not found' });
+                }
+                Object.keys(updates).forEach((key) => {
+                    if (key in user) {
+                        user[key] = updates[key];
+                    }
+                });
+                yield user.save();
+                res.send(user);
+            }
+            catch (error) {
+                console.error('Error updating user:', error);
+                res.status(500).send({ message: 'Internal Server Error' });
             }
         });
     }

@@ -16,6 +16,7 @@ const supertest_1 = __importDefault(require("supertest"));
 const app_1 = __importDefault(require("../app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
+const console_1 = require("console");
 let app;
 const user = {
     email: "test_auth_user@test.com",
@@ -24,7 +25,7 @@ const user = {
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
-    //////////////console.log("beforeAll");
+    (0, console_1.debug)("beforeAll");
     yield user_model_1.default.deleteMany({ 'email': user.email });
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,12 +34,16 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
 let accessToken;
 let refreshToken;
 let newRefreshToken;
+let id;
 describe("Auth tests", () => {
     test("Test Register", () => __awaiter(void 0, void 0, void 0, function* () {
         //////////////console.log("Test Register");
         const response = yield (0, supertest_1.default)(app)
             .post("/auth/register")
             .send(user);
+        id = response.body._id;
+        (0, console_1.log)("response.body: " + JSON.stringify(response.body, null, 2));
+        (0, console_1.log)("id: " + id);
         expect(response.statusCode).toBe(201);
         // expect(response.body.user_name).toBe(user.user_name);
         // //////////////console.log("response.body: " + response.body.password);
@@ -100,7 +105,7 @@ describe("Auth tests", () => {
         // expect(response.body.user_name).toBe(user.user_name);
     }));
     test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/course");
+        const response = yield (0, supertest_1.default)(app).get("/course:" + id);
         expect(response.statusCode).toBe(401);
     }));
     test("Test access with valid token", () => __awaiter(void 0, void 0, void 0, function* () {

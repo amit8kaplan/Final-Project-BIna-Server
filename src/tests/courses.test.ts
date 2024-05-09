@@ -17,18 +17,18 @@ const user = {
 }
 beforeAll(async () => {
   app = await initApp();
-  //////////////console.log("beforeAll");
+  console.log("beforeAll");
   await Course.deleteMany();
 
   User.deleteMany({ 'email': user.email });
   await request(app).post("/auth/register").send(user);
   const response = await request(app).post("/auth/login").send(user);
   expect(response.statusCode).toBe(200);
-  //////////////console.log(response.statusCode)
+  console.log(response.statusCode)
   accessToken = response.body.accessToken;
-  //////////////console.log("response.body: " + response.body._id);
+  console.log("response.body: " + response.body._id);
   userid = response.body._id;
-  //////////////console.log("user_name: " + response.body.user_name);
+  console.log("user_name: " + response.body.user_name);
 });
 
 afterAll(async () => {
@@ -77,7 +77,7 @@ const course: ICourse = {
 describe("Course tests", () => {
     
     const addCourse = async (course: ICourse) => {
-        //////////////console.log("addCourse");
+        console.log("addCourse");
         const response = await request(app).post("/course")
             .set("Authorization", "JWT " + accessToken)
             .send(course);      

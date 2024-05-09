@@ -3,7 +3,7 @@ import initApp from "../app";
 import mongoose from "mongoose";
 import { Express } from "express";
 import User from "../models/user_model";
-
+import {log, error, debug} from "console";
 let app: Express;
 const user = {
   email: "test_auth_user@test.com",
@@ -13,7 +13,7 @@ const user = {
 
 beforeAll(async () => {
   app = await initApp();
-  //////////////console.log("beforeAll");
+  debug("beforeAll");
   await User.deleteMany({ 'email': user.email });
 });
 
@@ -24,13 +24,16 @@ afterAll(async () => {
 let accessToken: string;
 let refreshToken: string;
 let newRefreshToken: string
-
+let id: string;
 describe("Auth tests", () => {
   test("Test Register", async () => {
     //////////////console.log("Test Register");
     const response = await request(app)
       .post("/auth/register")
       .send(user);
+    id = response.body._id;
+    log("response.body: " + JSON.stringify(response.body, null, 2))
+    log("id: " + id);
     expect(response.statusCode).toBe(201);
     // expect(response.body.user_name).toBe(user.user_name);
     // //////////////console.log("response.body: " + response.body.password);
@@ -97,7 +100,7 @@ describe("Auth tests", () => {
   });
 
   test("Test forbidden access without token", async () => {
-    const response = await request(app).get("/course");
+    const response = await request(app).get("/course:" + id);
     expect(response.statusCode).toBe(401);
   });
 

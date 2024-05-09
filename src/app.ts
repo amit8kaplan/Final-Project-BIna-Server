@@ -15,7 +15,12 @@ const initApp = (): Promise<Express> => {
     const db = mongoose.connection;
     db.once("open", () => console.log("Connected to Database"));
     db.on("error", (error) => console.error(error));
-    const url = process.env.DB_URL;
+    const url = process.env.DB_URL as string;
+    if (typeof url !== 'string') {
+      console.error("DB_URL is not defined");
+      process.exit(1);
+    }
+    console.log(url);
     mongoose.connect(url!).then(() => {
       const app = express();
       app.use(bodyParser.json());

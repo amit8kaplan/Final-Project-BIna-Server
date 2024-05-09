@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 3000;
     const specs = (0, swagger_jsdoc_1.default)(options);
     app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
     if (process.env.NODE_ENV !== 'production') {
-        ////console.log('development');
+        console.log('development');
         http_1.default.createServer(app).listen(PORT);
     }
     else {
