@@ -5,7 +5,7 @@ import { Express } from "express";
 import User from "../models/user_model";
 import jwt from 'jsonwebtoken';
 import { createApi } from "unsplash-js";
-
+import {log, error, debug} from "console";
 let app: Express;
 const user = {
   email: "test_auth_user@test.com",
@@ -34,6 +34,7 @@ global.fetch = fetch;
 
 beforeAll(async () => {
   app = await initApp();
+  debug("beforeAll");
   await User.deleteMany({ 'email': user.email });
 });
 
