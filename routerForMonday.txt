@@ -1,0 +1,9 @@
+routers:
+
+1) Dapit - get, post, delete, update, get :id, get/spesifc sidra
+2) upload vid / img
+3) Post - get, post, deltet, update
+4) Wall - get, post, delete, update (all per hanich user)
+5) calc matricx - get
+6) menegmentsCOurse - get, post, deltet, update
+7)

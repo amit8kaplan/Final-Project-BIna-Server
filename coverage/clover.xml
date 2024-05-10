@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1711315123815" clover="3.2.0">
-  <project timestamp="1711315123815" name="All files">
+<coverage generated="1715290976016" clover="3.2.0">
+  <project timestamp="1715290976016" name="All files">
     <metrics statements="388" coveredstatements="345" conditionals="91" coveredconditionals="63" methods="65" coveredmethods="59" elements="544" coveredelements="467" complexity="0" loc="388" ncloc="388" packages="5" files="17" classes="17"/>
     <package name="src">
       <metrics statements="35" coveredstatements="35" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="5"/>
-      <file name="app.ts" path="D:\React\Group47-b\src\app.ts">
+      <file name="app.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\app.ts">
         <metrics statements="35" coveredstatements="35" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="5"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -45,7 +45,7 @@
     </package>
     <package name="src.common">
       <metrics statements="49" coveredstatements="42" conditionals="8" coveredconditionals="6" methods="9" coveredmethods="8"/>
-      <file name="auth_middleware.ts" path="D:\React\Group47-b\src\common\auth_middleware.ts">
+      <file name="auth_middleware.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\common\auth_middleware.ts">
         <metrics statements="13" coveredstatements="12" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="2" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
@@ -61,7 +61,7 @@
         <line num="21" count="0" type="stmt"/>
         <line num="26" count="4" type="stmt"/>
       </file>
-      <file name="file_upload.ts" path="D:\React\Group47-b\src\common\file_upload.ts">
+      <file name="file_upload.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\common\file_upload.ts">
         <metrics statements="16" coveredstatements="12" conditionals="4" coveredconditionals="2" methods="4" coveredmethods="3"/>
         <line num="1" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -80,7 +80,7 @@
         <line num="43" count="0" type="stmt"/>
         <line num="49" count="4" type="stmt"/>
       </file>
-      <file name="utils.ts" path="D:\React\Group47-b\src\common\utils.ts">
+      <file name="utils.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\common\utils.ts">
         <metrics statements="20" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -106,7 +106,7 @@
     </package>
     <package name="src.controllers">
       <metrics statements="242" coveredstatements="207" conditionals="83" coveredconditionals="57" methods="48" coveredmethods="44"/>
-      <file name="auth_controller.ts" path="D:\React\Group47-b\src\controllers\auth_controller.ts">
+      <file name="auth_controller.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\controllers\auth_controller.ts">
         <metrics statements="98" coveredstatements="80" conditionals="43" coveredconditionals="23" methods="20" coveredmethods="18"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
@@ -207,7 +207,7 @@
         <line num="185" count="0" type="stmt"/>
         <line num="190" count="4" type="stmt"/>
       </file>
-      <file name="base_controller.ts" path="D:\React\Group47-b\src\controllers\base_controller.ts">
+      <file name="base_controller.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\controllers\base_controller.ts">
         <metrics statements="14" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="5"/>
         <line num="4" count="4" type="stmt"/>
         <line num="8" count="12" type="stmt"/>
@@ -224,7 +224,7 @@
         <line num="36" count="0" type="stmt"/>
         <line num="39" count="4" type="stmt"/>
       </file>
-      <file name="course_controller.ts" path="D:\React\Group47-b\src\controllers\course_controller.ts">
+      <file name="course_controller.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\controllers\course_controller.ts">
         <metrics statements="55" coveredstatements="43" conditionals="14" coveredconditionals="10" methods="9" coveredmethods="8"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -282,7 +282,7 @@
         <line num="108" count="1" type="stmt"/>
         <line num="113" count="4" type="stmt"/>
       </file>
-      <file name="course_reviews_controller.ts" path="D:\React\Group47-b\src\controllers\course_reviews_controller.ts">
+      <file name="course_reviews_controller.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\controllers\course_reviews_controller.ts">
         <metrics statements="37" coveredstatements="36" conditionals="15" coveredconditionals="14" methods="7" coveredmethods="7"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -322,7 +322,7 @@
         <line num="77" count="1" type="stmt"/>
         <line num="83" count="4" type="stmt"/>
       </file>
-      <file name="user_controller.ts" path="D:\React\Group47-b\src\controllers\user_controller.ts">
+      <file name="user_controller.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\controllers\user_controller.ts">
         <metrics statements="38" coveredstatements="35" conditionals="11" coveredconditionals="10" methods="6" coveredmethods="6"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -366,19 +366,19 @@
     </package>
     <package name="src.models">
       <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="course_model.ts" path="D:\React\Group47-b\src\models\course_model.ts">
+      <file name="course_model.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\models\course_model.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
         <line num="38" count="4" type="stmt"/>
       </file>
-      <file name="courses_reviews_model.ts" path="D:\React\Group47-b\src\models\courses_reviews_model.ts">
+      <file name="courses_reviews_model.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\models\courses_reviews_model.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="14" count="4" type="stmt"/>
         <line num="44" count="4" type="stmt"/>
       </file>
-      <file name="user_model.ts" path="D:\React\Group47-b\src\models\user_model.ts">
+      <file name="user_model.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\models\user_model.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
@@ -387,7 +387,7 @@
     </package>
     <package name="src.routes">
       <metrics statements="53" coveredstatements="52" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-      <file name="auth_route.ts" path="D:\React\Group47-b\src\routes\auth_route.ts">
+      <file name="auth_route.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\routes\auth_route.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -400,7 +400,7 @@
         <line num="9" count="4" type="stmt"/>
         <line num="241" count="4" type="stmt"/>
       </file>
-      <file name="courses_reviews_route.ts" path="D:\React\Group47-b\src\routes\courses_reviews_route.ts">
+      <file name="courses_reviews_route.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\routes\courses_reviews_route.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -413,7 +413,7 @@
         <line num="18" count="4" type="stmt"/>
         <line num="20" count="4" type="stmt"/>
       </file>
-      <file name="courses_route.ts" path="D:\React\Group47-b\src\routes\courses_route.ts">
+      <file name="courses_route.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\routes\courses_route.ts">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -428,7 +428,7 @@
         <line num="26" count="4" type="stmt"/>
         <line num="28" count="4" type="stmt"/>
       </file>
-      <file name="specific_route.ts" path="D:\React\Group47-b\src\routes\specific_route.ts">
+      <file name="specific_route.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\routes\specific_route.ts">
         <metrics statements="10" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
@@ -441,7 +441,7 @@
         <line num="13" count="0" type="stmt"/>
         <line num="17" count="4" type="stmt"/>
       </file>
-      <file name="user_update_route.ts" path="D:\React\Group47-b\src\routes\user_update_route.ts">
+      <file name="user_update_route.ts" path="C:\Users\amit8\Documents\collage\final\1.0\Final-Project-BIna-Server\src\routes\user_update_route.ts">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
