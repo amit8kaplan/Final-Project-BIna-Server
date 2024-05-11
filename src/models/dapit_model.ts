@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+const dapitPerformanceSchema = new mongoose.Schema({
+    value: Number,
+    description: String,
+});
 export interface IDapit {
     nameInstractor: string;//the name of the Instractor that plight with him
     namePersonalInstractor: string; // the nmame of the personal instractor
@@ -12,28 +16,45 @@ export interface IDapit {
     session: string; //session == sidra    
     silabus: number;
     date: Date;
+    tags ?: string[];
     //the data of the dapit
     //professoinal
-    identfication: [number, string];
-    payload: [number, string];
-    decryption: [number, string];
-    workingMethod: [number, string];
-    understandingTheAir: [number, string];
-    flight: [number, string];
-    theortical: [number, string];
-    thinkingInAir: [number, string];
-    safety: [number, string];
-    //ground preformance
-    briefing: [number, string];
-    debriefing: [number, string];
-    debriefingInAir: [number, string];
-    implementationExecise: [number, string];
-    //personal preformance
-    dealingWithFailures: [number, string];
-    dealingWithStress: [number, string];
-    makingDecisions: [number, string];
-    pilotNautre: [number, string];
-    crewMember: [number, string];
+    identfication: typeof dapitPerformanceSchema;
+    payload: typeof dapitPerformanceSchema;
+    decryption: typeof dapitPerformanceSchema;
+    workingMethod: typeof dapitPerformanceSchema;
+    understandingTheAir: typeof dapitPerformanceSchema;
+    flight: typeof dapitPerformanceSchema;
+    theoretical: typeof dapitPerformanceSchema;
+    thinkingInAir: typeof dapitPerformanceSchema;
+    safety: typeof dapitPerformanceSchema;
+    briefing: typeof dapitPerformanceSchema;
+    debriefing: typeof dapitPerformanceSchema;
+    debriefingInAir: typeof dapitPerformanceSchema;
+    implementationExecise: typeof dapitPerformanceSchema;
+    dealingWithFailures: typeof dapitPerformanceSchema;
+    dealingWithStress: typeof dapitPerformanceSchema;
+    makingDecisions: typeof dapitPerformanceSchema;
+    pilotNature: typeof dapitPerformanceSchema;
+    crewMember: typeof dapitPerformanceSchema;
+
+    // payload: IDapitPerformance[];
+    // decryption: IDapitPerformance[];
+    // workingMethod: IDapitPerformance[];
+    // understandingTheAir: IDapitPerformance[];
+    // flight: IDapitPerformance[];
+    // theoretical: IDapitPerformance[];
+    // thinkingInAir: IDapitPerformance[];
+    // safety: IDapitPerformance[];
+    // briefing: IDapitPerformance[];
+    // debriefing: IDapitPerformance[];
+    // debriefingInAir: IDapitPerformance[];
+    // implementationExecise: IDapitPerformance[];
+    // dealingWithFailures: IDapitPerformance[];
+    // dealingWithStress: IDapitPerformance[];
+    // makingDecisions: IDapitPerformance[];
+    // pilotNature: IDapitPerformance[];
+    // crewMember: IDapitPerformance[];
     //advatage and disavantage
     advantage: string[];
     disavantage: string[];
@@ -52,91 +73,38 @@ const dapitSchema = new mongoose.Schema<IDapit>({
         type: String,
         required: true,
     },
+    tags: {
+        type: [String],
+    },
     nameTrainer: {
         type: String,
         required: true,
     },
-    group: {
-        type: String,
-        required: true,
-    },
-    idPersonalInstractor: {
-        type: String,
-        required: true,
-    },
-    idInstractor: {
-        type: String,
-        required: true,
-    },
-    idTrainer: {
-        type: String,
-        required: true,
-    },
-    session: {
-        type: String,
-    },
-    silabus: {
-        type: Number,
-        required: true,
-    },
-    date: {
-        type: Date,
-        required: true,
-    },
-    identfication: {
-        type: [Number, String],
-    },
-    payload: {
-        type: [Number, String],
-    },
-    decryption: {
-        type: [Number, String],
-    },
-    workingMethod: {
-        type: [Number, String],
-    },
-    understandingTheAir: {
-        type: [Number, String],
-    },
-    flight: {
-        type: [Number, String],
-    },
-    theortical: {
-        type: [Number, String],
-    },
-    thinkingInAir: {
-        type: [Number, String],
-    },
-    safety: {
-        type: [Number, String],
-    },
-    briefing: {
-        type: [Number, String],
-    },
-    debriefing: {
-        type: [Number, String],
-    },
-    debriefingInAir: {
-        type: [Number, String],
-    },
-    implementationExecise: {
-        type: [Number, String],
-    },
-    dealingWithFailures: {
-        type: [Number, String],
-    },
-    dealingWithStress: {
-        type: [Number, String],
-    },
-    makingDecisions: {
-        type: [Number, String],
-    },
-    pilotNautre: {
-        type: [Number, String],
-    },
-    crewMember: {
-        type: [Number, String],
-    },
+    group: {type: String,required: true,},
+    idPersonalInstractor: {type: String,required: true,},
+    idInstractor: {type: String,required: true,},
+    idTrainer: {type: String,required: true,},
+    session: {type: String,},
+    silabus: {type: Number,required: true,},
+    date: {type: Date,required: true,},
+    identfication: [{ value: Number, description: String }],
+    payload: [{ value: Number, description: String }],
+    decryption: [{ value: Number, description: String }],
+    workingMethod: [{ value: Number, description: String }],
+    understandingTheAir: [{ value: Number, description: String }],
+    flight: [{ value: Number, description: String }],
+    theoretical: [{ value: Number, description: String }],
+    thinkingInAir: [{ value: Number, description: String }],
+    safety: [{ value: Number, description: String }],
+    briefing: [{ value: Number, description: String }],
+    debriefing: [{ value: Number, description: String }],
+    debriefingInAir: [{ value: Number, description: String }],
+    implementationExecise: [{ value: Number, description: String }],
+    dealingWithFailures: [{ value: Number, description: String }],
+    dealingWithStress: [{ value: Number, description: String }],
+    makingDecisions: [{ value: Number, description: String }],
+    pilotNature: [{ value: Number, description: String }],
+    crewMember: [{ value: Number, description: String }],
     advantage: {
         type: [String],
     },

@@ -8,7 +8,7 @@ import authRoute from "./routes/auth_route";
 import userRoute from "./routes/user_update_route";
 import cousreRoute from "./routes/courses_route";
 import courseReviewRoute from "./routes/courses_reviews_route";
-
+import dapitRoute from "./routes/dapit_route";
 
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -32,6 +32,7 @@ const initApp = (): Promise<Express> => {
       app.use("/specific", spesRoute)
       app.use("/auth", authRoute);
       app.use("/user", userRoute);
+      app.use("/dapit", dapitRoute)
       app.use("/public", express.static("public"));
       resolve(app);
     });
