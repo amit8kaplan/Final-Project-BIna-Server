@@ -37,24 +37,6 @@ export interface IDapit {
     makingDecisions: typeof dapitPerformanceSchema;
     pilotNature: typeof dapitPerformanceSchema;
     crewMember: typeof dapitPerformanceSchema;
-
-    // payload: IDapitPerformance[];
-    // decryption: IDapitPerformance[];
-    // workingMethod: IDapitPerformance[];
-    // understandingTheAir: IDapitPerformance[];
-    // flight: IDapitPerformance[];
-    // theoretical: IDapitPerformance[];
-    // thinkingInAir: IDapitPerformance[];
-    // safety: IDapitPerformance[];
-    // briefing: IDapitPerformance[];
-    // debriefing: IDapitPerformance[];
-    // debriefingInAir: IDapitPerformance[];
-    // implementationExecise: IDapitPerformance[];
-    // dealingWithFailures: IDapitPerformance[];
-    // dealingWithStress: IDapitPerformance[];
-    // makingDecisions: IDapitPerformance[];
-    // pilotNature: IDapitPerformance[];
-    // crewMember: IDapitPerformance[];
     //advatage and disavantage
     advantage: string[];
     disavantage: string[];
