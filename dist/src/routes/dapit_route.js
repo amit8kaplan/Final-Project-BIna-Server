@@ -12,6 +12,7 @@ router.get('/', dapit_Controller_1.default.get.bind(dapit_Controller_1.default))
 // router.get('/getByTags', dapit_Controller.getByTags.bind(dapit_Controller));
 // //gets by filter
 router.get('/getByFilterBasicInfo', dapit_Controller_1.default.getByFilterBasicInfo.bind(dapit_Controller_1.default));
+router.get('/getByFilter', dapit_Controller_1.default.getByFilter.bind(dapit_Controller_1.default));
 // router.get('/:id', dapit_Controller.getByUserId.bind(dapit_Controller));
 // router.get('/getByTrainer/:id', dapit_Controller.getByTrainer.bind(dapit_Controller));
 // router.get('/getByPersonalInstractor/:id', dapit_Controller.getByPersonalInstractor.bind(dapit_Controller));

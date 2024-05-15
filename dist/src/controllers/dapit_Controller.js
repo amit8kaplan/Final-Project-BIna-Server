@@ -37,80 +37,144 @@ class dapit_Controller extends base_controller_1.BaseController {
             }
         });
     }
-    getByTagsANDLogic(req, res) {
+    getByFilter(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("get by tags - get controller");
-            let filter = {};
-            if (req.query.tags) {
-                filter["tags"] = { $all: req.query.tags };
+            console.log("getByFilter - get controller");
+            let filters = [];
+            if (req.query.has_identfication) {
+                filters.push({ "identfication.value": { $exists: true } });
             }
-            try {
-                const obj = yield this.model.find(filter);
-                res.status(200).send(obj);
+            if (req.query.has_payload) {
+                filters.push({ "payload.value": { $exists: true } });
             }
-            catch (error) {
-                console.error('Error fetching dapit:', error);
-                res.status(500).send({ message: 'Error fetching dapit' });
+            if (req.query.has_decryption) {
+                filters.push({ "decryption.value": { $exists: true } });
+            }
+            if (req.query.has_workingMethod) {
+                filters.push({ "workingMethod.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_understandingTheAir) {
+                filters.push({ "understandingTheAir.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_flight) {
+                filters.push({ "flight.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_theortical) {
+                filters.push({ "theortical.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_thinkingInAir) {
+                filters.push({ "thinkingInAir.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_safety) {
+                filters.push({ "safety.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_briefing) {
+                filters.push({ "briefing.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_debriefing) {
+                filters.push({ "debriefing.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_debriefingInAir) {
+                filters.push({ "debriefingInAir.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_implementationExecise) {
+                filters.push({ "implementationExecise.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_dealingWithFailures) {
+                filters.push({ "dealingWithFailures.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_dealingWithStress) {
+                filters.push({ "dealingWithStress.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_makingDecisions) {
+                filters.push({ "makingDecisions.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_pilotNautre) {
+                filters.push({ "pilotNautre.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.has_crewMember) {
+                filters.push({ "crewMember.value": { $exists: true } }); // Check if there is at least one digit in the first element of the tuple
+            }
+            if (req.query.logic == "and") {
+                try {
+                    const obj = yield this.model.find({ $and: filters });
+                    res.status(200).send(obj);
+                }
+                catch (error) {
+                    console.error('Error fetching dapit:', error);
+                    res.status(500).send({ message: 'Error fetching dapit' });
+                }
+            }
+            else if (req.query.logic == "or") {
+                try {
+                    const obj = yield this.model.find({ $or: filters });
+                    res.status(200).send(obj);
+                }
+                catch (error) {
+                    console.error('Error fetching dapit:', error);
+                    res.status(500).send({ message: 'Error fetching dapit' });
+                }
             }
         });
     }
-    getByFilterOrLogic(req, res) {
+    getByFilterAndLogic(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("get by filter - get controller");
+            console.log("getByFilterOrLogic - get controller");
             let filter = {};
             if (req.query.has_identfication) {
-                filter["identfication"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                console.log("has_identfication");
+                filter["identfication.value"] = { $exists: true };
             }
             if (req.query.has_payload) {
-                filter["payload"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["payload.value"] = { $exists: true };
             }
             if (req.query.has_decryption) {
-                filter["decryption"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["decryption.value"] = { $exists: true };
             }
             if (req.query.has_workingMethod) {
-                filter["workingMethod"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["workingMethod.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_understandingTheAir) {
-                filter["understandingTheAir"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["understandingTheAir.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_flight) {
-                filter["flight"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["flight.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_theortical) {
-                filter["theortical"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["theortical.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_thinkingInAir) {
-                filter["thinkingInAir"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["thinkingInAir.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_safety) {
-                filter["safety"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["safety.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_briefing) {
-                filter["briefing"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["briefing.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_debriefing) {
-                filter["debriefing"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["debriefing.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_debriefingInAir) {
-                filter["debriefingInAir"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["debriefingInAir.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_implementationExecise) {
-                filter["implementationExecise"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["implementationExecise.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_dealingWithFailures) {
-                filter["dealingWithFailures"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["dealingWithFailures.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_dealingWithStress) {
-                filter["dealingWithStress"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["dealingWithStress.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_makingDecisions) {
-                filter["makingDecisions"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["makingDecisions.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_pilotNautre) {
-                filter["pilotNautre"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["pilotNautre.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             if (req.query.has_crewMember) {
-                filter["crewMember"] = { $regex: /[0-9]/ }; // Check if there is at least one digit in the first element of the tuple
+                filter["crewMember.value"] = { $exists: true }; // Check if there is at least one digit in the first element of the tuple
             }
             try {
                 const obj = yield this.model.find(filter);

@@ -13,6 +13,7 @@ router.get('/', dapit_Controller.get.bind(dapit_Controller));
 // //gets by filter
 router.get('/getByFilterBasicInfo', dapit_Controller.getByFilterBasicInfo.bind(dapit_Controller));
 
+router.get('/getByFilter', dapit_Controller.getByFilter.bind(dapit_Controller));
 
 // router.get('/:id', dapit_Controller.getByUserId.bind(dapit_Controller));
 // router.get('/getByTrainer/:id', dapit_Controller.getByTrainer.bind(dapit_Controller));

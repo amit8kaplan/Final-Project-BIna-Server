@@ -275,6 +275,10 @@ describe("Dapit tests", () => {
         test("Add dapit", () => __awaiter(void 0, void 0, void 0, function* () {
             dapit.tags = ["tag" + i];
             dapit.tags.push("tag" + (i + 1));
+            delete dapit.identfication;
+            if (i == 8) {
+                delete dapit.safety;
+            }
             const response = yield (0, supertest_1.default)(app).post("/dapit")
                 .send(dapit);
             expect(response.statusCode).toBe(200);
@@ -304,9 +308,49 @@ describe("Dapit tests", () => {
         const response = yield (0, supertest_1.default)(app)
             .get("/dapit/getByFilterBasicInfo")
             .query({ tags: ["tag1", "tag2"], tagsAndLogic: 1 });
-        (0, console_1.debug)("response.body: ", response.body);
+        // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(2);
+    }));
+    //get By filter Or Logic
+    test("test get the dapits by who add write in is dapit a grade to identifcation", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade to identifcation");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getByFilter")
+            .query({ has_identfication: 1, logic: "or" });
+        // debug("response.body: ", response.body);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        // debug("response.body: ", response.body);
+    }));
+    test("test get the dapits by who add write in is dapit a grade in safety", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getByFilter")
+            .query({ has_safety: 1, logic: "or" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(9);
+        // debug("response.body: ", response.body);
+    }));
+    test("test get the dapits by who add write in is dapit a grade in safety and identfication", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety and identfication");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getByFilter")
+            .query({ has_safety: 1, has_identfication: 1, logic: "and" });
+        (0, console_1.debug)("response.body: ", response.body);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        // debug("response.body: ", response.body);
+    }));
+    test("test get the dapits by who add write in is dapit a grade in safety and identfication", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety and identfication");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getByFilter")
+            .query({ has_safety: 1, has_identfication: 1, logic: "or" });
+        (0, console_1.debug)("response.body: ", response.body);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(9);
+        // debug("response.body: ", response.body);
     }));
 });
 //# sourceMappingURL=dapit.test.js.map
