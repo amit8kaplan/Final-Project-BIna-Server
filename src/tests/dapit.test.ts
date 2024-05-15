@@ -221,5 +221,106 @@ describe("Dapit tests", () => {
         const st = response.body[0];
         expect(st.crewMember[0].description).toBe("good");
     });
+
+    test ("test get the spesific dapit by advantage1", async () => {
+        debug("test get the spesific dapit by advantage")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ advantage: "advantage1" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.advantage[0]).toBe("advantage1");
+    });
+
+    test ("test get the spesific dapit by advantage2", async () => {
+        debug("test get the spesific dapit by advantage2")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ advantage: "advantage2" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.advantage[1]).toBe("advantage2");
+    });
+
+    test ("test get empty response by advantage", async () => {
+        debug("test get empty response by advantage")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ advantage: "advantage3" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(0);
+    });
+
+    test ("test get the spesific dapit by summerize", async () => {
+        debug("test get the spesific dapit by summerize")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ summerize: "good" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.summerize).toBe("good");
+    });
+    test ("test get the spesific dapit by summerize regex", async () => {
+        debug("test get the spesific dapit by summerize regex")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ summerize: "go" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.summerize).toBe("good");
+    });
+    test ("test get empty response by summerize", async () => {
+        debug("test get empty response by summerize")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ summerize: "bad" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(0);
+    });
+
+    test ("test get by silabus", async () => {
+        debug("test get by silabus")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ silabus: 1 });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.silabus).toBe(1);
+    });
+
+    test("test get by spesifc date", async () => {
+        debug("test get by spesifc date")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ date: "2022-01-01" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.date).toBe("2022-01-01T00:00:00.000Z");
+    });
+    test ("test get empty response by date", async () => {
+        debug("test get empty response by date")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ date: "2022-01-02" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(0);
+    }
+    );
+    test ("test gets by start and end dates", async () => {
+        debug("test gets by start and end dates")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ startDate: "2020-01-01", endDate: "2022-01-02" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.date).toBe("2022-01-01T00:00:00.000Z");
+    });
 });
 
