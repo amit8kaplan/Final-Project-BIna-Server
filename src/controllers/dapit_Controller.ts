@@ -26,20 +26,7 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
-    async getByTagsORLogic (req: Request, res: Response) {
-        console.log("get by tags - get controller");
-        let filter: FilterQuery<IDapit> = {};
-        if (req.query.tags) {
-            filter["tags"] = { $in: req.query.tags as string[] };
-        }
-        try {
-            const obj = await this.model.find(filter);
-            res.status(200).send(obj);
-        } catch (error) {
-            console.error('Error fetching dapit:', error);
-            res.status(500).send({ message: 'Error fetching dapit' });
-        }
-    }
+   
     async getByTagsANDLogic (req: Request, res: Response) {
         console.log("get by tags - get controller");
         let filter: FilterQuery<IDapit> = {};
@@ -299,7 +286,14 @@ class dapit_Controller extends BaseController<IDapit>{
             filter["disavantage"] = req.query.disavantage as string[];
         }
         if (req.query.tags){
+            if (req.query.tagsOrLogic as string == "1"){ 
+                console.log("tagsOrLogic");
             filter["tags"] = { $in: req.query.tags as string[] };
+            }
+            else if (req.query.tagsAndLogic as string == "1"){
+                console.log("tagsAndLogic");
+                filter["tags"] = { $all: req.query.tags as string[] };
+            }
         }
         if (req.query.changeTobeCommender){
             filter["changeTobeCommender"] = req.query.changeTobeCommender as string;

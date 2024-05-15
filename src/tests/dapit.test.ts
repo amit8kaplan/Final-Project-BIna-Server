@@ -63,7 +63,7 @@ interface IDapit {
     finalGrade: number;
     summerize: string;
 }
-const dapit = {
+let dapit = {
     nameInstractor: "Jonh Doe",
     namePersonalInstractor: "Kaplan",
     nameTrainer: "Moshiko",
@@ -201,13 +201,13 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .get("/dapit/getByFilterBasicInfo")
             .query({ crewMemberDescription: "good" });
-        debug("response.body: ", response.body);
-        debug("response.body.length: ", response.body.length);
+        // debug("response.body: ", response.body);
+        // debug("response.body.length: ", response.body.length);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         const st = response.body[0];
-        debug("st.crewMember: ", st.crewMember);
-        debug("st.crewMember[1]: ", st.crewMember[1]);
+        // debug("st.crewMember: ", st.crewMember);
+        // debug("st.crewMember[1]: ", st.crewMember[1]);
         expect(st.crewMember[0].description).toBe("good");
     });
 
@@ -322,5 +322,44 @@ describe("Dapit tests", () => {
         const st = response.body[0];
         expect(st.date).toBe("2022-01-01T00:00:00.000Z");
     });
-});
+    //add 10 dapit's with not the same data inside
+    for (let i = 0; i < 10; i++) {
+        test("Add dapit", async () => {
+            dapit.tags = ["tag" + i];
+            dapit.tags.push("tag" + (i + 1));
+            const response = await request(app).post("/dapit")
+                .send(dapit);
+            expect(response.statusCode).toBe(200);
+            expect(response.body.nameInstractor).toBe(dapit.nameInstractor);
+            expect(response.body.namePersonalInstractor).toBe(dapit.namePersonalInstractor);
+        });
+    }
 
+    test ("gets all the dapit", async () => {
+        debug("gets all the dapit")
+        const response = await request(app)
+            .get("/dapit");
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(11);
+    });
+    /// test to getByTagsORLogic
+    test ("test get the spesific dapit by tags -Or Logic", async () => {
+        debug("test get the spesific dapit by tags")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ tags: "tag1" , tagsOrLogic: 1});
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(3);    
+        // debug("response.body: ", response.body);
+    });
+
+    test ("test get the spesific dapit by tags - And Logic", async () => {
+        debug("test get the spesific dapit by tags And Logic")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ tags: ["tag1", "tag2"] , tagsAndLogic: 1});
+        debug("response.body: ", response.body);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(2);    
+    });
+});

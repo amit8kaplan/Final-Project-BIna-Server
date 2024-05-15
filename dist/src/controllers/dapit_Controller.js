@@ -23,28 +23,12 @@ class dapit_Controller extends base_controller_1.BaseController {
     constructor() {
         super(dapit_model_1.default);
     }
+    //THIS RUN GREAT!
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("get all dapit - get controller");
             try {
                 const obj = yield this.model.find();
-                res.status(200).send(obj);
-            }
-            catch (error) {
-                console.error('Error fetching dapit:', error);
-                res.status(500).send({ message: 'Error fetching dapit' });
-            }
-        });
-    }
-    getByTagsORLogic(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log("get by tags - get controller");
-            let filter = {};
-            if (req.query.tags) {
-                filter["tags"] = { $in: req.query.tags };
-            }
-            try {
-                const obj = yield this.model.find(filter);
                 res.status(200).send(obj);
             }
             catch (error) {
@@ -138,6 +122,7 @@ class dapit_Controller extends base_controller_1.BaseController {
             }
         });
     }
+    //THIS RUN GREAT!!
     getByFilterBasicInfo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("get by filter to basic Info - get controller");
@@ -174,24 +159,141 @@ class dapit_Controller extends base_controller_1.BaseController {
                 const escapedSession = escapeRegExp(req.query.session);
                 filter["session"] = { $regex: new RegExp(escapedSession, 'i') };
             }
-            // if (req.query.startDate && req.query.endDate){
-            //     const startDate = new Date(req.query.startDate as string);
-            //     const endDate = new Date(req.query.endDate as string);
-            //     filter["date"] = { $gte: startDate, $lt: endDate };
-            // }
+            if (req.query.startDate && req.query.endDate) {
+                const startDate = new Date(req.query.startDate);
+                const endDate = new Date(req.query.endDate);
+                filter["date"] = { $gte: startDate, $lt: endDate };
+            }
             if (req.query.silabus) {
                 filter["silabus"] = parseInt(req.query.silabus);
             }
             if (req.query.date) {
                 filter["date"] = new Date(req.query.date);
             }
+            if (req.query.identficationVal) {
+                filter["identfication.value"] = [parseInt(req.query.identficationVal)];
+            }
+            if (req.query.identficationDescription) {
+                const escapedIdentficationDescription = escapeRegExp(req.query.identficationDescription);
+                filter["identfication.description"] = { $regex: new RegExp(escapedIdentficationDescription, 'i') };
+            }
+            if (req.query.payloadVal) {
+                filter["payload.value"] = [parseInt(req.query.payloadVal)];
+            }
+            if (req.query.payloadDescription) {
+                const escapedPayloadDescription = escapeRegExp(req.query.payloadDescription);
+                filter["payload.description"] = { $regex: new RegExp(escapedPayloadDescription, 'i') };
+            }
+            if (req.query.decryptionVal) {
+                filter["decryption.value"] = [parseInt(req.query.decryptionVal)];
+            }
+            if (req.query.decryptionDescription) {
+                const escapedDecryptionDescription = escapeRegExp(req.query.decryptionDescription);
+                filter["decryption.description"] = { $regex: new RegExp(escapedDecryptionDescription, 'i') };
+            }
+            if (req.query.workingMethodVal) {
+                filter["workingMethod.value"] = [parseInt(req.query.workingMethodVal)];
+            }
+            if (req.query.workingMethodDescription) {
+                const escapedWorkingMethodDescription = escapeRegExp(req.query.workingMethodDescription);
+                filter["workingMethod.description"] = { $regex: new RegExp(escapedWorkingMethodDescription, 'i') };
+            }
+            if (req.query.understandingTheAirVal) {
+                filter["understandingTheAir.value"] = [parseInt(req.query.understandingTheAirVal)];
+            }
+            if (req.query.understandingTheAirDescription) {
+                const escapedUnderstandingTheAirDescription = escapeRegExp(req.query.understandingTheAirDescription);
+                filter["understandingTheAir.description"] = { $regex: new RegExp(escapedUnderstandingTheAirDescription, 'i') };
+            }
+            if (req.query.flightVal) {
+                filter["flight.value"] = [parseInt(req.query.flightVal)];
+            }
+            if (req.query.flightDescription) {
+                const escapedFlightDescription = escapeRegExp(req.query.flightDescription);
+                filter["flight.description"] = { $regex: new RegExp(escapedFlightDescription, 'i') };
+            }
+            if (req.query.theorticalVal) {
+                filter["theortical.value"] = [parseInt(req.query.theorticalVal)];
+            }
+            if (req.query.theorticalDescription) {
+                const escapedTheorticalDescription = escapeRegExp(req.query.theorticalDescription);
+                filter["theortical.description"] = { $regex: new RegExp(escapedTheorticalDescription, 'i') };
+            }
+            if (req.query.thinkingInAirVal) {
+                filter["thinkingInAir.value"] = [parseInt(req.query.thinkingInAirVal)];
+            }
+            if (req.query.thinkingInAirDescription) {
+                const escapedThinkingInAirDescription = escapeRegExp(req.query.thinkingInAirDescription);
+                filter["thinkingInAir.description"] = { $regex: new RegExp(escapedThinkingInAirDescription, 'i') };
+            }
+            if (req.query.safetyVal) {
+                filter["safety.value"] = [parseInt(req.query.safetyVal)];
+            }
+            if (req.query.safetyDescription) {
+                const escapedSafetyDescription = escapeRegExp(req.query.safetyDescription);
+                filter["safety.description"] = { $regex: new RegExp(escapedSafetyDescription, 'i') };
+            }
+            if (req.query.briefingVal) {
+                filter["briefing.value"] = [parseInt(req.query.briefingVal)];
+            }
+            if (req.query.briefingDescription) {
+                const escapedBriefingDescription = escapeRegExp(req.query.briefingDescription);
+                filter["briefing.description"] = { $regex: new RegExp(escapedBriefingDescription, 'i') };
+            }
+            if (req.query.debriefingVal) {
+                filter["debriefing.value"] = [parseInt(req.query.debriefingVal)];
+            }
+            if (req.query.debriefingDescription) {
+                const escapedDebriefingDescription = escapeRegExp(req.query.debriefingDescription);
+                filter["debriefing.description"] = { $regex: new RegExp(escapedDebriefingDescription, 'i') };
+            }
+            if (req.query.debriefingInAirVal) {
+                filter["debriefingInAir.value"] = [parseInt(req.query.debriefingInAirVal)];
+            }
+            if (req.query.debriefingInAirDescription) {
+                const escapedDebriefingInAirDescription = escapeRegExp(req.query.debriefingInAirDescription);
+                filter["debriefingInAir.description"] = { $regex: new RegExp(escapedDebriefingInAirDescription, 'i') };
+            }
+            if (req.query.implementationExeciseVal) {
+                filter["implementationExecise.value"] = [parseInt(req.query.implementationExeciseVal)];
+            }
+            if (req.query.implementationExeciseDescription) {
+                const escapedImplementationExeciseDescription = escapeRegExp(req.query.implementationExeciseDescription);
+                filter["implementationExecise.description"] = { $regex: new RegExp(escapedImplementationExeciseDescription, 'i') };
+            }
+            if (req.query.dealingWithFailuresVal) {
+                filter["dealingWithFailures.value"] = [parseInt(req.query.dealingWithFailuresVal)];
+            }
+            if (req.query.dealingWithFailuresDescription) {
+                const escapedDealingWithFailuresDescription = escapeRegExp(req.query.dealingWithFailuresDescription);
+                filter["dealingWithFailures.description"] = { $regex: new RegExp(escapedDealingWithFailuresDescription, 'i') };
+            }
+            if (req.query.dealingWithStressVal) {
+                filter["dealingWithStress.value"] = [parseInt(req.query.dealingWithStressVal)];
+            }
+            if (req.query.dealingWithStressDescription) {
+                const escapedDealingWithStressDescription = escapeRegExp(req.query.dealingWithStressDescription);
+                filter["dealingWithStress.description"] = { $regex: new RegExp(escapedDealingWithStressDescription, 'i') };
+            }
+            if (req.query.makingDecisionsVal) {
+                filter["makingDecisions.value"] = [parseInt(req.query.makingDecisionsVal)];
+            }
+            if (req.query.makingDecisionsDescription) {
+                const escapedMakingDecisionsDescription = escapeRegExp(req.query.makingDecisionsDescription);
+                filter["makingDecisions.description"] = { $regex: new RegExp(escapedMakingDecisionsDescription, 'i') };
+            }
+            if (req.query.pilotNautreVal) {
+                filter["pilotNautre.value"] = [parseInt(req.query.pilotNautreVal)];
+            }
+            if (req.query.pilotNautreDescription) {
+                const escapedPilotNautreDescription = escapeRegExp(req.query.pilotNautreDescription);
+                filter["pilotNautre.description"] = { $regex: new RegExp(escapedPilotNautreDescription, 'i') };
+            }
             if (req.query.crewMemberVal) {
                 filter["crewMember.value"] = [parseInt(req.query.crewMemberVal)];
             }
             if (req.query.crewMemberDescription) {
-                console.log("crewMemberDescription", req.query.crewMemberDescription);
                 filter["crewMember.description"] = { $regex: new RegExp(escapeRegExp(req.query.crewMemberDescription), 'i') };
-                console.log("filter", filter);
             }
             if (req.query.advantage) {
                 filter["advantage"] = { $in: [req.query.advantage] };
@@ -200,7 +302,14 @@ class dapit_Controller extends base_controller_1.BaseController {
                 filter["disavantage"] = req.query.disavantage;
             }
             if (req.query.tags) {
-                filter["tags"] = { $in: req.query.tags };
+                if (req.query.tagsOrLogic == "1") {
+                    console.log("tagsOrLogic");
+                    filter["tags"] = { $in: req.query.tags };
+                }
+                else if (req.query.tagsAndLogic == "1") {
+                    console.log("tagsAndLogic");
+                    filter["tags"] = { $all: req.query.tags };
+                }
             }
             if (req.query.changeTobeCommender) {
                 filter["changeTobeCommender"] = req.query.changeTobeCommender;
@@ -222,163 +331,6 @@ class dapit_Controller extends base_controller_1.BaseController {
             }
         });
     }
-    // async getByFilterBasicInfo (req: Request, res: Response)
-    // {
-    //     console.log("get by filter to basic Info - get controller");
-    //     let filter: FilterQuery<IDapit> = {};
-    //     if (req.query.nameInstractor){
-    //         const escapedNameInstractor = escapeRegExp(req.query.nameInstractor as string);
-    //         filter["nameInstractor"] = { $regex: new RegExp(escapedNameInstractor, 'i') };
-    //     }
-    //     if (req.query.namePersonalInstractor){
-    //         const escapedNamePersonalInstractor = escapeRegExp(req.query.namePersonalInstractor as string);
-    //         filter["namePersonalInstractor"] = { $regex: new RegExp(escapedNamePersonalInstractor, 'i') };
-    //     }
-    //     if (req.query.nameTrainer){
-    //         const escapedNameTrainer = escapeRegExp(req.query.nameTrainer as string);
-    //         filter["nameTrainer"] = { $regex: new RegExp(escapedNameTrainer, 'i') };
-    //     }
-    //     if (req.query.group){
-    //         const escapedGroup = escapeRegExp(req.query.group as string);
-    //         filter["group"] = { $regex: new RegExp(escapedGroup, 'i') };
-    //     }
-    //     if (req.query.idPersonalInstractor){
-    //         const escapedIdPersonalInstractor = escapeRegExp(req.query.idPersonalInstractor as string);
-    //         filter["idPersonalInstractor"] = { $regex: new RegExp(escapedIdPersonalInstractor, 'i') };
-    //     }
-    //     if (req.query.idInstractor){
-    //         const escapedIdInstractor = escapeRegExp(req.query.idInstractor as string);
-    //         filter["idInstractor"] = { $regex: new RegExp(escapedIdInstractor, 'i') };
-    //     }
-    //     if (req.query.idTrainer){
-    //         const escapedIdTrainer = escapeRegExp(req.query.idTrainer as string);
-    //         filter["idTrainer"] = { $regex: new RegExp(escapedIdTrainer, 'i') };
-    //     }
-    //     if (req.query.session){
-    //         const escapedSession = escapeRegExp(req.query.session as string);
-    //         filter["session"] = { $regex: new RegExp(escapedSession, 'i') };
-    //     }
-    //     // if (req.query.startDate && req.query.endDate){
-    //     //     const startDate = new Date(req.query.startDate as string);
-    //     //     const endDate = new Date(req.query.endDate as string);
-    //     //     filter["date"] = { $gte: startDate, $lt: endDate };
-    //     // }
-    //     if (req.query.silabus){
-    //         filter["silabus"] = parseInt(req.query.silabus as string);
-    //     }
-    //     if (req.query.date){
-    //         filter["date"] = new Date(req.query.date as string);
-    //     }
-    //     if (req.query.identficationVal){
-    //         filter["identfication.value"] = [parseInt(req.query.identficationVal as string)];
-    //     }
-    //     if(req.query.identficationDescription){
-    //         filter["identfication.1"] = [req.query.identficationDescription as string];
-    //     }
-    //     if (req.query.identfication){
-    //         filter["identfication.0"] = [parseInt(req.query.identfication as string)];
-    //         filter["identfication.1"] = [req.query.identfication as string];
-    //     }
-    //     if (req.query.payload){
-    //         filter["payload.0"] = [parseInt(req.query.payload as string)];
-    //         filter["payload.1"] = [req.query.payload as string];
-    //     }
-    //     if (req.query.decryption){
-    //         filter["decryption.0"] = [parseInt(req.query.decryption as string)];
-    //         filter["decryption.1"] = [req.query.decryption as string];
-    //     }
-    //     if (req.query.workingMethod){
-    //         filter["workingMethod.0"] = [parseInt(req.query.workingMethod as string)];
-    //         filter["workingMethod.1"] = [req.query.workingMethod as string];
-    //     }
-    //     if (req.query.understandingTheAir){
-    //         filter["understandingTheAir.0"] = [parseInt(req.query.understandingTheAir as string)];
-    //         filter["understandingTheAir.1"] = [req.query.understandingTheAir as string];
-    //     }
-    //     if (req.query.flight){
-    //         filter["flight.0"] = [parseInt(req.query.flight as string)];
-    //         filter["flight.1"] = [req.query.flight as string];
-    //     }
-    //     if (req.query.theortical){
-    //         filter["theortical.0"] = [parseInt(req.query.theortical as string)];
-    //         filter["theortical.1"] = [req.query.theortical as string];
-    //     }
-    //     if (req.query.thinkingInAir){
-    //         filter["thinkingInAir.0"] = [parseInt(req.query.thinkingInAir as string)];
-    //         filter["thinkingInAir.1"] = [req.query.thinkingInAir as string];
-    //     }
-    //     if (req.query.safety){
-    //         filter["safety.0"] = [parseInt(req.query.safety as string)];
-    //         filter["safety.1"] = [req.query.safety as string];
-    //     }
-    //     if (req.query.briefing){
-    //         filter["briefing.0"] = [parseInt(req.query.briefing as string)];
-    //         filter["briefing.1"] = [req.query.briefing as string];
-    //     }
-    //     if (req.query.debriefing){
-    //         filter["debriefing.0"] = [parseInt(req.query.debriefing as string)];
-    //         filter["debriefing.1"] = [req.query.debriefing as string];
-    //     }
-    //     if (req.query.debriefingInAir){
-    //         filter["debriefingInAir.0"] = [parseInt(req.query.debriefingInAir as string)];
-    //         filter["debriefingInAir.1"] = [req.query.debriefingInAir as string];
-    //     }
-    //     if (req.query.implementationExecise){
-    //         filter["implementationExecise.0"] = [parseInt(req.query.implementationExecise as string)];
-    //         filter["implementationExecise.1"] = [req.query.implementationExecise as string];
-    //     }
-    //     if (req.query.dealingWithFailures){
-    //         filter["dealingWithFailures.0"] = [parseInt(req.query.dealingWithFailures as string)];
-    //         filter["dealingWithFailures.1"] = [req.query.dealingWithFailures as string];
-    //     }
-    //     if (req.query.dealingWithStress){
-    //         filter["dealingWithStress.0"] = [parseInt(req.query.dealingWithStress as string)];
-    //         filter["dealingWithStress.1"] = [req.query.dealingWithStress as string];
-    //     }
-    //     if (req.query.makingDecisions){
-    //         filter["makingDecisions.0"] = [parseInt(req.query.makingDecisions as string)];
-    //         filter["makingDecisions.1"] = [req.query.makingDecisions as string];
-    //     }
-    //     if (req.query.pilotNautre){
-    //         filter["pilotNautre.0"] = [parseInt(req.query.pilotNautre as string)];
-    //         filter["pilotNautre.1"] = [req.query.pilotNautre as string];
-    //     }
-    //     if (req.query.crewMemberVal){
-    //         filter["crewMember.0"] = [parseInt(req.query.crewMemberVal as string)];
-    //     }
-    //     if (req.query.crewMemberDescription){
-    //         filter["crewMember.1"] = [req.query.crewMember as string];
-    //     }
-    //     if (req.query.advantage) {
-    //         filter["advantage"] = { $in: [req.query.advantage] };
-    //     }
-    //     if (req.query.disavantage) {
-    //         filter["disavantage"] = req.query.disavantage as string[];
-    //     }
-    //     if (req.query.tags){
-    //         filter["tags"] = { $in: req.query.tags as string[] };
-    //     }
-    //     if (req.query.changeTobeCommender){
-    //         filter["changeTobeCommender"] = req.query.changeTobeCommender as string;
-    //     }
-    //     if (req.query.finalGrade)
-    //     {
-    //         filter["finalGrade"] = req.query.finalGrade as string;
-    //     }
-    //     if (req.query.summerize)
-    //         {
-    //             const escapedSummerize = escapeRegExp(req.query.summerize as string);
-    //             filter["summerize"] = { $regex: new RegExp(escapedSummerize, 'i') };
-    //         }
-    //     try{
-    //         const obj = await this.model.find(filter);
-    //         res.status(200).send(obj);
-    //     }
-    //     catch (error) {
-    //         console.error('Error fetching dapit:', error);
-    //         res.status(500).send({ message: 'Error fetching dapit' });
-    //     }
-    // }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("post - post controller");
