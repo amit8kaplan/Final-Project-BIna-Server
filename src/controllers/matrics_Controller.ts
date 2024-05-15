@@ -23,6 +23,83 @@ class matrics_Controller extends BaseController<IDapit> {
     constructor() {
         super(dapit_model);
     }
+    async getAveragePerformance(req: Request, res: Response) {
+        try {
+            const avgPerformance: { [trainer: string]: { [session: string]: { [field: string]: number } } } = {};
+            const avgHanichPerformance: { [session: string]: { [field: string]: number } } = {};
+            const avgPerformanceLength: { [trainer: string]: { [session: string]: { [field: string]: number } } } = {};
+            const avgHanichPerformanceLength:  { [session: string]: { [field: string]: number } } = {};
+            if (!req.query.group) res.status(400).json({ error: 'Group is required' });
+            const escapedGroup = escapeRegExp(req.query.group as string);
+            let filter: FilterQuery<IDapit> = {};
+            filter["group"] = { $regex: new RegExp(escapedGroup, 'i') };
+            const dapits: IDapit[] = await this.model.find(filter);
+
+            dapits.forEach(dapit => {
+                const trainer = dapit.nameTrainer;
+                const session = dapit.session;
+    
+                if (!avgPerformance.hasOwnProperty(trainer)) {
+                    console.log("if 'avgPerformance.hasOwnProperty(trainer)'");
+                    avgPerformance[trainer] = {};
+                    avgPerformanceLength[trainer] = {};
+                }
+    
+                if (!avgPerformance[trainer].hasOwnProperty(session)) {
+                    console.log("if 'avgPerformance[trainer].hasOwnProperty(session)'");
+                    avgPerformance[trainer][session] = {};
+                    avgPerformanceLength[trainer][session] = {};
+                }
+    
+                if (!avgHanichPerformance.hasOwnProperty(session)) {
+                    console.log("if 'avgHanichPerformance.hasOwnProperty(session)'");
+                    avgHanichPerformance[session] = {};
+                    avgHanichPerformanceLength[session] = {};
+                }
+    
+                professionalFields.forEach(field => {
+                    if (!avgPerformance[trainer][session].hasOwnProperty(field)) {
+                        console.log("if 'avgPerformance[trainer][session].hasOwnProperty(field)'");
+                        avgPerformance[trainer][session][field] = 0;
+                        avgPerformanceLength[trainer][session][field] = 0;
+                    }
+                    if (!avgHanichPerformance[session].hasOwnProperty(field)) {
+                        console.log("if 'avgHanichPerformance[session].hasOwnProperty(field)'");
+                        avgHanichPerformance[session][field] = 0;
+                        avgHanichPerformanceLength[session][field] = 0;
+                    }
+                    console.log('dapit[field].value:', dapit[field][0].value);
+                    console.log('before avgPerformance[trainer][session][field]:', avgPerformance[trainer][session][field]);
+                    avgPerformance[trainer][session][field] += dapit[field][0].value;
+                    avgHanichPerformance[session][field] += dapit[field][0].value;
+                    avgPerformanceLength[trainer][session][field]++;
+                    avgHanichPerformanceLength[session][field]++;
+                    console.log('after avgPerformance[trainer][session][field]:', avgPerformance[trainer][session][field]);
+                });
+            });
+            console.log('avgPerformance:', avgPerformance);
+            console.log('avgHanichPerformance:', avgHanichPerformance);
+            for (const trainer in avgPerformance) {
+                for (const session in avgPerformance[trainer]) {
+                    for (const field in avgPerformance[trainer][session]) {
+                        avgPerformance[trainer][session][field] /= avgPerformanceLength[trainer][session][field];
+                    }
+                }
+            }
+    
+            for (const session in avgHanichPerformance) {
+                for (const field in avgHanichPerformance[session]) {
+                    avgHanichPerformance[session][field] /= avgHanichPerformanceLength[session][field];
+                }
+            }
+    
+            res.status(200).json({ avgPerformance, avgHanichPerformance });
+        } catch (error) {
+            console.error('Error calculating average performance:', error);
+            res.status(500);
+        }
+    }
+    
   //TODO: calc by precents!
     async getMegamGradesAvg(req: Request, res: Response) {
         console.log('getMegamGradesAvg in matrics_Controller.ts');
@@ -80,7 +157,7 @@ class matrics_Controller extends BaseController<IDapit> {
             res.status(200).json({ groupAverages,hanichAvgPerSession,sessionAvgPerHanich, dapits});
         } catch (error) {
             console.error('Error calculating group averages:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500);
         }
     }
 }

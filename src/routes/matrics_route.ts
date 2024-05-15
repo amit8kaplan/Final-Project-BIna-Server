@@ -7,4 +7,5 @@ import exp from 'constants';
 
 router.get('/getMegamGradesAvg', matrics_Controller.getMegamGradesAvg.bind(matrics_Controller));
 
+router.get('/getAveragePerformance', matrics_Controller.getAveragePerformance.bind(matrics_Controller));
 export default router;

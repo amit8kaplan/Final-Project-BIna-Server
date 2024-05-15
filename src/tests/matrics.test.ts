@@ -176,12 +176,21 @@ describe('matrics tests', () => {
             .get('/matrics/getMegamGradesAvg')
             .query({group: "A"});
         // debug("res.body to get Megama:", res.body);
-        debug(res.body);
+        // debug(res.body);
         expect(res.statusCode).toBe(200);
         const session1Average = res.body.groupAverages['session1'];
         expect(session1Average).toBe(6.5);
         expect(res.body.hanichAvgPerSession['session1']['Moshiko']).toBe(7);
-        
+    });
+
+    test ("test getAveragePerformance", async () => {
+        const res = await request(app)
+            .get('/matrics/getAveragePerformance')
+            .query({group: "A"});
+        expect(res.statusCode).toBe(200);
+        debug(res.body);
+        expect(res.body.avgPerformance['Moshiko']['session1']['identfication']).toBe(4);
+
     });
 
 

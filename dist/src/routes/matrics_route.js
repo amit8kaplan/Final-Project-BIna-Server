@@ -7,5 +7,6 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const matrics_Controller_1 = __importDefault(require("../controllers/matrics_Controller"));
 router.get('/getMegamGradesAvg', matrics_Controller_1.default.getMegamGradesAvg.bind(matrics_Controller_1.default));
+router.get('/getAveragePerformance', matrics_Controller_1.default.getAveragePerformance.bind(matrics_Controller_1.default));
 exports.default = router;
 //# sourceMappingURL=matrics_route.js.map
