@@ -104,74 +104,9 @@ class dapit_Controller extends BaseController<IDapit>{
         }
     }
    
-    async getByFilterAndLogic (req: Request, res: Response) {
-        console.log("getByFilterOrLogic - get controller");
-        let filter: FilterQuery<IDapit> = {};
-        if(req.query.has_identfication){
-            console.log("has_identfication");
-            filter["identfication.value"] ={$exists: true};
-        }
-        if (req.query.has_payload){
-            filter["payload.value"] ={$exists: true};
-        }
-        if (req.query.has_decryption){
-            filter["decryption.value"]  ={$exists: true};
-        }
-        if (req.query.has_workingMethod){
-            filter["workingMethod.value"]  ={$exists: true};// Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_understandingTheAir){
-            filter["understandingTheAir.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_flight){
-            filter["flight.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_theortical){
-            filter["theortical.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_thinkingInAir){
-            filter["thinkingInAir.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_safety){
-            filter["safety.value"]  ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_briefing){
-            filter["briefing.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_debriefing){
-            filter["debriefing.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_debriefingInAir){
-            filter["debriefingInAir.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_implementationExecise){
-            filter["implementationExecise.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_dealingWithFailures){
-            filter["dealingWithFailures.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_dealingWithStress){
-            filter["dealingWithStress.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_makingDecisions){
-            filter["makingDecisions.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_pilotNautre){
-            filter["pilotNautre.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        if (req.query.has_crewMember){
-            filter["crewMember.value"] ={$exists: true}; // Check if there is at least one digit in the first element of the tuple
-        }
-        try {
-            const obj = await this.model.find(filter);
-            res.status(200).send(obj);
-        } catch (error) {
-            console.error('Error fetching dapit:', error);
-            res.status(500).send({ message: 'Error fetching dapit' });
-        }
-    }
+   
     //THIS RUN GREAT!!
-    async getByFilterBasicInfo (req: Request, res: Response)
+     async getByFilterBasicInfo (req: Request, res: Response)
     {
         console.log("get by filter to basic Info - get controller");
         let filter: FilterQuery<IDapit> = {};
@@ -392,6 +327,27 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error creating dapit' });
         }
     }
+
+    async putById (req: Request, res: Response) {
+        console.log("put by id - put controller");
+        try {
+            const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            res.status(200).send(obj);
+        } catch (error) {
+            console.error('Error updating dapit:', error);
+            res.status(500).send({ message: 'Error updating dapit' });
+        }
+    }
+    async deleteById (req: Request, res: Response) {
+        console.log("delete by id - delete controller");
+        try {
+            await this.model.findByIdAndDelete(req.params.id);
+            res.status(200).send({ message: 'Deleted successfully' });
+        } catch (error) {
+            console.error('Error deleting dapit:', error);
+            res.status(500).send({ message: 'Error deleting dapit' });
+        }
+    }   
    
 }
 

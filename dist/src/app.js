@@ -14,6 +14,7 @@ const user_update_route_1 = __importDefault(require("./routes/user_update_route"
 const courses_route_1 = __importDefault(require("./routes/courses_route"));
 const courses_reviews_route_1 = __importDefault(require("./routes/courses_reviews_route"));
 const dapit_route_1 = __importDefault(require("./routes/dapit_route"));
+const matrics_route_1 = __importDefault(require("./routes/matrics_route"));
 const initApp = () => {
     const promise = new Promise((resolve) => {
         const db = mongoose_1.default.connection;
@@ -37,6 +38,7 @@ const initApp = () => {
             app.use("/auth", auth_route_1.default);
             app.use("/user", user_update_route_1.default);
             app.use("/dapit", dapit_route_1.default);
+            app.use("/matrics", matrics_route_1.default);
             app.use("/public", express_1.default.static("public"));
             resolve(app);
         });

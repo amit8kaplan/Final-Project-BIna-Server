@@ -9,6 +9,7 @@ import userRoute from "./routes/user_update_route";
 import cousreRoute from "./routes/courses_route";
 import courseReviewRoute from "./routes/courses_reviews_route";
 import dapitRoute from "./routes/dapit_route";
+import matricsRoute from "./routes/matrics_route";
 
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -33,6 +34,7 @@ const initApp = (): Promise<Express> => {
       app.use("/auth", authRoute);
       app.use("/user", userRoute);
       app.use("/dapit", dapitRoute)
+      app.use("/matrics", matricsRoute)
       app.use("/public", express.static("public"));
       resolve(app);
     });
