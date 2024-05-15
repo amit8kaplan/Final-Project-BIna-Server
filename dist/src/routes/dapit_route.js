@@ -20,7 +20,7 @@ router.get('/getByFilter', dapit_Controller_1.default.getByFilter.bind(dapit_Con
 // router.get('/getByGroup/:id', dapit_Controller.getByGroup.bind(dapit_Controller));
 // router.get('/getByRangeDate/:id', dapit_Controller.getByDate.bind(dapit_Controller));
 router.post('/', dapit_Controller_1.default.post.bind(dapit_Controller_1.default));
-// router.put('/:id', dapit_Controller.putById.bind(dapit_Controller));
-// router.delete('/:id', dapit_Controller.deleteById.bind(dapit_Controller));
+router.put('/:id', dapit_Controller_1.default.putById.bind(dapit_Controller_1.default));
+router.delete('/:id', dapit_Controller_1.default.deleteById.bind(dapit_Controller_1.default));
 exports.default = router;
 //# sourceMappingURL=dapit_route.js.map

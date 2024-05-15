@@ -100,6 +100,8 @@ let dapit = {
     summerize: "good",
 };
 
+let firstDapitId: string;
+
 describe("Dapit tests", () => {
     test ("Test Get All Dapit - empty response", async () => {
         debug("Test Get All Dapit - empty response")
@@ -113,6 +115,7 @@ describe("Dapit tests", () => {
         debug("test Add dapit")
         const response = await request(app).post("/dapit")
             .send(dapit);
+        firstDapitId = response.body._id;
         expect(response.statusCode).toBe(200);
         expect(response.body.nameInstractor).toBe(dapit.nameInstractor);
         expect(response.body.namePersonalInstractor).toBe(dapit.namePersonalInstractor);
@@ -393,7 +396,7 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .get("/dapit/getByFilter")
             .query({ has_safety: 1, has_identfication: 1 , logic: "and"});
-        debug("response.body: ", response.body);
+        // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         // debug("response.body: ", response.body);
@@ -404,9 +407,26 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .get("/dapit/getByFilter")
             .query({ has_safety: 1, has_identfication: 1 , logic: "or"});
-        debug("response.body: ", response.body);
+        // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);
+    });
+
+    test ("test put the first dapit", async () => {
+        debug("test put the first dapit")
+        const response = await request(app)
+            .put(`/dapit/${firstDapitId}`)
+            .send({ nameInstractor: "Jonh Doe22" });
+        debug("response.body: ", response.body);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.nameInstractor).toBe("Jonh Doe22");
+    });
+    test ("test delete the first dapit", async () => {
+        debug("test delete the first dapit")
+        const response = await request(app)
+            .delete(`/dapit/${firstDapitId}`);
+        expect(response.statusCode).toBe(200);
+        expect(response.body.deletedCount).toBe(1);
     });
 });
