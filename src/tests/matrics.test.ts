@@ -189,9 +189,8 @@ describe('matrics tests', () => {
             .query({group: "A"});
         expect(res.statusCode).toBe(200);
         debug(res.body);
-        expect(res.body.avgPerformance['Moshiko']['session1']['identfication']).toBe(4);
+        expect(res.body.ResavgPerformance['Moshiko']['session1']['identfication']).toBe(4);
+        expect(res.body.avgHanichPerPreformance['Moshiko']['identfication']).toBe(4);
 
     });
-
-
 });

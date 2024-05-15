@@ -79,21 +79,44 @@ class matrics_Controller extends BaseController<IDapit> {
             });
             console.log('avgPerformance:', avgPerformance);
             console.log('avgHanichPerformance:', avgHanichPerformance);
-            for (const trainer in avgPerformance) {
-                for (const session in avgPerformance[trainer]) {
-                    for (const field in avgPerformance[trainer][session]) {
-                        avgPerformance[trainer][session][field] /= avgPerformanceLength[trainer][session][field];
+            const ResavgPerformance: { [trainer: string]: { [session: string]: { [field: string]: number } } } = avgPerformance;
+            for (const trainer in ResavgPerformance) {
+                for (const session in ResavgPerformance[trainer]) {
+                    for (const field in ResavgPerformance[trainer][session]) {
+                        ResavgPerformance[trainer][session][field] /= avgPerformanceLength[trainer][session][field];
                     }
                 }
             }
-    
+            const avgHanichPerPreformance: { [trainer: string]:{[field: string]: number }} = {};
+            const avgHanichPerformanceLen: { [session: string]: { [field: string]: number } } = {};
+            for (const trainer in avgPerformance) {
+                avgHanichPerPreformance[trainer] = {};
+                avgHanichPerformanceLen[trainer] = {};
+                for (const session in avgPerformance[trainer]) {
+                    for (const field in avgPerformance[trainer][session]) {
+                        if (!avgHanichPerPreformance[trainer].hasOwnProperty(field)) {
+                            avgHanichPerPreformance[trainer][field] = 0;
+                            avgHanichPerformanceLen[trainer][field] = 0;
+                        }
+                        avgHanichPerPreformance[trainer][field] += avgPerformance[trainer][session][field];
+                        avgHanichPerformanceLen[trainer][field]++;
+                    }
+                }
+            }
+
+            for (const trainer in avgHanichPerPreformance) {
+                for (const field in avgHanichPerPreformance[trainer]) {
+                    avgHanichPerPreformance[trainer][field] /= avgHanichPerformanceLen[trainer][field];
+                }
+            }
+            console.log('avgHanichPerPreformance:', avgHanichPerPreformance);
             for (const session in avgHanichPerformance) {
                 for (const field in avgHanichPerformance[session]) {
                     avgHanichPerformance[session][field] /= avgHanichPerformanceLength[session][field];
                 }
             }
     
-            res.status(200).json({ avgPerformance, avgHanichPerformance });
+            res.status(200).json({ ResavgPerformance, avgHanichPerPreformance });
         } catch (error) {
             console.error('Error calculating average performance:', error);
             res.status(500);
