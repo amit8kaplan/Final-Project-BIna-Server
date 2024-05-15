@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const dapitPerformanceSchema = new mongoose.Schema({
+export const dapitPerformanceSchema = new mongoose.Schema({
     value: Number,
     description: String,
 });

@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "tsc && jest --coverage --detectOpenHandles --forceExit --runInBand",
+    "testDapit": "tsc && jest --detectOpenHandles --forceExit ./src/tests/dapit.test.ts",
     "testCourse": "tsc && jest  --detectOpenHandles --forceExit ./src/tests/courses.test.ts",
     "testReview": "tsc && jest  --detectOpenHandles --forceExit ./src/tests/course_reviews.test.ts",
     "testAuth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
