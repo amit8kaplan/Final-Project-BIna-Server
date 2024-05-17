@@ -418,7 +418,9 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .put(`/dapit/${firstDapitId}`)
             .send({ nameInstractor: "Jonh Doe22" });
-        debug("response.body: ", response.body);
+        // debug("response.body: ", response.body);
+        debug("the id of the first dapit: ", firstDapitId)
+        debug("the id of the first dapit after the put: ", response.body._id)
         expect(response.statusCode).toBe(200);
         expect(response.body.nameInstractor).toBe("Jonh Doe22");
     });
@@ -427,6 +429,6 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .delete(`/dapit/${firstDapitId}`);
         expect(response.statusCode).toBe(200);
-        expect(response.body.deletedCount).toBe(1);
+        expect(response.body.deletedId).toBe(firstDapitId);
     });
 });

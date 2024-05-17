@@ -340,9 +340,10 @@ class dapit_Controller extends BaseController<IDapit>{
     }
     async deleteById (req: Request, res: Response) {
         console.log("delete by id - delete controller");
+        console.log("id" + req.params.id);
         try {
             await this.model.findByIdAndDelete(req.params.id);
-            res.status(200).send({ message: 'Deleted successfully' });
+            res.status(200).send({ message: 'Deleted successfully' , deletedId: req.params.id});
         } catch (error) {
             console.error('Error deleting dapit:', error);
             res.status(500).send({ message: 'Error deleting dapit' });

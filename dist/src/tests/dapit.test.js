@@ -359,7 +359,9 @@ describe("Dapit tests", () => {
         const response = yield (0, supertest_1.default)(app)
             .put(`/dapit/${firstDapitId}`)
             .send({ nameInstractor: "Jonh Doe22" });
-        (0, console_1.debug)("response.body: ", response.body);
+        // debug("response.body: ", response.body);
+        (0, console_1.debug)("the id of the first dapit: ", firstDapitId);
+        (0, console_1.debug)("the id of the first dapit after the put: ", response.body._id);
         expect(response.statusCode).toBe(200);
         expect(response.body.nameInstractor).toBe("Jonh Doe22");
     }));
@@ -368,7 +370,7 @@ describe("Dapit tests", () => {
         const response = yield (0, supertest_1.default)(app)
             .delete(`/dapit/${firstDapitId}`);
         expect(response.statusCode).toBe(200);
-        expect(response.body.deletedCount).toBe(1);
+        expect(response.body.deletedId).toBe(firstDapitId);
     }));
 });
 //# sourceMappingURL=dapit.test.js.map

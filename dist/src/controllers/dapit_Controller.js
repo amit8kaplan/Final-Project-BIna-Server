@@ -356,9 +356,10 @@ class dapit_Controller extends base_controller_1.BaseController {
     deleteById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("delete by id - delete controller");
+            console.log("id" + req.params.id);
             try {
                 yield this.model.findByIdAndDelete(req.params.id);
-                res.status(200).send({ message: 'Deleted successfully' });
+                res.status(200).send({ message: 'Deleted successfully', deletedId: req.params.id });
             }
             catch (error) {
                 console.error('Error deleting dapit:', error);
