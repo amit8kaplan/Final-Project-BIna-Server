@@ -5,22 +5,22 @@ import { BaseController } from "./base_controller";
 import exp from "node:constants";
 import getByFilterBasicInfo from "./dapit_Controller";
 import { Console } from "node:console";
-
+import { escapeRegExp, professionalFields, finalFields } from "../common/utils";
 //TODO: add final grades in pianoo and in the Megama Grades
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-const professionalFields = [
-    'identfication', 'payload', 'decryption', 'workingMethod',
-    'understandingTheAir', 'flight', 'theoretical', 'thinkingInAir',
-    'safety', 'briefing', 'debriefing', 'debriefingInAir',
-    'implementationExecise', 'dealingWithFailures', 'dealingWithStress',
-    'makingDecisions', 'pilotNature', 'crewMember'
-];
+// function escapeRegExp(string) {
+//     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+// }
+// const professionalFields = [
+//     'identfication', 'payload', 'decryption', 'workingMethod',
+//     'understandingTheAir', 'flight', 'theoretical', 'thinkingInAir',
+//     'safety', 'briefing', 'debriefing', 'debriefingInAir',
+//     'implementationExecise', 'dealingWithFailures', 'dealingWithStress',
+//     'makingDecisions', 'pilotNature', 'crewMember'
+// ];
 
-const finalFields = [
-    'finalGrade', 'summerize'
-];
+// const finalFields = [
+//     'finalGrade', 'summerize'
+// ];
 
 class matrics_Controller extends BaseController<IDapit> {
     constructor() {

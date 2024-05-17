@@ -14,20 +14,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dapit_model_1 = __importDefault(require("../models/dapit_model"));
 const base_controller_1 = require("./base_controller");
+const utils_1 = require("../common/utils");
 //TODO: add final grades in pianoo and in the Megama Grades
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-const professionalFields = [
-    'identfication', 'payload', 'decryption', 'workingMethod',
-    'understandingTheAir', 'flight', 'theoretical', 'thinkingInAir',
-    'safety', 'briefing', 'debriefing', 'debriefingInAir',
-    'implementationExecise', 'dealingWithFailures', 'dealingWithStress',
-    'makingDecisions', 'pilotNature', 'crewMember'
-];
-const finalFields = [
-    'finalGrade', 'summerize'
-];
+// function escapeRegExp(string) {
+//     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+// }
+// const professionalFields = [
+//     'identfication', 'payload', 'decryption', 'workingMethod',
+//     'understandingTheAir', 'flight', 'theoretical', 'thinkingInAir',
+//     'safety', 'briefing', 'debriefing', 'debriefingInAir',
+//     'implementationExecise', 'dealingWithFailures', 'dealingWithStress',
+//     'makingDecisions', 'pilotNature', 'crewMember'
+// ];
+// const finalFields = [
+//     'finalGrade', 'summerize'
+// ];
 class matrics_Controller extends base_controller_1.BaseController {
     constructor() {
         super(dapit_model_1.default);
@@ -42,7 +43,7 @@ class matrics_Controller extends base_controller_1.BaseController {
                 const avgHanichPerformanceLength = {};
                 if (!req.query.group)
                     res.status(400).json({ error: 'Group is required' });
-                const escapedGroup = escapeRegExp(req.query.group);
+                const escapedGroup = (0, utils_1.escapeRegExp)(req.query.group);
                 let filter = {};
                 filter["group"] = { $regex: new RegExp(escapedGroup, 'i') };
                 const dapits = yield this.model.find(filter);
@@ -64,7 +65,7 @@ class matrics_Controller extends base_controller_1.BaseController {
                         avgHanichPerformance[session] = {};
                         avgHanichPerformanceLength[session] = {};
                     }
-                    finalFields.forEach(field => {
+                    utils_1.finalFields.forEach(field => {
                         console.log("finalFields.forEach(field)");
                         if (dapit[field] !== undefined && typeof dapit[field] === 'number') {
                             if (!avgPerformance[trainer][session].hasOwnProperty(field)) {
@@ -86,7 +87,7 @@ class matrics_Controller extends base_controller_1.BaseController {
                             console.log('after avgPerformance[trainer][session][field]:', avgPerformance[trainer][session][field]);
                         }
                     });
-                    professionalFields.forEach(field => {
+                    utils_1.professionalFields.forEach(field => {
                         console.log("professionalFields.forEach(field)");
                         if (dapit[field] && dapit[field][0] && typeof dapit[field][0].value === 'number') {
                             if (!avgPerformance[trainer][session].hasOwnProperty(field)) {
@@ -169,7 +170,7 @@ class matrics_Controller extends base_controller_1.BaseController {
                 // Group by group and professional category and calculate averages
                 if (!req.query.group)
                     res.status(400).json({ error: 'Group is required' });
-                const escapedGroup = escapeRegExp(req.query.group);
+                const escapedGroup = (0, utils_1.escapeRegExp)(req.query.group);
                 let filter = {};
                 filter["group"] = { $regex: new RegExp(escapedGroup, 'i') };
                 const dapits = yield this.model.find(filter);

@@ -193,9 +193,9 @@ describe("Dapit tests", () => {
             .query({ crewMemberVal: 7 });
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
-        // debug("response.body: ", response.body);
+        debug("response.body: ", response.body);
         const st = response.body[0];
-        // debug("st.crewMember.value: ", st.crewMember);
+        debug("st.crewMember.value: ", st.crewMember);
         expect(st.crewMember[0].value).toBe(7);
     });
 
@@ -230,6 +230,17 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .get("/dapit/getByFilterBasicInfo")
             .query({ advantage: "advantage1" });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBe(1);
+        const st = response.body[0];
+        expect(st.advantage[0]).toBe("advantage1");
+    });
+
+    test ("test get the spesfic dapit by part of sting in the advange", async () => {
+        debug("test get the spesfic dapit by part of sting in the advange")
+        const response = await request(app)
+            .get("/dapit/getByFilterBasicInfo")
+            .query({ advantage: "adv" });
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         const st = response.body[0];
@@ -354,7 +365,7 @@ describe("Dapit tests", () => {
         debug("test get the spesific dapit by tags")
         const response = await request(app)
             .get("/dapit/getByFilterBasicInfo")
-            .query({ tags: "tag1" , tagsOrLogic: 1});
+            .query({ tags: "tag1" , tagsLogic: "or"});
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(3);    
         // debug("response.body: ", response.body);
@@ -364,7 +375,7 @@ describe("Dapit tests", () => {
         debug("test get the spesific dapit by tags And Logic")
         const response = await request(app)
             .get("/dapit/getByFilterBasicInfo")
-            .query({ tags: ["tag1", "tag2"] , tagsAndLogic: 1});
+            .query({ tags: ["tag1", "tag2"] , tagsLogic: "and"});
         // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(2);    
@@ -402,12 +413,12 @@ describe("Dapit tests", () => {
         // debug("response.body: ", response.body);
     });
 
-    test("test get the dapits by who add write in is dapit a grade in safety and identfication", async () => {
+    test("test get the dapits by who add write in is dapit a grade in safety or identfication", async () => {
         debug("test get the dapits by who add write in is dapit a grade in safety and identfication")
         const response = await request(app)
             .get("/dapit/getByFilter")
             .query({ has_safety: 1, has_identfication: 1 , logic: "or"});
-        // debug("response.body: ", response.body);
+        debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);

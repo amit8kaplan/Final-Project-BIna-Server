@@ -1,0 +1,1 @@
+{"version":3,"file":"trainer_model.js","sourceRoot":"","sources":["../../../src/models/trainer_model.ts"],"names":[],"mappings":";;;;;AAAA,wDAAgC;AAOhC,MAAM,aAAa,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAW;IAChD,IAAI,EAAE;QACF,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;KACjB;CACJ,CAAC,CAAC;AAEH,kBAAe,kBAAQ,CAAC,KAAK,CAAW,SAAS,EAAE,aAAa,CAAC,CAAC"}
