@@ -124,29 +124,32 @@ describe('matrics tests', () => {
         const res = yield (0, supertest_1.default)(app)
             .get('/dapit');
         expect(res.statusCode).toBe(200);
-        expect(res.body.length).toBe(20);
+        expect(res.body.length).toBe(10);
         // debug(res.body);
     }));
-    //test MegamaGrades
+    // test MegamaGrades
     test("get MegamaGrades", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app)
             .get('/matrics/getMegamGradesAvg')
             .query({ group: "A" });
         // debug("res.body to get Megama:", res.body);
-        // debug(res.body);
+        // debug("groupAverages" + JSON.stringify(res.body.groupAverages, null, 2));
+        // debug("hanichAvgPerSession" + JSON.stringify(res.body.hanichAvgPerSession, null, 2));
+        (0, console_1.debug)("sessionAvgPerHanich" + JSON.stringify(res.body.sessionAvgPerHanich, null, 2));
         expect(res.statusCode).toBe(200);
-        const session1Average = res.body.groupAverages['session1'];
-        expect(session1Average).toBe(6.5);
-        expect(res.body.hanichAvgPerSession['session1']['Moshiko']).toBe(7);
+        const session1Average = res.body.groupAverages['A1'];
+        expect(session1Average).toBe(8);
+        expect(res.body.hanichAvgPerSession['A1']['Moshiko']).toBe(8);
     }));
     test("test getAveragePerformance", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app)
             .get('/matrics/getAveragePerformance')
             .query({ group: "A" });
         expect(res.statusCode).toBe(200);
-        (0, console_1.debug)(res.body);
-        expect(res.body.ResavgPerformance['Moshiko']['session1']['identfication']).toBe(4);
-        expect(res.body.avgHanichPerPreformance['Moshiko']['identfication']).toBe(4);
+        // debug(res.body);
+        expect(res.body.ResavgPerformance['Moshiko']['A1']['payload']).toBe(5);
+        expect(res.body.avgHanichPerPreformance['Moshiko']['payload']).toBe(5);
+        expect(res.body.avgHanichPerPreformance['Moshiko']['finalGrade']).toBe(8);
     }));
 });
 //# sourceMappingURL=matrics.test.js.map
