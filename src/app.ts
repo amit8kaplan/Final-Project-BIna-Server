@@ -10,7 +10,7 @@ import cousreRoute from "./routes/courses_route";
 import courseReviewRoute from "./routes/courses_reviews_route";
 import dapitRoute from "./routes/dapit_route";
 import matricsRoute from "./routes/matrics_route";
-
+import wallRoute from "./routes/wall_route";
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
     const db = mongoose.connection;
@@ -35,6 +35,7 @@ const initApp = (): Promise<Express> => {
       app.use("/user", userRoute);
       app.use("/dapit", dapitRoute)
       app.use("/matrics", matricsRoute)
+      app.use("/wall", wallRoute)
       app.use("/public", express.static("public"));
       resolve(app);
     });
