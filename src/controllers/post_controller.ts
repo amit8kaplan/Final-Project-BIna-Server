@@ -11,6 +11,9 @@ import { post } from "../routes/user_update_route";
 
 
 class post_controller extends BaseController<IPost>{
+    constructor(){
+        super(post_model)
+    }
     async post(req: Request, res: Response){
         console.log("post - controller");
         try{
@@ -62,6 +65,8 @@ class post_controller extends BaseController<IPost>{
     }
     
 }
+
+export default new post_controller();
 
 
 

@@ -179,3 +179,5 @@ class wall_controller{
     }
 
 }
+
+export default new wall_controller();
