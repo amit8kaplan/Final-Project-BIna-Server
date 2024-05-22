@@ -1,11 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 
 export interface IResponse{
-    idPost?: mongoose.Schema.Types.ObjectId;
-    idDapit?: mongoose.Schema.Types.ObjectId;
-    idResponse?: mongoose.Schema.Types.ObjectId;
-    idTrainer: mongoose.Schema.Types.ObjectId;
-    idInstuctor: mongoose.Schema.Types.ObjectId;
+    idPost?: string;
+    idDapit?: string;
+    idTrainer: string;
+    idInstuctor: string;
     nameInstractor: string;
     nameTrainer: string;
     content: string;
@@ -15,13 +14,10 @@ export interface IResponse{
 
 const responseSchema = new mongoose.Schema<IResponse>({
     idPost: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
     },
     idDapit: {
-        type: mongoose.Schema.Types.ObjectId,
-    },
-    idResponse: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
     },
     content: {
         type: String,
@@ -33,11 +29,11 @@ const responseSchema = new mongoose.Schema<IResponse>({
         default: Date.now,
     },
     idTrainer: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
     idInstuctor: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
     nameInstractor: {

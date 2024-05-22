@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const wallSchema = new mongoose_1.default.Schema({
     idTrainer: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
     dapits: {

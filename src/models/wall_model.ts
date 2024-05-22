@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 export interface IWall{
-    idTrainer: mongoose.Schema.Types.ObjectId;
+    idTrainer: string;
     dapits: mongoose.Schema.Types.ObjectId[];
     posts: mongoose.Schema.Types.ObjectId[];
 }
 
 const wallSchema = new mongoose.Schema<IWall>({
     idTrainer: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
     dapits: {

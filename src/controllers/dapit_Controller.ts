@@ -341,7 +341,7 @@ class dapit_Controller extends BaseController<IDapit>{
     
 
     async post (req: Request, res: Response) {
-        console.log("post - post controller");
+        console.log("post Dapit controller");
         try {
             const obj = new this.model(req.body);
             await obj.save();

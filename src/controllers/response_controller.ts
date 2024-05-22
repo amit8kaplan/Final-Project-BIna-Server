@@ -14,12 +14,13 @@ class resonse_controller extends BaseController<IResponse>{
         super(response_model)
     }
     async post(req: Request, res: Response){
-        console.log("post - controller");
+        console.log("post response - controller");
         try{
-            const newResponse = new response_model(req.body);
-            await newResponse.save();
-            res.status(201).json(newResponse);
+            const body = req.body;
+            const obj = await response_model.create(body);
+            res.status(201).send(obj);
         }catch(err){
+            console.log("err", err);
             res.status(500).json({message: err.message});
         }
     }

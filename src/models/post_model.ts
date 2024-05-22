@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 export interface IPost{
-    idTrainer: mongoose.Schema.Types.ObjectId;
-    idInstractor: mongoose.Schema.Types.ObjectId;
+    idTrainer: string;
+    idInstractor: string;
     nameInstractor: string;
     title?: string;
     content: string;
@@ -12,7 +12,7 @@ export interface IPost{
 
 const postSchema = new mongoose.Schema<IPost>({
     idTrainer: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
     title: {

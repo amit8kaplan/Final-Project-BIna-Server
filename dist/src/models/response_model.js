@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const responseSchema = new mongoose_1.default.Schema({
     idPost: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
+        type: String,
     },
     idDapit: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
+        type: String,
     },
     content: {
         type: String,
@@ -19,6 +19,22 @@ const responseSchema = new mongoose_1.default.Schema({
         type: Date,
         required: true,
         default: Date.now,
+    },
+    idTrainer: {
+        type: String,
+        required: true,
+    },
+    idInstuctor: {
+        type: String,
+        required: true,
+    },
+    nameInstractor: {
+        type: String,
+        required: true,
+    },
+    nameTrainer: {
+        type: String,
+        required: true,
     },
 });
 exports.default = mongoose_1.default.model("Response", responseSchema);

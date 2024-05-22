@@ -15,12 +15,14 @@ class post_controller extends BaseController<IPost>{
         super(post_model)
     }
     async post(req: Request, res: Response){
-        console.log("post - controller");
+        console.log("post Post - controller");
         try{
-            const newPost = new post_model(req.body);
-            await newPost.save();
-            res.status(201).json(newPost);
+           const body = req.body;
+            const obj = await post_model.create(body);
+            console.log("obj", JSON.stringify(obj, null, 2));
+            res.status(201).send(obj);
         }catch(err){
+            console.log("err", err);
             res.status(500).json({message: err.message});
         }
     }

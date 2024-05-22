@@ -340,7 +340,7 @@ class dapit_Controller extends base_controller_1.BaseController {
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("post - post controller");
+            console.log("post Dapit controller");
             try {
                 const obj = new this.model(req.body);
                 yield obj.save();

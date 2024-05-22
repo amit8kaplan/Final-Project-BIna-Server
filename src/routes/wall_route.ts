@@ -9,7 +9,7 @@ import { upload_vid } from '../common/file_upload';
 import exp from 'constants';
 
 //get the wall of the triner
-router.get('/:trinerId', wall_controller.getWallByTrainerId.bind(wall_controller));
+router.get('/:trainerId', wall_controller.getWallByTrainerId.bind(wall_controller));
 // gets wall by filter
 router.get('/getByFilter', wall_controller.getWallByFilter.bind(wall_controller));
 
@@ -36,3 +36,5 @@ router.post('/responses', response_controller.post.bind(response_controller));
 router.put('/responses/:id', response_controller.put.bind(response_controller));
 //delete response
 router.delete('/responses/:id', response_controller.delete.bind(response_controller));
+
+export default router;
