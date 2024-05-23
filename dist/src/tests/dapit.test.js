@@ -42,7 +42,7 @@ let dapit = {
     silabus: 1,
     date: new Date("2022-01-01"), // Replace with the desired date
     tags: ["tag1", "tag2"],
-    identfication: { value: 4, description: "good" },
+    identification: { value: 4, description: "good" },
     payload: { value: 5, description: "good" },
     decryption: { value: 6, description: "good" },
     workingMethod: { value: 7, description: "good" },
@@ -287,7 +287,7 @@ describe("Dapit tests", () => {
         test("Add dapit", () => __awaiter(void 0, void 0, void 0, function* () {
             dapit.tags = ["tag" + i];
             dapit.tags.push("tag" + (i + 1));
-            delete dapit.identfication;
+            delete dapit.identification;
             if (i == 8) {
                 delete dapit.safety;
             }
@@ -329,7 +329,7 @@ describe("Dapit tests", () => {
         (0, console_1.debug)("test get the dapits by who add write in is dapit a grade to identifcation");
         const response = yield (0, supertest_1.default)(app)
             .get("/dapit/getByFilter")
-            .query({ has_identfication: 1, logic: "or" });
+            .query({ has_identification: 1, logic: "or" });
         // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
@@ -344,21 +344,21 @@ describe("Dapit tests", () => {
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);
     }));
-    test("test get the dapits by who add write in is dapit a grade in safety and identfication", () => __awaiter(void 0, void 0, void 0, function* () {
-        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety and identfication");
+    test("test get the dapits by who add write in is dapit a grade in safety and identification", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety and identification");
         const response = yield (0, supertest_1.default)(app)
             .get("/dapit/getByFilter")
-            .query({ has_safety: 1, has_identfication: 1, logic: "and" });
+            .query({ has_safety: 1, has_identification: 1, logic: "and" });
         // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         // debug("response.body: ", response.body);
     }));
-    test("test get the dapits by who add write in is dapit a grade in safety or identfication", () => __awaiter(void 0, void 0, void 0, function* () {
-        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety and identfication");
+    test("test get the dapits by who add write in is dapit a grade in safety or identification", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("test get the dapits by who add write in is dapit a grade in safety and identification");
         const response = yield (0, supertest_1.default)(app)
             .get("/dapit/getByFilter")
-            .query({ has_safety: 1, has_identfication: 1, logic: "or" });
+            .query({ has_safety: 1, has_identification: 1, logic: "or" });
         (0, console_1.debug)("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(9);

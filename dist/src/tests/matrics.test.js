@@ -41,7 +41,7 @@ let dapit = {
     silabus: 1,
     date: new Date("2022-01-01"), // Replace with the desired date
     tags: ["tag1", "tag2"],
-    identfication: { value: 4, description: "good" },
+    identification: { value: 4, description: "good" },
     payload: { value: 5, description: "good" },
     decryption: { value: 6, description: "good" },
     workingMethod: { value: 7, description: "good" },
@@ -77,7 +77,7 @@ describe('matrics tests', () => {
     //         for (let i = 0; i < 5; i++) {
     //             test ("add dapiot for trainer 1, group A, session 1, silabos 1-5", async () => {
     //                 dapit.silabus = i;
-    //                 dapit.identfication.value = i+5;
+    //                 dapit.identification.value = i+5;
     //                 dapit.payload.value = i+5;
     //                 dapit.decryption.value = i+5;
     //                 dapit.workingMethod.value = i+5;

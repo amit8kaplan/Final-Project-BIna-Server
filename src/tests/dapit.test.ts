@@ -37,7 +37,7 @@ interface IDapit {
     tags ?: string[];
     //the data of the dapit
     //professoinal
-    identfication: typeof dapitPerformanceSchema;
+    identification: typeof dapitPerformanceSchema;
     payload: typeof dapitPerformanceSchema;
     decryption: typeof dapitPerformanceSchema;
     workingMethod: typeof dapitPerformanceSchema;
@@ -75,7 +75,7 @@ let dapit = {
     silabus: 1,
     date: new Date("2022-01-01"), // Replace with the desired date
     tags : ["tag1", "tag2"],
-    identfication: {value: 4, description: "good"},
+    identification: {value: 4, description: "good"},
     payload: {value: 5, description: "good"},
     decryption: {value: 6, description: "good"},
     workingMethod: {value: 7, description: "good"},
@@ -341,7 +341,7 @@ describe("Dapit tests", () => {
         test("Add dapit", async () => {
             dapit.tags = ["tag" + i];
             dapit.tags.push("tag" + (i + 1));
-            delete dapit.identfication
+            delete dapit.identification
             if (i == 8) {
                 delete dapit.safety
             }
@@ -386,7 +386,7 @@ describe("Dapit tests", () => {
         debug("test get the dapits by who add write in is dapit a grade to identifcation")
         const response = await request(app)
             .get("/dapit/getByFilter")
-            .query({ has_identfication: 1 , logic : "or"});
+            .query({ has_identification: 1 , logic : "or"});
         // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
@@ -402,22 +402,22 @@ describe("Dapit tests", () => {
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);
     });
-    test("test get the dapits by who add write in is dapit a grade in safety and identfication", async () => {
-        debug("test get the dapits by who add write in is dapit a grade in safety and identfication")
+    test("test get the dapits by who add write in is dapit a grade in safety and identification", async () => {
+        debug("test get the dapits by who add write in is dapit a grade in safety and identification")
         const response = await request(app)
             .get("/dapit/getByFilter")
-            .query({ has_safety: 1, has_identfication: 1 , logic: "and"});
+            .query({ has_safety: 1, has_identification: 1 , logic: "and"});
         // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         // debug("response.body: ", response.body);
     });
 
-    test("test get the dapits by who add write in is dapit a grade in safety or identfication", async () => {
-        debug("test get the dapits by who add write in is dapit a grade in safety and identfication")
+    test("test get the dapits by who add write in is dapit a grade in safety or identification", async () => {
+        debug("test get the dapits by who add write in is dapit a grade in safety and identification")
         const response = await request(app)
             .get("/dapit/getByFilter")
-            .query({ has_safety: 1, has_identfication: 1 , logic: "or"});
+            .query({ has_safety: 1, has_identification: 1 , logic: "or"});
         debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(9);

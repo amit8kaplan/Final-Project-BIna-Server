@@ -188,6 +188,7 @@
 
 // export default new wall_controller();
 
+import { filterPartOf } from "../common/utils";
 import dapit_model from "../models/dapit_model";
 import post_model from "../models/post_model";
 import response_model from "../models/response_model";
@@ -253,8 +254,8 @@ class wall_controller {
                 dapit_model.aggregate(dapitPipeline),
                 post_model.aggregate(postPipeline),
             ]);
-            console.log("dapits", JSON.stringify(dapits, null, 2));
-            console.log("posts", JSON.stringify(posts, null, 2));
+            // console.log("dapits", JSON.stringify(dapits, null, 2));
+            // console.log("posts", JSON.stringify(posts, null, 2));
             const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());    
             if (combined.length > 0) {
                 res.status(200).json(combined);
@@ -271,12 +272,19 @@ class wall_controller {
         const trainerId = req.params.trainerId;
 
         // Construct filters based on request query parameters
-        const partOfStringFilters = {}; // Add your filters here
+        const partOfStringFilters = {
+            ...filterPartOf(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"]),
+        }; // Add your filters here
         const dateFilters = {}; // Add your date filters here
 
         // Separate filters for dapits and posts
-        const dapitFilters = { idTrainer: new mongoose.Types.ObjectId(trainerId), ...partOfStringFilters };
-        const postFilters = { idTrainer: new mongoose.Types.ObjectId(trainerId), ...partOfStringFilters, ...dateFilters };
+        const dapitFilters = { idTrainer: trainerId,
+            ...filterPartOf(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary" ])
+         };
+        const postFilters = { 
+            idTrainer: trainerId,
+            ...filterPartOf(req, ["nameInstructor", "content"])
+        };
 
         try {
             const dapitPipeline: PipelineStage[] = [
@@ -285,8 +293,14 @@ class wall_controller {
                 {
                     $lookup: {
                         from: "responses",
-                        localField: "_id",
-                        foreignField: "idDapit",
+                        let: { dapitId: "$_id" }, // Define variable to hold the ObjectId as string
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: { $eq: ["$idDapit", { $toString: "$$dapitId" }] }, // Convert ObjectId to string for comparison
+                                },
+                            },
+                        ],
                         as: "responses",
                     },
                 },
@@ -298,8 +312,14 @@ class wall_controller {
                 {
                     $lookup: {
                         from: "responses",
-                        localField: "_id",
-                        foreignField: "idPost",
+                        let: { postId: "$_id" }, // Define variable to hold the ObjectId as string
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: { $eq: ["$idPost", { $toString: "$$postId" }] }, // Convert ObjectId to string for comparison
+                                },
+                            },
+                        ],
                         as: "responses",
                     },
                 },
@@ -309,8 +329,8 @@ class wall_controller {
                 dapit_model.aggregate(dapitPipeline),
                 post_model.aggregate(postPipeline),
             ]);
-            console.log("dapits", JSON.stringify(dapits, null, 2));
-            console.log("posts", JSON.stringify(posts, null, 2));
+            // console.log("dapits", JSON.stringify(dapits, null, 2));
+            // console.log("posts", JSON.stringify(posts, null, 2));
             const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
             if (combined.length > 0) {
                 res.status(200).json(combined);

@@ -20,7 +20,7 @@ const utils_1 = require("../common/utils");
 //     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 // }
 // const professionalFields = [
-//     'identfication', 'payload', 'decryption', 'workingMethod',
+//     'identification', 'payload', 'decryption', 'workingMethod',
 //     'understandingTheAir', 'flight', 'theoretical', 'thinkingInAir',
 //     'safety', 'briefing', 'debriefing', 'debriefingInAir',
 //     'implementationExecise', 'dealingWithFailures', 'dealingWithStress',

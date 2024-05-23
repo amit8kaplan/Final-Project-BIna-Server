@@ -9,6 +9,14 @@ const postSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    idInstractor: {
+        type: String,
+        required: true,
+    },
+    nameInstractor: {
+        type: String,
+        required: true,
+    },
     title: {
         type: String,
     },

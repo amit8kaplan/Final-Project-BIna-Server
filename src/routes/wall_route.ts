@@ -11,7 +11,7 @@ import exp from 'constants';
 //get the wall of the triner
 router.get('/:trainerId', wall_controller.getWallByTrainerId.bind(wall_controller));
 // gets wall by filter
-router.get('/getByFilter', wall_controller.getWallByFilter.bind(wall_controller));
+router.get('/:trainerId/getByFilter', wall_controller.getWallByFilter.bind(wall_controller));
 
 //gets all the posts
 router.get('/posts', post_controller.getAllPosts.bind(post_controller));

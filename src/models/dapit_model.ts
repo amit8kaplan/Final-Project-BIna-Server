@@ -5,71 +5,58 @@ export const dapitPerformanceSchema = new mongoose.Schema({
     description: String,
 });
 export interface IDapit {
-    nameInstractor: string;//the name of the Instractor that plight with him
-    namePersonalInstractor: string; // the nmame of the personal instractor
+    nameInstractor: string;
+    namePersonalInstractor: string;
     nameTrainer: string;
-    group: string; // group == megama
-    idPersonalInstractor: string; // this is the personal instractor id
+    group: string;
+    idPersonalInstractor: string;
     _id?: string;
-    idInstractor: string; // this is the Instractor id
-    idTrainer: string; // this is the Trainer id
-    session: string; //session == sidra    
+    idInstractor: string;
+    idTrainer: string;
+    session?: string; // assuming it's optional
     silabus: number;
     date: Date;
-    tags ?: string[];
-    //the data of the dapit
-    //professoinal
-    identfication: typeof dapitPerformanceSchema;
-    payload: typeof dapitPerformanceSchema;
-    decryption: typeof dapitPerformanceSchema;
-    workingMethod: typeof dapitPerformanceSchema;
-    understandingTheAir: typeof dapitPerformanceSchema;
-    flight: typeof dapitPerformanceSchema;
-    theoretical: typeof dapitPerformanceSchema;
-    thinkingInAir: typeof dapitPerformanceSchema;
-    safety: typeof dapitPerformanceSchema;
-    briefing: typeof dapitPerformanceSchema;
-    debriefing: typeof dapitPerformanceSchema;
-    debriefingInAir: typeof dapitPerformanceSchema;
-    implementationExecise: typeof dapitPerformanceSchema;
-    dealingWithFailures: typeof dapitPerformanceSchema;
-    dealingWithStress: typeof dapitPerformanceSchema;
-    makingDecisions: typeof dapitPerformanceSchema;
-    pilotNature: typeof dapitPerformanceSchema;
-    crewMember: typeof dapitPerformanceSchema;
-    //advatage and disavantage
+    tags?: string[];
+    identification: Array<{ value: number, description: string }>;
+    payload: Array<{ value: number, description: string }>;
+    decryption: Array<{ value: number, description: string }>;
+    workingMethod: Array<{ value: number, description: string }>;
+    understandingTheAir: Array<{ value: number, description: string }>;
+    flight: Array<{ value: number, description: string }>;
+    theoretical: Array<{ value: number, description: string }>;
+    thinkingInAir: Array<{ value: number, description: string }>;
+    safety: Array<{ value: number, description: string }>;
+    briefing: Array<{ value: number, description: string }>;
+    debriefing: Array<{ value: number, description: string }>;
+    debriefingInAir: Array<{ value: number, description: string }>;
+    implementationExecise: Array<{ value: number, description: string }>;
+    dealingWithFailures: Array<{ value: number, description: string }>;
+    dealingWithStress: Array<{ value: number, description: string }>;
+    makingDecisions: Array<{ value: number, description: string }>;
+    pilotNature: Array<{ value: number, description: string }>;
+    crewMember: Array<{ value: number, description: string }>;
     advantage: string[];
     disavantage: string[];
-    //final Dapit
     changeTobeCommender: number;
     finalGrade: number;
     summerize: string;
 }
 
+
+
 const dapitSchema = new mongoose.Schema<IDapit>({
-    nameInstractor: {
-        type: String,
-        required: true,
-    },
-    namePersonalInstractor: {
-        type: String,
-        required: true,
-    },
-    tags: {
-        type: [String],
-    },
-    nameTrainer: {
-        type: String,
-        required: true,
-    },
-    group: {type: String,required: true,},
-    idPersonalInstractor: {type: String,required: true,},
-    idInstractor: {type: String,required: true,},
-    idTrainer: {type: String,required: true,},
-    session: {type: String,},
-    silabus: {type: Number,required: true,},
-    date: {type: Date,required: true,},
-    identfication: [{ value: Number, description: String }],
+    nameInstractor: { type: String, required: true },
+    namePersonalInstractor: { type: String, required: true },
+    nameTrainer: { type: String, required: true },
+    group: { type: String, required: true },
+    idPersonalInstractor: { type: String, required: true },
+    idInstractor: { type: String, required: true },
+    idTrainer: { type: String, required: true },
+    session: { type: String }, // adjust required based on interface
+    silabus: { type: Number, required: true },
+    date: { type: Date, required: true },
+    tags: { type: [String] },
+    identification: [{ value: Number, description: String }],
     payload: [{ value: Number, description: String }],
     decryption: [{ value: Number, description: String }],
     workingMethod: [{ value: Number, description: String }],
@@ -87,28 +74,14 @@ const dapitSchema = new mongoose.Schema<IDapit>({
     makingDecisions: [{ value: Number, description: String }],
     pilotNature: [{ value: Number, description: String }],
     crewMember: [{ value: Number, description: String }],
-    advantage: {
-        type: [String],
-    },
-    disavantage: {
-        type: [String],
-    },
-    changeTobeCommender: {
-        type: Number,
-        min: 4,
-        max: 10,
-    },
-    finalGrade: {
-        type: Number,
-        min: 4,
-        max: 10,
-        required: true,
-    },
-    summerize: {
-        type: String,
-        required: true,
-    },
+    advantage: { type: [String] },
+    disavantage: { type: [String] },
+    changeTobeCommender: { type: Number, min: 4, max: 10 },
+    finalGrade: { type: Number, min: 4, max: 10, required: true },
+    summerize: { type: String, required: true },
 });
+
+
 
 export default mongoose.model<IDapit>("Dapit", dapitSchema);
 

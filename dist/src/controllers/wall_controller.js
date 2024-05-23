@@ -187,9 +187,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //     }
 // }
 // export default new wall_controller();
+const utils_1 = require("../common/utils");
 const dapit_model_1 = __importDefault(require("../models/dapit_model"));
 const post_model_1 = __importDefault(require("../models/post_model"));
-const mongoose_1 = __importDefault(require("mongoose"));
 class wall_controller {
     getWallByTrainerId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -247,8 +247,8 @@ class wall_controller {
                     dapit_model_1.default.aggregate(dapitPipeline),
                     post_model_1.default.aggregate(postPipeline),
                 ]);
-                console.log("dapits", JSON.stringify(dapits, null, 2));
-                console.log("posts", JSON.stringify(posts, null, 2));
+                // console.log("dapits", JSON.stringify(dapits, null, 2));
+                // console.log("posts", JSON.stringify(posts, null, 2));
                 const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                 if (combined.length > 0) {
                     res.status(200).json(combined);
@@ -267,11 +267,11 @@ class wall_controller {
             console.log("getWallByFilter - controller");
             const trainerId = req.params.trainerId;
             // Construct filters based on request query parameters
-            const partOfStringFilters = {}; // Add your filters here
+            const partOfStringFilters = Object.assign({}, (0, utils_1.filterPartOf)(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"])); // Add your filters here
             const dateFilters = {}; // Add your date filters here
             // Separate filters for dapits and posts
-            const dapitFilters = Object.assign({ idTrainer: new mongoose_1.default.Types.ObjectId(trainerId) }, partOfStringFilters);
-            const postFilters = Object.assign(Object.assign({ idTrainer: new mongoose_1.default.Types.ObjectId(trainerId) }, partOfStringFilters), dateFilters);
+            const dapitFilters = Object.assign({ idTrainer: trainerId }, (0, utils_1.filterPartOf)(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"]));
+            const postFilters = Object.assign({ idTrainer: trainerId }, (0, utils_1.filterPartOf)(req, ["nameInstructor", "content"]));
             try {
                 const dapitPipeline = [
                     { $match: dapitFilters },
@@ -279,8 +279,14 @@ class wall_controller {
                     {
                         $lookup: {
                             from: "responses",
-                            localField: "_id",
-                            foreignField: "idDapit",
+                            let: { dapitId: "$_id" }, // Define variable to hold the ObjectId as string
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: { $eq: ["$idDapit", { $toString: "$$dapitId" }] }, // Convert ObjectId to string for comparison
+                                    },
+                                },
+                            ],
                             as: "responses",
                         },
                     },
@@ -291,8 +297,14 @@ class wall_controller {
                     {
                         $lookup: {
                             from: "responses",
-                            localField: "_id",
-                            foreignField: "idPost",
+                            let: { postId: "$_id" }, // Define variable to hold the ObjectId as string
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: { $eq: ["$idPost", { $toString: "$$postId" }] }, // Convert ObjectId to string for comparison
+                                    },
+                                },
+                            ],
                             as: "responses",
                         },
                     },
@@ -301,8 +313,8 @@ class wall_controller {
                     dapit_model_1.default.aggregate(dapitPipeline),
                     post_model_1.default.aggregate(postPipeline),
                 ]);
-                console.log("dapits", JSON.stringify(dapits, null, 2));
-                console.log("posts", JSON.stringify(posts, null, 2));
+                // console.log("dapits", JSON.stringify(dapits, null, 2));
+                // console.log("posts", JSON.stringify(posts, null, 2));
                 const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                 if (combined.length > 0) {
                     res.status(200).json(combined);

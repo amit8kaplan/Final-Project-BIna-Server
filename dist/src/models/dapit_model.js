@@ -10,29 +10,18 @@ exports.dapitPerformanceSchema = new mongoose_1.default.Schema({
     description: String,
 });
 const dapitSchema = new mongoose_1.default.Schema({
-    nameInstractor: {
-        type: String,
-        required: true,
-    },
-    namePersonalInstractor: {
-        type: String,
-        required: true,
-    },
-    tags: {
-        type: [String],
-    },
-    nameTrainer: {
-        type: String,
-        required: true,
-    },
-    group: { type: String, required: true, },
-    idPersonalInstractor: { type: String, required: true, },
-    idInstractor: { type: String, required: true, },
-    idTrainer: { type: String, required: true, },
-    session: { type: String, },
-    silabus: { type: Number, required: true, },
-    date: { type: Date, required: true, },
-    identfication: [{ value: Number, description: String }],
+    nameInstractor: { type: String, required: true },
+    namePersonalInstractor: { type: String, required: true },
+    nameTrainer: { type: String, required: true },
+    group: { type: String, required: true },
+    idPersonalInstractor: { type: String, required: true },
+    idInstractor: { type: String, required: true },
+    idTrainer: { type: String, required: true },
+    session: { type: String }, // adjust required based on interface
+    silabus: { type: Number, required: true },
+    date: { type: Date, required: true },
+    tags: { type: [String] },
+    identification: [{ value: Number, description: String }],
     payload: [{ value: Number, description: String }],
     decryption: [{ value: Number, description: String }],
     workingMethod: [{ value: Number, description: String }],
@@ -50,27 +39,11 @@ const dapitSchema = new mongoose_1.default.Schema({
     makingDecisions: [{ value: Number, description: String }],
     pilotNature: [{ value: Number, description: String }],
     crewMember: [{ value: Number, description: String }],
-    advantage: {
-        type: [String],
-    },
-    disavantage: {
-        type: [String],
-    },
-    changeTobeCommender: {
-        type: Number,
-        min: 4,
-        max: 10,
-    },
-    finalGrade: {
-        type: Number,
-        min: 4,
-        max: 10,
-        required: true,
-    },
-    summerize: {
-        type: String,
-        required: true,
-    },
+    advantage: { type: [String] },
+    disavantage: { type: [String] },
+    changeTobeCommender: { type: Number, min: 4, max: 10 },
+    finalGrade: { type: Number, min: 4, max: 10, required: true },
+    summerize: { type: String, required: true },
 });
 exports.default = mongoose_1.default.model("Dapit", dapitSchema);
 //# sourceMappingURL=dapit_model.js.map

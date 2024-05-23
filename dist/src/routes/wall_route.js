@@ -11,7 +11,7 @@ const post_controller_1 = __importDefault(require("../controllers/post_controlle
 //get the wall of the triner
 router.get('/:trainerId', wall_controller_1.default.getWallByTrainerId.bind(wall_controller_1.default));
 // gets wall by filter
-router.get('/getByFilter', wall_controller_1.default.getWallByFilter.bind(wall_controller_1.default));
+router.get('/:trainerId/getByFilter', wall_controller_1.default.getWallByFilter.bind(wall_controller_1.default));
 //gets all the posts
 router.get('/posts', post_controller_1.default.getAllPosts.bind(post_controller_1.default));
 //get post by trainer id

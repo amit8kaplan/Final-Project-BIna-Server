@@ -104,12 +104,12 @@ class dapit_Controller extends BaseController<IDapit>{
     //     if (req.query.date){
     //         filter["date"] = new Date(req.query.date as string);
     //     }
-    //     if (req.query.identficationVal){
-    //         filter["identfication.value"] = [parseInt(req.query.identficationVal as string)];
+    //     if (req.query.identificationVal){
+    //         filter["identification.value"] = [parseInt(req.query.identificationVal as string)];
     //     }
-    //     if(req.query.identficationDescription){
-    //         const escapedIdentficationDescription = escapeRegExp(req.query.identficationDescription as string);
-    //         filter["identfication.description"] = { $regex: new RegExp(escapedIdentficationDescription, 'i') };
+    //     if(req.query.identificationDescription){
+    //         const escapedidentificationDescription = escapeRegExp(req.query.identificationDescription as string);
+    //         filter["identification.description"] = { $regex: new RegExp(escapedidentificationDescription, 'i') };
     //     }
     //     if (req.query.payloadVal){
     //         filter["payload.value"] = [parseInt(req.query.payloadVal as string)];
@@ -279,7 +279,7 @@ class dapit_Controller extends BaseController<IDapit>{
     //     filter.push(...filterByDate(req));
     //     filter.push(...filterParseInt(req, ['silabus','finalGrade', 'changeTobeCommender']));
     //     filter.push(...filterByProfessionalFieldsTospesificData(req,
-    //          ['identfication', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 
+    //          ['identification', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 
     //          'flight', 'theortical', 'thinkingInAir', 'safety','briefing',
     //           'debriefing', 'debriefingInAir', 'implementationExecise',
     //            'dealingWithFailures', 'dealingWithStress', 'makingDecisions',
@@ -300,7 +300,7 @@ class dapit_Controller extends BaseController<IDapit>{
     //     filter = filterPartOf(req, ['nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize']);
     //     filter.push(...filterByDate(req));
     //     filter.push(...filterParseInt(req, ['silabus', 'finalGrade', 'changeTobeCommender']));
-    //     filter.push(...filterByProfessionalFieldsTospesificData(req, ['identfication', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 'flight', 'theortical', 'thinkingInAir', 'safety', 'briefing', 'debriefing', 'debriefingInAir', 'implementationExecise', 'dealingWithFailures', 'dealingWithStress', 'makingDecisions', 'pilotNautre', 'crewMember']));
+    //     filter.push(...filterByProfessionalFieldsTospesificData(req, ['identification', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 'flight', 'theortical', 'thinkingInAir', 'safety', 'briefing', 'debriefing', 'debriefingInAir', 'implementationExecise', 'dealingWithFailures', 'dealingWithStress', 'makingDecisions', 'pilotNautre', 'crewMember']));
         
     //     try {
     //         const obj = await this.model.find(filter);
@@ -320,7 +320,7 @@ class dapit_Controller extends BaseController<IDapit>{
             ...filterPartOf(req, ['advantage', 'disavantage', 'nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize']), // Spread operator
             ...filterByDate(req),
             ...filterParseInt(req, ['silabus', 'finalGrade', 'changeTobeCommender']),
-            ...filterByProfessionalFieldsTospesificData(req, ['identfication', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 'flight', 'theortical', 'thinkingInAir', 'safety', 'briefing', 'debriefing', 'debriefingInAir', 'implementationExecise', 'dealingWithFailures', 'dealingWithStress', 'makingDecisions', 'pilotNautre', 'crewMember']),
+            ...filterByProfessionalFieldsTospesificData(req, ['identification', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 'flight', 'theortical', 'thinkingInAir', 'safety', 'briefing', 'debriefing', 'debriefingInAir', 'implementationExecise', 'dealingWithFailures', 'dealingWithStress', 'makingDecisions', 'pilotNautre', 'crewMember']),
             //its alyaws need to be a tagsOrLogic
             ...filterByTags(req, req.query.tagsLogic as string)
         
@@ -341,7 +341,7 @@ class dapit_Controller extends BaseController<IDapit>{
     
 
     async post (req: Request, res: Response) {
-        console.log("post Dapit controller");
+        console.log("post - post controller");
         try {
             const obj = new this.model(req.body);
             await obj.save();

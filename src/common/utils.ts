@@ -8,7 +8,7 @@ export function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 export const professionalFields = [
-    'identfication', 'payload', 'decryption', 'workingMethod',
+    'identification', 'payload', 'decryption', 'workingMethod',
     'understandingTheAir', 'flight', 'theoretical', 'thinkingInAir',
     'safety', 'briefing', 'debriefing', 'debriefingInAir',
     'implementationExecise', 'dealingWithFailures', 'dealingWithStress',
@@ -16,7 +16,7 @@ export const professionalFields = [
 ];
 
 export const professionalFieldsHas = [
-    'has_identfication', 'has_payload', 'has_decryption', 'has_workingMethod',
+    'has_identification', 'has_payload', 'has_decryption', 'has_workingMethod',
     'has_understandingTheAir', 'has_flight', 'has_theoretical', 'has_thinkingInAir',
     'has_safety', 'has_briefing', 'has_debriefing', 'has_debriefingInAir',
     'has_implementationExecise', 'has_dealingWithFailures', 'has_dealingWithStress',
