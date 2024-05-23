@@ -16,6 +16,8 @@ const courses_reviews_route_1 = __importDefault(require("./routes/courses_review
 const dapit_route_1 = __importDefault(require("./routes/dapit_route"));
 const matrics_route_1 = __importDefault(require("./routes/matrics_route"));
 const wall_route_1 = __importDefault(require("./routes/wall_route"));
+const post_route_1 = __importDefault(require("./routes/post_route"));
+const response_route_1 = __importDefault(require("./routes/response_route"));
 const initApp = () => {
     const promise = new Promise((resolve) => {
         const db = mongoose_1.default.connection;
@@ -41,6 +43,8 @@ const initApp = () => {
             app.use("/dapit", dapit_route_1.default);
             app.use("/matrics", matrics_route_1.default);
             app.use("/wall", wall_route_1.default);
+            app.use("/post", post_route_1.default);
+            app.use("/response", response_route_1.default);
             app.use("/public", express_1.default.static("public"));
             resolve(app);
         });

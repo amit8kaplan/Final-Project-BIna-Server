@@ -75,7 +75,7 @@ class resonse_controller extends base_controller_1.BaseController {
             console.log("put - controller");
             try {
                 const id = req.params.id;
-                const response = yield response_model_1.default.findByIdAndUpdate(id, req.body);
+                const response = yield response_model_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
                 res.status(200).json(response);
             }
             catch (err) {

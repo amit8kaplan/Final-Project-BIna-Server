@@ -273,19 +273,20 @@ class wall_controller {
 
         // Construct filters based on request query parameters
         const partOfStringFilters = {
-            ...filterPartOf(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"]),
+            ...filterPartOf(req, ["nameInstractor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"]),
         }; // Add your filters here
         const dateFilters = {}; // Add your date filters here
 
         // Separate filters for dapits and posts
         const dapitFilters = { idTrainer: trainerId,
-            ...filterPartOf(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary" ])
+            ...filterPartOf(req, ["nameInstractor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary" ])
          };
         const postFilters = { 
             idTrainer: trainerId,
-            ...filterPartOf(req, ["nameInstructor", "content"])
+            ...filterPartOf(req, ["nameInstractor", "content"])
         };
-
+        console.log("postFilters", postFilters);
+        console.log("dapitFilters", dapitFilters);
         try {
             const dapitPipeline: PipelineStage[] = [
                 { $match: dapitFilters },

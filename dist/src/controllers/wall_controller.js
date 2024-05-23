@@ -267,11 +267,13 @@ class wall_controller {
             console.log("getWallByFilter - controller");
             const trainerId = req.params.trainerId;
             // Construct filters based on request query parameters
-            const partOfStringFilters = Object.assign({}, (0, utils_1.filterPartOf)(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"])); // Add your filters here
+            const partOfStringFilters = Object.assign({}, (0, utils_1.filterPartOf)(req, ["nameInstractor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"])); // Add your filters here
             const dateFilters = {}; // Add your date filters here
             // Separate filters for dapits and posts
-            const dapitFilters = Object.assign({ idTrainer: trainerId }, (0, utils_1.filterPartOf)(req, ["nameInstructor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"]));
-            const postFilters = Object.assign({ idTrainer: trainerId }, (0, utils_1.filterPartOf)(req, ["nameInstructor", "content"]));
+            const dapitFilters = Object.assign({ idTrainer: trainerId }, (0, utils_1.filterPartOf)(req, ["nameInstractor", "namePersonalInstructor", "nameTrainer", "group", "session", "summary"]));
+            const postFilters = Object.assign({ idTrainer: trainerId }, (0, utils_1.filterPartOf)(req, ["nameInstractor", "content"]));
+            console.log("postFilters", postFilters);
+            console.log("dapitFilters", dapitFilters);
             try {
                 const dapitPipeline = [
                     { $match: dapitFilters },

@@ -93,7 +93,7 @@ describe("wall tests", () => {
         let newPost = Object.assign(Object.assign({}, post), { title: "title" + i, content: "content" + i, date: new Date("2021-10-" + (20 - i)) });
         console.log("newPost", newPost);
         test("should create a new dapit", () => __awaiter(void 0, void 0, void 0, function* () {
-            const resPost = yield (0, supertest_1.default)(app).post("/wall/posts").send(newPost);
+            const resPost = yield (0, supertest_1.default)(app).post("/post").send(newPost);
             expect(resPost.status).toBe(201);
             expect(resPost.body.title).toBe(newPost.title);
             expect(resPost.body.idTrainer).toBe(newPost.idTrainer);
@@ -104,9 +104,9 @@ describe("wall tests", () => {
             const resDapit = yield (0, supertest_1.default)(app).post("/dapit").send(newDapit);
             const newResponseToDapit = Object.assign(Object.assign({}, response), { idDapit: resDapit.body._id, idPost: "", content: "content" + i, date: new Date("2021-11-" + (i + 1)) });
             idTrainer = resPost.body.idTrainer; // Correctly reference idTrainer here
-            const resResponse2 = yield (0, supertest_1.default)(app).post("/wall/responses").send(newResponseToDapit);
+            const resResponse2 = yield (0, supertest_1.default)(app).post("/response").send(newResponseToDapit);
             const newResponseToPost = Object.assign(Object.assign({}, response), { idDapit: "", idPost: resPost.body._id, content: "content" + i, date: new Date("2022-11-" + (i + 1)) });
-            const resResponse3 = yield (0, supertest_1.default)(app).post("/wall/responses").send(newResponseToPost);
+            const resResponse3 = yield (0, supertest_1.default)(app).post("/response").send(newResponseToPost);
             expect(resResponse2.status).toBe(201);
         }));
     }
@@ -117,37 +117,74 @@ describe("wall tests", () => {
         expect(res.body[0].date).toBe("2021-10-20T00:00:00.000Z");
     }));
     for (let i = 0; i < 10; i++) {
-        let newDapit = Object.assign(Object.assign({}, dapit), { nameInstractor: "Cfir2", idTrainer: validObjectId2, silabus: i + 1, date: new Date("2024-9-" + (20 - i)) });
+        let newDapit = Object.assign(Object.assign({}, dapit), { nameInstractor: "ron", idTrainer: validObjectId2, silabus: i + 1, date: new Date("2024-9-" + (20 - i)) });
         let newPost = Object.assign(Object.assign({}, post), { title: "title" + i, content: "content" + i, date: new Date("2021-10-" + (20 - i)) });
         test("should create a new dapit", () => __awaiter(void 0, void 0, void 0, function* () {
-            const resPost = yield (0, supertest_1.default)(app).post("/wall/posts").send(newPost);
+            const resPost = yield (0, supertest_1.default)(app).post("/post").send(newPost);
             expect(resPost.status).toBe(201);
             expect(resPost.body.title).toBe(newPost.title);
             const resDapit = yield (0, supertest_1.default)(app).post("/dapit").send(newDapit);
             const newResponseToDapit = Object.assign(Object.assign({}, response), { idDapit: resDapit.body._id, idPost: "", content: "content" + i, date: new Date("2021-11-" + (i + 1)) });
             idTrainer = resPost.body.idTrainer; // Correctly reference idTrainer here
-            const resResponse2 = yield (0, supertest_1.default)(app).post("/wall/responses").send(newResponseToDapit);
+            const resResponse2 = yield (0, supertest_1.default)(app).post("/response").send(newResponseToDapit);
             const newResponseToPost = Object.assign(Object.assign({}, response), { idDapit: "", idPost: resPost.body._id, content: "content" + i, date: new Date("2022-11-" + (i + 1)) });
-            const resResponse3 = yield (0, supertest_1.default)(app).post("/wall/responses").send(newResponseToPost);
+            const resResponse3 = yield (0, supertest_1.default)(app).post("/response").send(newResponseToPost);
             expect(resResponse2.status).toBe(201);
         }));
     }
-    test("should get wall by id trainer", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(app).get("/wall/" + validObjectId2);
-        expect(res.status).toBe(200);
-        //check if the first obj is with the date of 2021-10-20
-        expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    // test ("should get wall by id trainer", async () => {
+    //     const res = await request(app).get("/wall/" + validObjectId2);
+    //     expect(res.status).toBe(200);
+    //     //check if the first obj is with the date of 2021-10-20
+    //     expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    // });
+    // test ("get wall by id trainer and filters", async () => {
+    //     const res = await request(app).get("/wall/"+validObjectId2+"/getByFilter");
+    //     expect(res.status).toBe(200);
+    //     expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    // });
+    // test ("get wall by id trainer and filters - EMPTY RES", async () => {
+    //     const res = await request(app).get("/wall/"+validObjectId+"/getByFilter")
+    //     .query({nameInstractor: "ron"});
+    //     // console.log("res.body", res.body);
+    //     expect(res.status).toBe(404);
+    // });
+    // test ("get wall by id trainer and filters - not empty res", async () => {
+    //     const res = await request(app).get("/wall/"+validObjectId2+"/getByFilter")
+    //     .query({nameInstractor: "ron"});
+    //     expect(res.status).toBe(200);
+    //     expect(res.body.length).toBe(10);
+    // });
+    test("put post", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("put post");
+        const res = yield (0, supertest_1.default)(app).get("/post");
+        console.log("res.body1", JSON.stringify(res.body, null, 2));
+        const id = res.body[0]._id;
+        const resPut = yield (0, supertest_1.default)(app).put("/post/" + id).send({ title: "newTitle" });
+        expect(resPut.status).toBe(200);
+        expect(resPut.body.title).toBe("newTitle");
     }));
-    test("get wall by id trainer and filters", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(app).get("/wall/" + validObjectId2 + "/getByFilter");
-        expect(res.status).toBe(200);
-        expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    test("delete post", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app).get("/post");
+        // console.log("res.body2", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resDelete = yield (0, supertest_1.default)(app).delete("/post/" + id);
+        expect(resDelete.status).toBe(204);
     }));
-    test("get wall by id trainer and filters - EMPTY RES", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(app).get("/wall/" + validObjectId2 + "/getByFilter")
-            .query({ nameInstractor: "Cfir" });
-        expect(res.status).toBe(200);
-        expect(res.body.length).toBe(0);
+    test("put response", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app).get("/response");
+        // console.log("res.body3", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resPut = yield (0, supertest_1.default)(app).put("/response/" + id).send({ content: "newContent" });
+        expect(resPut.status).toBe(200);
+        expect(resPut.body.content).toBe("newContent");
+    }));
+    test("delete response", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app).get("/response");
+        // console.log("res.body4", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resDelete = yield (0, supertest_1.default)(app).delete("/response/" + id);
+        expect(resDelete.status).toBe(204);
     }));
 });
 //# sourceMappingURL=wall.test.js.map

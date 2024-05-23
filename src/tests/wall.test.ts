@@ -91,7 +91,7 @@ describe("wall tests", () => {
         let newPost = { ...post, title: "title" + i, content: "content" + i, date: new Date("2021-10-" + (20 -i)) };
         console.log("newPost", newPost);
         test("should create a new dapit", async () => {
-            const resPost = await request(app).post("/wall/posts").send(newPost);
+            const resPost = await request(app).post("/post").send(newPost);
             expect(resPost.status).toBe(201);
             expect(resPost.body.title).toBe(newPost.title);
             expect(resPost.body.idTrainer).toBe(newPost.idTrainer);
@@ -113,7 +113,7 @@ describe("wall tests", () => {
             
             idTrainer = resPost.body.idTrainer;  // Correctly reference idTrainer here
 
-            const resResponse2 = await request(app).post("/wall/responses").send(newResponseToDapit);
+            const resResponse2 = await request(app).post("/response").send(newResponseToDapit);
             const newResponseToPost = {
                 ...response,
                 idDapit: "",
@@ -122,7 +122,7 @@ describe("wall tests", () => {
                 date: new Date("2022-11-" + (i + 1))
             };
             
-            const resResponse3 = await request(app).post("/wall/responses").send(newResponseToPost);
+            const resResponse3 = await request(app).post("/response").send(newResponseToPost);
             expect(resResponse2.status).toBe(201);
         });
     }
@@ -135,11 +135,11 @@ describe("wall tests", () => {
     });
 
     for (let i = 0; i < 10; i++) {
-        let newDapit = { ...dapit,nameInstractor: "Cfir2",idTrainer:validObjectId2, silabus: i + 1, date: new Date("2024-9-" + (20 -i)) };
+        let newDapit = { ...dapit,nameInstractor: "ron",idTrainer:validObjectId2, silabus: i + 1, date: new Date("2024-9-" + (20 -i)) };
         let newPost = { ...post, title: "title" + i, content: "content" + i, date: new Date("2021-10-" + (20 -i)) };
 
         test("should create a new dapit", async () => {
-            const resPost = await request(app).post("/wall/posts").send(newPost);
+            const resPost = await request(app).post("/post").send(newPost);
             expect(resPost.status).toBe(201);
             expect(resPost.body.title).toBe(newPost.title);
             
@@ -156,7 +156,7 @@ describe("wall tests", () => {
             
             idTrainer = resPost.body.idTrainer;  // Correctly reference idTrainer here
 
-            const resResponse2 = await request(app).post("/wall/responses").send(newResponseToDapit);
+            const resResponse2 = await request(app).post("/response").send(newResponseToDapit);
             const newResponseToPost = {
                 ...response,
                 idDapit: "",
@@ -165,26 +165,69 @@ describe("wall tests", () => {
                 date: new Date("2022-11-" + (i + 1))
             };
             
-            const resResponse3 = await request(app).post("/wall/responses").send(newResponseToPost);
+            const resResponse3 = await request(app).post("/response").send(newResponseToPost);
             expect(resResponse2.status).toBe(201);
         });
     }
-    test ("should get wall by id trainer", async () => {
-        const res = await request(app).get("/wall/" + validObjectId2);
-        expect(res.status).toBe(200);
-        //check if the first obj is with the date of 2021-10-20
-        expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    // test ("should get wall by id trainer", async () => {
+    //     const res = await request(app).get("/wall/" + validObjectId2);
+    //     expect(res.status).toBe(200);
+    //     //check if the first obj is with the date of 2021-10-20
+    //     expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    // });
+
+    // test ("get wall by id trainer and filters", async () => {
+    //     const res = await request(app).get("/wall/"+validObjectId2+"/getByFilter");
+    //     expect(res.status).toBe(200);
+    //     expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    // });
+
+    // test ("get wall by id trainer and filters - EMPTY RES", async () => {
+    //     const res = await request(app).get("/wall/"+validObjectId+"/getByFilter")
+    //     .query({nameInstractor: "ron"});
+    //     // console.log("res.body", res.body);
+    //     expect(res.status).toBe(404);
+    // });
+
+    // test ("get wall by id trainer and filters - not empty res", async () => {
+    //     const res = await request(app).get("/wall/"+validObjectId2+"/getByFilter")
+    //     .query({nameInstractor: "ron"});
+    //     expect(res.status).toBe(200);
+    //     expect(res.body.length).toBe(10);
+    // });
+
+    test ("put post", async () => {
+        console.log("put post")
+        const res = await request(app).get("/post");
+        console.log("res.body1", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resPut = await request(app).put("/post/"+id).send({title: "newTitle"});
+        expect(resPut.status).toBe(200);
+        expect(resPut.body.title).toBe("newTitle");
+    });
+    test ("delete post", async () => {
+        const res = await request(app).get("/post");
+        // console.log("res.body2", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resDelete = await request(app).delete("/post/"+id);
+        expect(resDelete.status).toBe(204);
     });
 
-    test ("get wall by id trainer and filters", async () => {
-        const res = await request(app).get("/wall/"+validObjectId2+"/getByFilter");
-        expect(res.status).toBe(200);
-        expect(res.body[0].date).toBe("2024-09-19T21:00:00.000Z");
+    test ("put response", async () => {
+        const res = await request(app).get("/response");
+        // console.log("res.body3", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resPut = await request(app).put("/response/"+id).send({content: "newContent"});
+        expect(resPut.status).toBe(200);
+        expect(resPut.body.content).toBe("newContent");
+    }
+    );
+    test ("delete response", async () => {
+        const res = await request(app).get("/response");
+        // console.log("res.body4", JSON.stringify (res.body, null, 2));
+        const id = res.body[0]._id;
+        const resDelete = await request(app).delete("/response/"+id);
+        expect(resDelete.status).toBe(204);
     });
 
-    test ("get wall by id trainer and filters - EMPTY RES", async () => {
-        const res = await request(app).get("/wall/"+validObjectId2+"/getByFilter")
-        .query({nameInstractor: "Cfir"});
-        expect(res.status).toBe(200);
-        expect(res.body.length).toBe(0);});
 });

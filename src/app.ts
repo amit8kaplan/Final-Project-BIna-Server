@@ -11,6 +11,12 @@ import courseReviewRoute from "./routes/courses_reviews_route";
 import dapitRoute from "./routes/dapit_route";
 import matricsRoute from "./routes/matrics_route";
 import wallRoute from "./routes/wall_route";
+import postRoute from "./routes/post_route";
+import resRoute from "./routes/response_route";
+
+
+
+
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
     const db = mongoose.connection;
@@ -36,6 +42,8 @@ const initApp = (): Promise<Express> => {
       app.use("/dapit", dapitRoute)
       app.use("/matrics", matricsRoute)
       app.use("/wall", wallRoute)
+      app.use("/post", postRoute)
+      app.use("/response", resRoute)
       app.use("/public", express.static("public"));
       resolve(app);
     });

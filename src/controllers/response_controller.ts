@@ -57,7 +57,7 @@ class resonse_controller extends BaseController<IResponse>{
         console.log("put - controller");
         try{
             const id = req.params.id;
-            const response = await response_model.findByIdAndUpdate(id, req.body)
+            const response = await response_model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             res.status(200).json(response);
         }catch(err){
             res.status(500).json({message: err.message});
