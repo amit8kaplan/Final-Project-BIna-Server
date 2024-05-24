@@ -460,7 +460,13 @@ describe("Dapit tests", () => {
             .get("/dapit/getDocumentbyFilter")
         expect(response.statusCode).toBe(200);
     });
-
+    test ("get doucment ron + session A silbus 1", async () => {
+        debug("get doucment ron + session A silbus 1")
+        const response = await request(app)
+            .get("/dapit/getDocumentbyFilter")
+            .query({ nameInstractor: "ron", session: "A", silabus: 1 });
+        expect(response.statusCode).toBe(200);
+    });
     test ("test put the first dapit", async () => {
         debug("test put the first dapit")
         const response = await request(app)

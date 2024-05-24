@@ -399,6 +399,13 @@ describe("Dapit tests", () => {
             .get("/dapit/getDocumentbyFilter");
         expect(response.statusCode).toBe(200);
     }));
+    test("get doucment ron + session A silbus 1", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("get doucment ron + session A silbus 1");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getDocumentbyFilter")
+            .query({ nameInstractor: "ron", session: "A", silabus: 1 });
+        expect(response.statusCode).toBe(200);
+    }));
     test("test put the first dapit", () => __awaiter(void 0, void 0, void 0, function* () {
         (0, console_1.debug)("test put the first dapit");
         const response = yield (0, supertest_1.default)(app)
