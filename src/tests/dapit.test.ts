@@ -424,6 +424,13 @@ describe("Dapit tests", () => {
         // debug("response.body: ", response.body);
     });
 
+    test ("csv file", async () => {
+        debug("csv file")
+        const response = await request(app)
+            .get(`/dapit/getCSVfile/${dapit.idTrainer}`);
+        expect(response.statusCode).toBe(200);
+    });
+    
     test ("test put the first dapit", async () => {
         debug("test put the first dapit")
         const response = await request(app)
@@ -442,4 +449,6 @@ describe("Dapit tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.deletedId).toBe(firstDapitId);
     });
+
+
 });

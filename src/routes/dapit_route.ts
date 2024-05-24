@@ -11,6 +11,7 @@ router.get('/', dapit_Controller.get.bind(dapit_Controller));
 // //gets by filter
 router.get('/getByFilterBasicInfo', dapit_Controller.getByFilterBasicInfo.bind(dapit_Controller));
 
+router.get('/getCSVfile/:trainerId', dapit_Controller.getCSVfile.bind(dapit_Controller));
 router.get('/getByFilter', dapit_Controller.getByFilter.bind(dapit_Controller));
 
 router.post('/', dapit_Controller.post.bind(dapit_Controller));

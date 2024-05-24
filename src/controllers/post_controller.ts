@@ -49,7 +49,6 @@ class post_controller extends BaseController<IPost>{
         console.log("put - controller");
         try{
             console.log("req.body", req.body);
-            const id = req.params.id;
             const post = await post_model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             console.log("post after update", post)
             res.status(200).json(post);

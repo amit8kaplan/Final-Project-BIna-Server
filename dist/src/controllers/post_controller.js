@@ -63,7 +63,6 @@ class post_controller extends base_controller_1.BaseController {
             console.log("put - controller");
             try {
                 console.log("req.body", req.body);
-                const id = req.params.id;
                 const post = yield post_model_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
                 console.log("post after update", post);
                 res.status(200).json(post);

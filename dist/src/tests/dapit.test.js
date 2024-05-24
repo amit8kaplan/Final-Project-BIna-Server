@@ -364,6 +364,12 @@ describe("Dapit tests", () => {
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);
     }));
+    test("csv file", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("csv file");
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/dapit/getCSVfile/${dapit.idTrainer}`);
+        expect(response.statusCode).toBe(200);
+    }));
     test("test put the first dapit", () => __awaiter(void 0, void 0, void 0, function* () {
         (0, console_1.debug)("test put the first dapit");
         const response = yield (0, supertest_1.default)(app)
