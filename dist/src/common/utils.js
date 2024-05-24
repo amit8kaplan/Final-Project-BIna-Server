@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,10 +35,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decCountInCourseName = exports.incCountInCourseName = exports.extractUserName = exports.filterPartOf = exports.filterByTags = exports.filterStringUsingIn = exports.filterParseInt = exports.filterByProfessionalFieldsTospesificData = exports.filterByDate = exports.filterExists = exports.finalFields = exports.professionalFieldsHas = exports.professionalFields = exports.escapeRegExp = void 0;
+exports.decCountInCourseName = exports.incCountInCourseName = exports.extractUserName = exports.toJSONFile = exports.toCSVFile = exports.filterPartOf = exports.filterByTags = exports.filterStringUsingIn = exports.filterParseInt = exports.filterByProfessionalFieldsTospesificData = exports.filterByDate = exports.filterExists = exports.finalFields = exports.professionalFieldsHas = exports.professionalFields = exports.escapeRegExp = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
 const course_model_1 = __importDefault(require("../models/course_model"));
+const fc = __importStar(require("fast-csv"));
+const fs_1 = __importDefault(require("fs"));
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -127,6 +152,94 @@ function filterPartOf(req, filterFields) {
     return filter;
 }
 exports.filterPartOf = filterPartOf;
+function toCSVFile(data, path) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            if (fs_1.default.existsSync(path)) {
+                fs_1.default.unlinkSync(path);
+                console.log("file deleted");
+            }
+            const csvStream = fc.format({ headers: true });
+            const writableStream = fs_1.default.createWriteStream(path);
+            csvStream.pipe(writableStream).on('end', () => {
+                console.log("end");
+            });
+            data.forEach((doc) => {
+                const filteredDoc = Object.assign({}, doc.toJSON());
+                delete filteredDoc._id;
+                // Handle nested objects:
+                const nestedObjectKeys = [
+                    "identification",
+                    "payload",
+                    "decryption",
+                    "workingMethod",
+                    "understandingTheAir",
+                    "flight",
+                    "theoretical",
+                    "thinkingInAir",
+                    "safety",
+                    "briefing",
+                    "debriefing",
+                    "debriefingInAir",
+                    "implementationExecise",
+                    "dealingWithFailures",
+                    "dealingWithStress",
+                    "makingDecisions",
+                    "pilotNature",
+                    "crewMember",
+                ];
+                for (const key of nestedObjectKeys) {
+                    if (filteredDoc[key]) {
+                        for (const item of filteredDoc[key]) {
+                            for (const subKey in item) {
+                                if (subKey !== "_id")
+                                    filteredDoc[`${key}.${subKey}`] = item[subKey];
+                            }
+                        }
+                        delete filteredDoc[key];
+                    }
+                }
+                csvStream.write(filteredDoc);
+            });
+            csvStream.end();
+            return true;
+        }
+        catch (error) {
+            console.error('Error fetching dapit:', error);
+            return false;
+        }
+    });
+}
+exports.toCSVFile = toCSVFile;
+const promises_1 = __importDefault(require("fs/promises"));
+const path_1 = __importDefault(require("path"));
+// Function to save data to a JSON file
+function toJSONFile(data, filePath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Ensure the directory exists
+            const directoryPath = path_1.default.dirname(filePath);
+            if (!fs_1.default.existsSync(directoryPath)) {
+                yield promises_1.default.mkdir(directoryPath, { recursive: true });
+            }
+            // Delete the file if it exists
+            if (fs_1.default.existsSync(filePath)) {
+                yield promises_1.default.unlink(filePath);
+                console.log("File deleted");
+            }
+            // Write data to JSON file
+            const jsonData = JSON.stringify(data, null, 2);
+            yield promises_1.default.writeFile(filePath, jsonData, 'utf-8');
+            console.log(`Data written to JSON file: ${filePath}`);
+            return true;
+        }
+        catch (error) {
+            console.error('Error writing to JSON file:', error);
+            return false;
+        }
+    });
+}
+exports.toJSONFile = toJSONFile;
 function extractUserName(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const objId = new mongoose_1.default.Types.ObjectId(id);

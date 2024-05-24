@@ -424,13 +424,43 @@ describe("Dapit tests", () => {
         // debug("response.body: ", response.body);
     });
 
+    for (let i = 0; i < 10; i++) {
+        test("Add dapit", async () => {
+            const newDapit = { ...dapit, nameInstractor: "ron", silabus: i + 1, date: new Date("2024-9-" + (20 -i))};
+            const response = await request(app).post("/dapit")
+                .send(newDapit);
+            expect(response.statusCode).toBe(200);
+            expect(response.body.nameInstractor).toBe(newDapit.nameInstractor);
+            expect(response.body.namePersonalInstractor).toBe(newDapit.namePersonalInstractor);
+        });
+    }
     test ("csv file", async () => {
         debug("csv file")
         const response = await request(app)
             .get(`/dapit/getCSVfile/${dapit.idTrainer}`);
         expect(response.statusCode).toBe(200);
     });
-    
+    test ("csv file for all data", async () => {
+        debug("csv file for all data")
+        const response = await request(app)
+            .get("/dapit/getCSVfile");
+        expect(response.statusCode).toBe(200);
+    });
+
+    test ("get the document by filter", async () => {
+        debug("get the document by filter")
+        const response = await request(app)
+            .get("/dapit/getDocumentbyFilter")
+            .query({ nameInstractor: "Jonh Doe" });
+        expect(response.statusCode).toBe(200);
+    });
+    test("get all dapit to documents without filter", async () => {
+        debug("get all dapit by filter")
+        const response = await request(app)
+            .get("/dapit/getDocumentbyFilter")
+        expect(response.statusCode).toBe(200);
+    });
+
     test ("test put the first dapit", async () => {
         debug("test put the first dapit")
         const response = await request(app)
@@ -449,6 +479,7 @@ describe("Dapit tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.deletedId).toBe(firstDapitId);
     });
+
 
 
 });

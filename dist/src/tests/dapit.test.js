@@ -364,10 +364,39 @@ describe("Dapit tests", () => {
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);
     }));
+    for (let i = 0; i < 10; i++) {
+        test("Add dapit", () => __awaiter(void 0, void 0, void 0, function* () {
+            const newDapit = Object.assign(Object.assign({}, dapit), { nameInstractor: "ron", silabus: i + 1, date: new Date("2024-9-" + (20 - i)) });
+            const response = yield (0, supertest_1.default)(app).post("/dapit")
+                .send(newDapit);
+            expect(response.statusCode).toBe(200);
+            expect(response.body.nameInstractor).toBe(newDapit.nameInstractor);
+            expect(response.body.namePersonalInstractor).toBe(newDapit.namePersonalInstractor);
+        }));
+    }
     test("csv file", () => __awaiter(void 0, void 0, void 0, function* () {
         (0, console_1.debug)("csv file");
         const response = yield (0, supertest_1.default)(app)
             .get(`/dapit/getCSVfile/${dapit.idTrainer}`);
+        expect(response.statusCode).toBe(200);
+    }));
+    test("csv file for all data", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("csv file for all data");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getCSVfile");
+        expect(response.statusCode).toBe(200);
+    }));
+    test("get the document by filter", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("get the document by filter");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getDocumentbyFilter")
+            .query({ nameInstractor: "Jonh Doe" });
+        expect(response.statusCode).toBe(200);
+    }));
+    test("get all dapit to documents without filter", () => __awaiter(void 0, void 0, void 0, function* () {
+        (0, console_1.debug)("get all dapit by filter");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/dapit/getDocumentbyFilter");
         expect(response.statusCode).toBe(200);
     }));
     test("test put the first dapit", () => __awaiter(void 0, void 0, void 0, function* () {

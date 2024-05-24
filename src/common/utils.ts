@@ -2,8 +2,8 @@ import mongoose, { FilterQuery } from "mongoose";
 import user_model from "../models/user_model";
 import course_model, { ICourse } from "../models/course_model";
 import { Request } from "express";
-
-
+import * as fc from 'fast-csv';
+import fs from 'fs';
 export function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -115,6 +115,98 @@ export function filterPartOf(req: Request, filterFields: string[]) {
     return filter;
 }
 
+export async function toCSVFile(data: any[], path: string) {
+    
+    try{ 
+        if(fs.existsSync(path)) {
+            fs.unlinkSync(path);
+            console.log("file deleted");
+        }
+        const csvStream = fc.format({ headers: true });
+        const writableStream = fs.createWriteStream(path);
+
+        csvStream.pipe(writableStream).on('end', () => {
+            console.log("end");
+        });
+        
+
+        data.forEach((doc) => {
+            const filteredDoc = { ...doc.toJSON() };
+            delete filteredDoc._id;
+
+            // Handle nested objects:
+            const nestedObjectKeys = [
+                "identification",
+                "payload",
+                "decryption",
+                "workingMethod",
+                "understandingTheAir",
+                "flight",
+                "theoretical",
+                "thinkingInAir",
+                "safety",
+                "briefing",
+                "debriefing",
+                "debriefingInAir",
+                "implementationExecise",
+                "dealingWithFailures",
+                "dealingWithStress",
+                "makingDecisions",
+                "pilotNature",
+                "crewMember",
+            ];
+
+            for (const key of nestedObjectKeys) {
+                if (filteredDoc[key]) {
+                    for (const item of filteredDoc[key]) {
+                        for (const subKey in item) {
+                            if (subKey !== "_id")
+                                filteredDoc[`${key}.${subKey}`] = item[subKey];
+                        }
+                    }
+                    delete filteredDoc[key];
+                }
+            }
+
+            csvStream.write(filteredDoc);
+        });
+
+        csvStream.end();
+        return true;
+    } catch (error) {
+        console.error('Error fetching dapit:', error);
+        return false;
+    }
+}
+
+import fs1 from 'fs/promises';
+import path from 'path';
+
+// Function to save data to a JSON file
+export async function toJSONFile(data: any[], filePath: string) {
+    try {
+        // Ensure the directory exists
+        const directoryPath = path.dirname(filePath);
+        if (!fs.existsSync(directoryPath)) {
+            await fs1.mkdir(directoryPath, { recursive: true });
+        }
+
+        // Delete the file if it exists
+        if (fs.existsSync(filePath)) {
+            await fs1.unlink(filePath);
+            console.log("File deleted");
+        }
+
+        // Write data to JSON file
+        const jsonData = JSON.stringify(data, null, 2);
+        await fs1.writeFile(filePath, jsonData, 'utf-8');
+        console.log(`Data written to JSON file: ${filePath}`);
+        return true;
+    } catch (error) {
+        console.error('Error writing to JSON file:', error);
+        return false;
+    } 
+}
 
 
 export async function extractUserName(id : string) {

@@ -2,14 +2,16 @@ import dapit_model, {IDapit} from "../models/dapit_model";
 import { BaseController } from "./base_controller";
 import e, { Request, Response } from "express";
 import { AuthResquest } from "../common/auth_middleware";
-import {extractUserName} from "../common/utils";
+import {extractUserName, toJSONFile} from "../common/utils";
 import { FilterQuery } from "mongoose";
 import { filterExists,filterPartOf ,filterByTags, filterByProfessionalFieldsTospesificData, filterParseInt, filterStringUsingIn, filterByDate ,escapeRegExp , professionalFields, professionalFieldsHas, finalFields} from "../common/utils";
 import exp from "constants";
 import * as fs from 'fs';
 import * as fc from 'fast-csv';
 const base = process.env.URL;
-
+import {toCSVFile} from "../common/utils";
+import { file } from "mock-fs/lib/filesystem";
+import path from 'path';
 
 class dapit_Controller extends BaseController<IDapit>{
     constructor() {
@@ -55,71 +57,71 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
-    
     async getCSVfile(req: Request, res: Response) {
+        console.log("getCSVfile - get controller");
         try {
-          const trainerId = req.params.trainerId;
-          console.log("getCSVfiletrainerId: " + trainerId);
-      
-          const data = await this.model.find({ idTrainer: trainerId });
-      
-          const csvStream = fc.format({ headers: true });
-          const writableStream = fs.createWriteStream("csv/"+data[0].nameTrainer+".csv");
-      
-          csvStream.pipe(writableStream).on('end', () => {
-            console.log("end");
-          });
-      
-          data.forEach((doc) => {
-            const filteredDoc = { ...doc.toJSON() };
-            delete filteredDoc._id;
-      
-            // Handle nested objects:
-            const nestedObjectKeys = [
-              "identification",
-              "payload",
-              "decryption",
-              "workingMethod",
-              "understandingTheAir",
-              "flight",
-              "theoretical",
-              "thinkingInAir",
-              "safety",
-              "briefing",
-              "debriefing",
-              "debriefingInAir",
-              "implementationExecise",
-              "dealingWithFailures",
-              "dealingWithStress",
-              "makingDecisions",
-              "pilotNature",
-              "crewMember",
-            ];
-      
-            for (const key of nestedObjectKeys) {
-              if (filteredDoc[key]) {
-                for (const item of filteredDoc[key]) {
-                  for (const subKey in item) {
-                    if (subKey !== "_id")
-                    filteredDoc[`${key}.${subKey}`] = item[subKey];
-                  }
-                }
-                delete filteredDoc[key];
-              }
-            }
-      
-            csvStream.write(filteredDoc);
-          });
-      
-          csvStream.end();
-      
-          res.status(200).send({ message: 'CSV file created successfully' });
+            const data = await this.model.find();
+            const bool = toCSVFile(data, "csv/allCSV.csv");
+            if (bool)
+                res.status(200).send({ message: 'CSV file created successfully' });
+            else
+                res.status(500).send({ message: 'Error creating CSV file' });
         } catch (error) {
-          console.error('Error fetching dapit:', error);
-          res.status(500).send({ message: 'Error fetching dapit' });
+            console.error('Error fetching dapit:', error);
+            res.status(500).send({ message: 'Error fetching dapit' });
         }
+    }
+    async getCSVfiletrainerId(req: Request, res: Response) {
+        try {
+            const trainerId = req.params.trainerId;
+            console.log("getCSVfiletrainerId: " + trainerId);
+        
+            const data = await this.model.find({ idTrainer: trainerId });
+            const name = data[0].nameTrainer;
+            console.log("name: " + name);
+            const bool = toCSVFile(data, "csv/" + name+"1.csv");    
+            if (bool)
+                res.status(200).send({ message: 'CSV file created successfully' });
+            else
+                res.status(500).send({ message: 'Error creating CSV file' });
+            } catch (error) {
+            console.error('Error fetching dapit:', error);
+            res.status(500).send({ message: 'Error fetching dapit' });
+            }
       }
-      
+
+    async getDocumentbyFilter(req: Request, res: Response) {
+        console.log("getDocumentbyFilter - get controller");
+        try {
+            const query = req.query;
+            console.log(" getDocumentbyFilter query: " + JSON.stringify(query));
+            let data;
+            let fileName;
+            if (Object.keys(query).length === 0) {
+                data =await this.model.find();
+                fileName = "all.json";
+            }
+            else {
+                console.log("in the else getDocumentbyFilter query: ");
+                data = await this.model.find(query);
+                console.log("data: " + JSON.stringify(data));
+                fileName = data[0]._id + ".json";
+            }
+            if (data.length === 0) {
+                res.status(404).send({ message: 'No documents found' });
+            }
+            const filepath = "json/" + fileName
+            const success = await toJSONFile(data, filepath);
+            if (success) {
+                res.status(200).send({ message: 'JSON file created successfully', filepath });
+            } else {
+                res.status(500).send({ message: 'Error creating JSON file' });
+            }
+        } catch (error) {
+                console.error('Error fetching data:', error);
+                res.status(500).send({ message: 'Error fetching data' });
+        }
+    }
       
 
 

@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dapit_model_1 = __importDefault(require("../models/dapit_model"));
 const base_controller_1 = require("./base_controller");
 const utils_1 = require("../common/utils");
-const fs = __importStar(require("fs"));
-const fc = __importStar(require("fast-csv"));
+const utils_2 = require("../common/utils");
 const base = process.env.URL;
+const utils_3 = require("../common/utils");
 class dapit_Controller extends base_controller_1.BaseController {
     constructor() {
         super(dapit_model_1.default);
@@ -63,7 +40,7 @@ class dapit_Controller extends base_controller_1.BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("getByFilter - get controller");
             // Initialize filter as an empty array
-            let filters = (0, utils_1.filterExists)(req, utils_1.professionalFields);
+            let filters = (0, utils_2.filterExists)(req, utils_2.professionalFields);
             console.log("filters in getByFilter: " + JSON.stringify(filters));
             // Initialize filter object
             const filterObject = {};
@@ -90,58 +67,74 @@ class dapit_Controller extends base_controller_1.BaseController {
     }
     getCSVfile(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log("getCSVfile - get controller");
             try {
-                const trainerId = req.params.trainerId;
-                console.log("getCSVfiletrainerId: " + trainerId);
-                const data = yield this.model.find({ idTrainer: trainerId });
-                const csvStream = fc.format({ headers: true });
-                const writableStream = fs.createWriteStream("csv/" + data[0].nameTrainer + ".csv");
-                csvStream.pipe(writableStream).on('end', () => {
-                    console.log("end");
-                });
-                data.forEach((doc) => {
-                    const filteredDoc = Object.assign({}, doc.toJSON());
-                    delete filteredDoc._id;
-                    // Handle nested objects:
-                    const nestedObjectKeys = [
-                        "identification",
-                        "payload",
-                        "decryption",
-                        "workingMethod",
-                        "understandingTheAir",
-                        "flight",
-                        "theoretical",
-                        "thinkingInAir",
-                        "safety",
-                        "briefing",
-                        "debriefing",
-                        "debriefingInAir",
-                        "implementationExecise",
-                        "dealingWithFailures",
-                        "dealingWithStress",
-                        "makingDecisions",
-                        "pilotNature",
-                        "crewMember",
-                    ];
-                    for (const key of nestedObjectKeys) {
-                        if (filteredDoc[key]) {
-                            for (const item of filteredDoc[key]) {
-                                for (const subKey in item) {
-                                    if (subKey !== "_id")
-                                        filteredDoc[`${key}.${subKey}`] = item[subKey];
-                                }
-                            }
-                            delete filteredDoc[key];
-                        }
-                    }
-                    csvStream.write(filteredDoc);
-                });
-                csvStream.end();
-                res.status(200).send({ message: 'CSV file created successfully' });
+                const data = yield this.model.find();
+                const bool = (0, utils_3.toCSVFile)(data, "csv/allCSV.csv");
+                if (bool)
+                    res.status(200).send({ message: 'CSV file created successfully' });
+                else
+                    res.status(500).send({ message: 'Error creating CSV file' });
             }
             catch (error) {
                 console.error('Error fetching dapit:', error);
                 res.status(500).send({ message: 'Error fetching dapit' });
+            }
+        });
+    }
+    getCSVfiletrainerId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const trainerId = req.params.trainerId;
+                console.log("getCSVfiletrainerId: " + trainerId);
+                const data = yield this.model.find({ idTrainer: trainerId });
+                const name = data[0].nameTrainer;
+                console.log("name: " + name);
+                const bool = (0, utils_3.toCSVFile)(data, "csv/" + name + "1.csv");
+                if (bool)
+                    res.status(200).send({ message: 'CSV file created successfully' });
+                else
+                    res.status(500).send({ message: 'Error creating CSV file' });
+            }
+            catch (error) {
+                console.error('Error fetching dapit:', error);
+                res.status(500).send({ message: 'Error fetching dapit' });
+            }
+        });
+    }
+    getDocumentbyFilter(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("getDocumentbyFilter - get controller");
+            try {
+                const query = req.query;
+                console.log(" getDocumentbyFilter query: " + JSON.stringify(query));
+                let data;
+                let fileName;
+                if (Object.keys(query).length === 0) {
+                    data = yield this.model.find();
+                    fileName = "all.json";
+                }
+                else {
+                    console.log("in the else getDocumentbyFilter query: ");
+                    data = yield this.model.find(query);
+                    console.log("data: " + JSON.stringify(data));
+                    fileName = data[0]._id + ".json";
+                }
+                if (data.length === 0) {
+                    res.status(404).send({ message: 'No documents found' });
+                }
+                const filepath = "json/" + fileName;
+                const success = yield (0, utils_1.toJSONFile)(data, filepath);
+                if (success) {
+                    res.status(200).send({ message: 'JSON file created successfully', filepath });
+                }
+                else {
+                    res.status(500).send({ message: 'Error creating JSON file' });
+                }
+            }
+            catch (error) {
+                console.error('Error fetching data:', error);
+                res.status(500).send({ message: 'Error fetching data' });
             }
         });
     }
@@ -151,7 +144,7 @@ class dapit_Controller extends base_controller_1.BaseController {
             console.log("getByFilterBasicInfo - get controller");
             console.log("Logic: " + req.query.tagsLogic);
             // Get filter conditions from different filter functions
-            filter = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (0, utils_1.filterPartOf)(req, ['advantage', 'disavantage', 'nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize'])), (0, utils_1.filterByDate)(req)), (0, utils_1.filterParseInt)(req, ['silabus', 'finalGrade', 'changeTobeCommender'])), (0, utils_1.filterByProfessionalFieldsTospesificData)(req, ['identification', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 'flight', 'theortical', 'thinkingInAir', 'safety', 'briefing', 'debriefing', 'debriefingInAir', 'implementationExecise', 'dealingWithFailures', 'dealingWithStress', 'makingDecisions', 'pilotNautre', 'crewMember'])), (0, utils_1.filterByTags)(req, req.query.tagsLogic));
+            filter = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (0, utils_2.filterPartOf)(req, ['advantage', 'disavantage', 'nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize'])), (0, utils_2.filterByDate)(req)), (0, utils_2.filterParseInt)(req, ['silabus', 'finalGrade', 'changeTobeCommender'])), (0, utils_2.filterByProfessionalFieldsTospesificData)(req, ['identification', 'payload', 'decryption', 'workingMethod', 'understandingTheAir', 'flight', 'theortical', 'thinkingInAir', 'safety', 'briefing', 'debriefing', 'debriefingInAir', 'implementationExecise', 'dealingWithFailures', 'dealingWithStress', 'makingDecisions', 'pilotNautre', 'crewMember'])), (0, utils_2.filterByTags)(req, req.query.tagsLogic));
             console.log("filer in controller: " + JSON.stringify(filter, null, 2));
             if (req.query.date) {
                 filter["date"] = new Date(req.query.date);
