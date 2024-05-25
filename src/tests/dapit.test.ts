@@ -117,8 +117,18 @@ describe("Dapit tests", () => {
             .send(dapit);
         firstDapitId = response.body._id;
         expect(response.statusCode).toBe(200);
+
         expect(response.body.nameInstractor).toBe(dapit.nameInstractor);
         expect(response.body.namePersonalInstractor).toBe(dapit.namePersonalInstractor);
+    });
+
+    test ("get dapit by id", async () => {
+        debug("get dapit by id")
+        const response = await request(app)
+            .get(`/dapit/getSementically/${firstDapitId}`);
+        expect(response.statusCode).toBe(200);
+        expect(response.body[0].nameInstractor).toBe(dapit.nameInstractor);
+        expect(response.body[0].namePersonalInstractor).toBe(dapit.namePersonalInstractor);
     });
 
     test ("get all dapit", async () => {
@@ -134,7 +144,7 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .get("/dapit/getByFilterBasicInfo")
             .query({ nameInstractor: dapit.nameInstractor });
-        debug ("response.body: ", response.body)
+        // debug ("response.body: ", response.body)
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
         const st = response.body[0];
@@ -193,9 +203,9 @@ describe("Dapit tests", () => {
             .query({ crewMemberVal: 7 });
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
-        debug("response.body: ", response.body);
+        // debug("response.body: ", response.body);
         const st = response.body[0];
-        debug("st.crewMember.value: ", st.crewMember);
+        // debug("st.crewMember.value: ", st.crewMember);
         expect(st.crewMember[0].value).toBe(7);
     });
 
@@ -336,6 +346,7 @@ describe("Dapit tests", () => {
         const st = response.body[0];
         expect(st.date).toBe("2022-01-01T00:00:00.000Z");
     });
+    let newIdDapit;
     //add 10 dapit's with not the same data inside
     for (let i = 0; i < 10; i++) {
         test("Add dapit", async () => {
@@ -347,11 +358,19 @@ describe("Dapit tests", () => {
             }
             const response = await request(app).post("/dapit")
                 .send(dapit);
+            newIdDapit = response.body._id;
             expect(response.statusCode).toBe(200);
             expect(response.body.nameInstractor).toBe(dapit.nameInstractor);
             expect(response.body.namePersonalInstractor).toBe(dapit.namePersonalInstractor);
         });
     }
+    test ("get sementically by id", async () => {
+        debug("get dapit by id")
+        const response = await request(app)
+            .get(`/dapit/getSementically/${newIdDapit}`);
+        expect(response.statusCode).toBe(200);
+    });
+
 
     test ("gets all the dapit", async () => {
         debug("gets all the dapit")
@@ -418,7 +437,7 @@ describe("Dapit tests", () => {
         const response = await request(app)
             .get("/dapit/getByFilter")
             .query({ has_safety: 1, has_identification: 1 , logic: "or"});
-        debug("response.body: ", response.body);
+        // debug("response.body: ", response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(9);
         // debug("response.body: ", response.body);

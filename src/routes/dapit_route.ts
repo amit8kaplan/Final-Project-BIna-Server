@@ -13,8 +13,9 @@ router.get('/getByFilterBasicInfo', dapit_Controller.getByFilterBasicInfo.bind(d
 
 router.get('/getCSVfile', dapit_Controller.getCSVfile.bind(dapit_Controller));
 router.get('/getCSVfile/:trainerId', dapit_Controller.getCSVfiletrainerId.bind(dapit_Controller));
-
 router.get('/getDocumentbyFilter', dapit_Controller.getDocumentbyFilter.bind(dapit_Controller));
+
+router.get('/getSementically/:id', dapit_Controller.getSementically.bind(dapit_Controller));
 
 router.get('/getByFilter', dapit_Controller.getByFilter.bind(dapit_Controller));
 
