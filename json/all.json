@@ -1,0 +1,3065 @@
+[
+  {
+    "_id": "6676f72a25f53ea3cbaf023b",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "identification": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf023c"
+      }
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf023d"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf023e"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf023f"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0240"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0241"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0242"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0243"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0244"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0245"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0246"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0247"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0248"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0249"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf024a"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf024b"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf024c"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf024d"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "__v": 0
+  },
+  {
+    "_id": "6676f72a25f53ea3cbaf0396",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag0",
+      "tag1"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0397"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0398"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0399"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf039a"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf039b"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf039c"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf039d"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf039e"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf039f"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a0"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a1"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a2"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a3"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a4"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a5"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a6"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03a7"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72a25f53ea3cbaf03a9",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03aa"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ab"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ac"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ad"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ae"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03af"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b0"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b1"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b2"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b3"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b4"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b5"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b6"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b7"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b8"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03b9"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ba"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72a25f53ea3cbaf03bc",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag2",
+      "tag3"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03bd"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03be"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03bf"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c0"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c1"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c2"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c3"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c4"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c5"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c6"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c7"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c8"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03c9"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ca"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03cb"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03cc"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03cd"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72a25f53ea3cbaf03cf",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag3",
+      "tag4"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d0"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d1"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d2"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d3"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d4"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d5"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d6"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d7"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d8"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03d9"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03da"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03db"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03dc"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03dd"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03de"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03df"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e0"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72a25f53ea3cbaf03e2",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag4",
+      "tag5"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e3"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e4"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e5"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e6"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e7"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e8"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03e9"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ea"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03eb"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ec"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ed"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ee"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ef"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f0"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f1"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f2"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f3"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72a25f53ea3cbaf03f5",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag5",
+      "tag6"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f6"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f7"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f8"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03f9"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03fa"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03fb"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03fc"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03fd"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03fe"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf03ff"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0400"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0401"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0402"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0403"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0404"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0405"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72a25f53ea3cbaf0406"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf0408",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag6",
+      "tag7"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0409"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf040a"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf040b"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf040c"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf040d"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf040e"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf040f"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0410"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0411"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0412"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0413"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0414"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0415"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0416"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0417"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0418"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0419"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf041b",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag7",
+      "tag8"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf041c"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf041d"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf041e"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf041f"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0420"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0421"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0422"
+      }
+    ],
+    "safety": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0423"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0424"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0425"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0426"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0427"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0428"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0429"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf042a"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf042b"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf042c"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf042e",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag8",
+      "tag9"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf042f"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0430"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0431"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0432"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0433"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0434"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0435"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0436"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0437"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0438"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0439"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf043a"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf043b"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf043c"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf043d"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf043e"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf0440",
+    "nameInstractor": "Jonh Doe",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2022-01-01T00:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0441"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0442"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0443"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0444"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0445"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0446"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0447"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0448"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0449"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf044a"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf044b"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf044c"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf044d"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf044e"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf044f"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0450"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf06d3",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 1,
+    "date": "2024-09-19T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06d4"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06d5"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06d6"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06d7"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06d8"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06d9"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06da"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06db"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06dc"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06dd"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06de"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06df"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e0"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e1"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e2"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e3"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf06e5",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 2,
+    "date": "2024-09-18T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e6"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e7"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e8"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06e9"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06ea"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06eb"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06ec"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06ed"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06ee"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06ef"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f0"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f1"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f2"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f3"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f4"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f5"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf06f7",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 3,
+    "date": "2024-09-17T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f8"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06f9"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06fa"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06fb"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06fc"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06fd"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06fe"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf06ff"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0700"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0701"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0702"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0703"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0704"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0705"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0706"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0707"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf0709",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 4,
+    "date": "2024-09-16T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf070a"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf070b"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf070c"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf070d"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf070e"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf070f"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0710"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0711"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0712"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0713"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0714"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0715"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0716"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0717"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0718"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0719"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf071b",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 5,
+    "date": "2024-09-15T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf071c"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf071d"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf071e"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf071f"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0720"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0721"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0722"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0723"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0724"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0725"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0726"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0727"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0728"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0729"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf072a"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf072b"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf072d",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 6,
+    "date": "2024-09-14T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf072e"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf072f"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0730"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0731"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0732"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0733"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0734"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0735"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0736"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0737"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0738"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0739"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf073a"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf073b"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf073c"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf073d"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf073f",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 7,
+    "date": "2024-09-13T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0740"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0741"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0742"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0743"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0744"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0745"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0746"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0747"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0748"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0749"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf074a"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf074b"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf074c"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf074d"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf074e"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf074f"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf0751",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 8,
+    "date": "2024-09-12T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0752"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0753"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0754"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0755"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0756"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0757"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0758"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0759"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf075a"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf075b"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf075c"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf075d"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf075e"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf075f"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0760"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0761"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf0763",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 9,
+    "date": "2024-09-11T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0764"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0765"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0766"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0767"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0768"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0769"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf076a"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf076b"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf076c"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf076d"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf076e"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf076f"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0770"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0771"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0772"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0773"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  },
+  {
+    "_id": "6676f72b25f53ea3cbaf0775",
+    "nameInstractor": "ron",
+    "namePersonalInstractor": "Kaplan",
+    "nameTrainer": "Moshiko",
+    "group": "A",
+    "idPersonalInstractor": "123456789",
+    "idInstractor": "123456789",
+    "idTrainer": "123456789",
+    "session": "A",
+    "silabus": 10,
+    "date": "2024-09-10T21:00:00.000Z",
+    "tags": [
+      "tag9",
+      "tag10"
+    ],
+    "payload": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0776"
+      }
+    ],
+    "decryption": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0777"
+      }
+    ],
+    "workingMethod": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0778"
+      }
+    ],
+    "understandingTheAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0779"
+      }
+    ],
+    "flight": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf077a"
+      }
+    ],
+    "theoretical": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf077b"
+      }
+    ],
+    "thinkingInAir": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf077c"
+      }
+    ],
+    "briefing": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf077d"
+      }
+    ],
+    "debriefing": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf077e"
+      }
+    ],
+    "debriefingInAir": [
+      {
+        "value": 8,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf077f"
+      }
+    ],
+    "implementationExecise": [
+      {
+        "value": 9,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0780"
+      }
+    ],
+    "dealingWithFailures": [
+      {
+        "value": 10,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0781"
+      }
+    ],
+    "dealingWithStress": [
+      {
+        "value": 4,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0782"
+      }
+    ],
+    "makingDecisions": [
+      {
+        "value": 5,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0783"
+      }
+    ],
+    "pilotNature": [
+      {
+        "value": 6,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0784"
+      }
+    ],
+    "crewMember": [
+      {
+        "value": 7,
+        "description": "good",
+        "_id": "6676f72b25f53ea3cbaf0785"
+      }
+    ],
+    "advantage": [
+      "advantage1",
+      "advantage2"
+    ],
+    "disavantage": [
+      "disavantage1",
+      "disavantage2"
+    ],
+    "changeTobeCommender": 9,
+    "finalGrade": 8,
+    "summerize": "good",
+    "identification": [],
+    "safety": [],
+    "__v": 0
+  }
+]

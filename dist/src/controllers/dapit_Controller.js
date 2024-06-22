@@ -266,7 +266,7 @@ class dapit_Controller extends base_controller_1.BaseController {
                 res.status(200).send(labelSums);
             }
             catch (error) {
-                //console.error('Error fetching dapit:', error);
+                // console.error('Error fetching dapit:', error);
                 res.status(500).send({ message: 'Error fetching dapit' });
             }
         });
