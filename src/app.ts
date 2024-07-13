@@ -13,6 +13,7 @@ import matricsRoute from "./routes/matrics_route";
 import wallRoute from "./routes/wall_route";
 import postRoute from "./routes/post_route";
 import resRoute from "./routes/response_route";
+import progressRoute from "./routes/progress_data_route";
 
 
 
@@ -44,6 +45,7 @@ const initApp = (): Promise<Express> => {
       app.use("/wall", wallRoute)
       app.use("/post", postRoute)
       app.use("/response", resRoute)
+      app.use("/progressRoute", progressRoute)
       app.use("/public", express.static("public"));
       resolve(app);
     });
