@@ -45,7 +45,7 @@ const initApp = (): Promise<Express> => {
       app.use("/wall", wallRoute)
       app.use("/post", postRoute)
       app.use("/response", resRoute)
-      app.use("/progressRoute", progressRoute)
+      app.use("/progress", progressRoute)
       app.use("/public", express.static("public"));
       resolve(app);
     });

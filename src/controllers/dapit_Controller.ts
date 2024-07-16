@@ -2,7 +2,10 @@ import dapit_model, {IDapit} from "../models/dapit_model";
 import { BaseController } from "./base_controller";
 import e, { Request, Response } from "express";
 import axios from 'axios';
-
+import  { IInstractor } from "../models/Instractor_model";
+import Instractor_model from "../models/Instractor_model";
+import PersonalInstractor_model from "../models/PersonalInstractor_model";
+import trainer_model, { ITrainer } from "../models/trainer_model";
 import { AuthResquest } from "../common/auth_middleware";
 import {extractUserName, toJSONFile} from "../common/utils";
 import { FilterQuery } from "mongoose";
@@ -153,7 +156,44 @@ class dapit_Controller extends BaseController<IDapit>{
           res.status(500).send({ message: 'Error fetching dapit' });
         }
       }
-      
+    
+    async getIDsBaseOnTrainerAndInstractorName(req: Request, res: Response) {
+
+
+        console.log("getIDsBaseOnTrainerAndInstractorName - get controller");
+        try{
+            
+            const trainerName = req.query.trainerName;
+            const instractorName = req.query.instractorName;
+            console.log("trainerName: " + trainerName);
+            console.log("instractorName: " + instractorName);
+            const trainerObj = await trainer_model.find({name: trainerName});
+            // console.log("trainerObj: " + JSON.stringify(trainerObj));
+
+            const trainerID = trainerObj.map((item) => item._id);
+            // console.log("trainerID: " + trainerID);
+            const PersonalInstractorObj = await PersonalInstractor_model.find({idTrainer: trainerID});
+            const PersonalInstractorID = PersonalInstractorObj.map((item) => item.idInstractor);
+            
+            const InstractorObj = await Instractor_model.find({name: instractorName});
+            const InstractorID = InstractorObj.map((item) => item._id);
+
+            const PersonalNameFromtheInstractor = await Instractor_model.find({idInstractor: Object('PersonalInstractorID')});
+            console.log("PersonalNameFromtheInstractor: " + JSON.stringify(PersonalNameFromtheInstractor));
+            const personalName = PersonalNameFromtheInstractor.map((item) => item.name);
+
+            console.log("trainerID: " + trainerID);
+            console.log("PersonalInstractorID: " + PersonalInstractorID);
+            console.log("InstractorID: " + InstractorID);
+            console.log("personalName: " + personalName);
+
+            res.status(200).send({trainerID: trainerID, PersonalInstractorID: PersonalInstractorID, InstractorID: InstractorID, personalName: personalName});
+        }
+        catch (error) {
+            //console.error('Error fetching dapit:', error);
+            res.status(500).send({ message: 'Error fetching dapit' });
+        }
+    }
     
 
     async post (req: Request, res: Response) {
