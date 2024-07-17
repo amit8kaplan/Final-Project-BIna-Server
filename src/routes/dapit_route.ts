@@ -5,6 +5,7 @@ import authMiddleware from '../common/auth_middleware';
 import { upload_vid } from '../common/file_upload';
 import exp from 'constants';
 
+// router.get('/:id', dapit_Controller.getByID.bind(dapit_Controller));
 router.get('/', dapit_Controller.get.bind(dapit_Controller));
 router.get('/getByFilterBasicInfo', dapit_Controller.getByFilterBasicInfo.bind(dapit_Controller));
 router.get('/getCSVfile', dapit_Controller.getCSVfile.bind(dapit_Controller));

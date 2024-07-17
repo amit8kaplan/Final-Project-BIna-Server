@@ -33,6 +33,16 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
+    async getByID(req: Request, res: Response) {
+        //console.log("get by id - get controller");
+        try {
+            const obj = await this.model.findById(req.params.id);
+            res.status(200).send(obj);
+        } catch (error) {
+            //console.error('Error fetching dapit:', error);
+            res.status(500).send({ message: 'Error fetching dapit' });
+        }
+    }
     async getByFilter(req: Request, res: Response) {
         //console.log("getByFilter - get controller");
     
@@ -132,8 +142,8 @@ class dapit_Controller extends BaseController<IDapit>{
 
     async getByFilterBasicInfo(req: Request, res: Response) {
         let filter = {}; // Initialize filter object as an empty object
-        //console.log("getByFilterBasicInfo - get controller");
-        //console.log("Logic: " + req.query.tagsLogic)
+        console.log("getByFilterBasicInfo - get controller");
+        console.log("Logic: " + req.query.tagsLogic)
         // Get filter conditions from different filter functions
         filter = {
             ...filterPartOf(req, ['advantage', 'disavantage', 'nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize']), // Spread operator
@@ -179,13 +189,13 @@ class dapit_Controller extends BaseController<IDapit>{
             const InstractorID = InstractorObj.map((item) => item._id);
 
             const PersonalNameFromtheInstractor = await Instractor_model.find({_id: PersonalInstractorID});
-            console.log("PersonalNameFromtheInstractor: " + JSON.stringify(PersonalNameFromtheInstractor));
+            // console.log("PersonalNameFromtheInstractor: " + JSON.stringify(PersonalNameFromtheInstractor));
             const personalName = PersonalNameFromtheInstractor.map((item) => item.name);
 
-            console.log("trainerID: " + trainerID);
-            console.log("PersonalInstractorID: " + PersonalInstractorID);
-            console.log("InstractorID: " + InstractorID);
-            console.log("personalName: " + personalName);
+            // console.log("trainerID: " + trainerID);
+            // console.log("PersonalInstractorID: " + PersonalInstractorID);
+            // console.log("InstractorID: " + InstractorID);
+            // console.log("personalName: " + personalName);
 
             res.status(200).send({trainerID: trainerID, PersonalInstractorID: PersonalInstractorID, InstractorID: InstractorID, personalName: personalName});
         }
@@ -197,13 +207,14 @@ class dapit_Controller extends BaseController<IDapit>{
     
 
     async post (req: Request, res: Response) {
-        //console.log("post - post controller");
+        console.log("post - post controller");
+        console.log("req.body: " + JSON.stringify(req.body));
         try {
             const obj = new this.model(req.body);
             await obj.save();
             res.status(200).send(obj);
         } catch (error) {
-            //console.error('Error creating dapit:', error);
+            console.error('Error creating dapit:', error);
             res.status(500).send({ message: 'Error creating dapit' });
         }
     }
