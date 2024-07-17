@@ -178,7 +178,7 @@ class dapit_Controller extends BaseController<IDapit>{
             const InstractorObj = await Instractor_model.find({name: instractorName});
             const InstractorID = InstractorObj.map((item) => item._id);
 
-            const PersonalNameFromtheInstractor = await Instractor_model.find({idInstractor: Object('PersonalInstractorID')});
+            const PersonalNameFromtheInstractor = await Instractor_model.find({_id: PersonalInstractorID});
             console.log("PersonalNameFromtheInstractor: " + JSON.stringify(PersonalNameFromtheInstractor));
             const personalName = PersonalNameFromtheInstractor.map((item) => item.name);
 
