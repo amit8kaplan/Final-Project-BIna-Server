@@ -33,16 +33,7 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
-    async getByID(req: Request, res: Response) {
-        //console.log("get by id - get controller");
-        try {
-            const obj = await this.model.findById(req.params.id);
-            res.status(200).send(obj);
-        } catch (error) {
-            //console.error('Error fetching dapit:', error);
-            res.status(500).send({ message: 'Error fetching dapit' });
-        }
-    }
+    
     async getByFilter(req: Request, res: Response) {
         //console.log("getByFilter - get controller");
     

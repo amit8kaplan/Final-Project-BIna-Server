@@ -163,6 +163,7 @@ class matrics_Controller extends BaseController<IDapit> {
             const sessionAvgPerHanich: { [trainer: string]: { [session: string]: number } } = {};
             const sessionAvgPerHanichLength: { [trainer: string]: { [session: string]: number } } = {};
             // Group by group and professional category and calculate averages
+            console.log('req.query.group:', req.query.group);
             if (!req.query.group) res.status(400).json({ error: 'Group is required' });
             const escapedGroup = escapeRegExp(req.query.group as string);
             let filter: FilterQuery<IDapit> = {};

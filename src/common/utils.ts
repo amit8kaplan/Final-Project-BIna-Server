@@ -24,7 +24,7 @@ export const professionalFieldsHas = [
 ];
 
 export const finalFields = [
-    'finalGrade', 'summerize'
+    'finalGrade', 'summerize', "changeTobeCommender"
 ]; 
 
 export function filterExists(req: Request, filterFields: string[]): any[] {
