@@ -1,0 +1,1 @@
+{"version":3,"file":"Instractor_model.js","sourceRoot":"","sources":["../../../src/models/Instractor_model.ts"],"names":[],"mappings":";;;;;AACA,wDAAgC;AAOhC,MAAM,gBAAgB,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAc;IACtD,IAAI,EAAE;QACF,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;KACjB;CACJ,CAAC,CAAC;AAEH,kBAAe,kBAAQ,CAAC,KAAK,CAAc,YAAY,EAAE,gBAAgB,CAAC,CAAC"}

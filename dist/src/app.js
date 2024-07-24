@@ -18,6 +18,7 @@ const matrics_route_1 = __importDefault(require("./routes/matrics_route"));
 const wall_route_1 = __importDefault(require("./routes/wall_route"));
 const post_route_1 = __importDefault(require("./routes/post_route"));
 const response_route_1 = __importDefault(require("./routes/response_route"));
+const progress_data_route_1 = __importDefault(require("./routes/progress_data_route"));
 const initApp = () => {
     const promise = new Promise((resolve) => {
         const db = mongoose_1.default.connection;
@@ -45,6 +46,7 @@ const initApp = () => {
             app.use("/wall", wall_route_1.default);
             app.use("/post", post_route_1.default);
             app.use("/response", response_route_1.default);
+            app.use("/progress", progress_data_route_1.default);
             app.use("/public", express_1.default.static("public"));
             resolve(app);
         });

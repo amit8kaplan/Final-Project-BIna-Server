@@ -60,7 +60,7 @@ exports.professionalFieldsHas = [
     'has_makingDecisions', 'has_pilotNature', 'has_crewMember'
 ];
 exports.finalFields = [
-    'finalGrade', 'summerize'
+    'finalGrade', 'summerize', "changeTobeCommender"
 ];
 function filterExists(req, filterFields) {
     const filters = [];

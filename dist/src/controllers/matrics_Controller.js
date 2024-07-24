@@ -168,6 +168,7 @@ class matrics_Controller extends base_controller_1.BaseController {
                 const sessionAvgPerHanich = {};
                 const sessionAvgPerHanichLength = {};
                 // Group by group and professional category and calculate averages
+                console.log('req.query.group:', req.query.group);
                 if (!req.query.group)
                     res.status(400).json({ error: 'Group is required' });
                 const escapedGroup = (0, utils_1.escapeRegExp)(req.query.group);

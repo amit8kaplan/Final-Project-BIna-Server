@@ -118,6 +118,21 @@ class matrics_Controller extends BaseController<IDapit> {
             }
             const avgHanichPerPreformance: { [trainer: string]:{[field: string]: number }} = {};
             const avgHanichPerformanceLen: { [session: string]: { [field: string]: number } } = {};
+            
+            const avgGroupLen: { [field: string]: number } = {};
+            const avgGroup: { [field: string]: number  } = {};
+            for (const f in professionalFields){
+                avgGroup[professionalFields[f]] = 0;
+                avgGroupLen[professionalFields[f]] = 0;
+            }
+            avgGroup["finalGrade"] = 0;
+            avgGroup["summerize"] = 0;
+            avgGroup["changeTobeCommender"] = 0;
+            avgGroupLen["finalGrade"] = 0;
+            avgGroupLen["summerize"] = 0;
+            avgGroupLen["changeTobeCommender"] = 0;
+
+
             for (const trainer in avgPerformance) {
                 avgHanichPerPreformance[trainer] = {};
                 avgHanichPerformanceLen[trainer] = {};
@@ -129,6 +144,8 @@ class matrics_Controller extends BaseController<IDapit> {
                         }
                         avgHanichPerPreformance[trainer][field] += avgPerformance[trainer][session][field];
                         avgHanichPerformanceLen[trainer][field]++;
+                        avgGroup[field] += avgPerformance[trainer][session][field];
+                        avgGroupLen[field]++;
                     }
                 }
             }
@@ -145,7 +162,12 @@ class matrics_Controller extends BaseController<IDapit> {
                 }
             }
             console.log('ResavgPerformance:', JSON.stringify(ResavgPerformance, null, 2));
-            res.status(200).json({ ResavgPerformance, avgHanichPerPreformance });
+            
+            for (const field in avgGroup) {
+                avgGroup[field] /= avgGroupLen[field];
+            }
+            console.log('avgGroup:', avgGroup);
+            res.status(200).json({ ResavgPerformance, avgHanichPerPreformance, avgGroup });
         } catch (error) {
             console.error('Error calculating average performance:', error);
             res.status(500);
