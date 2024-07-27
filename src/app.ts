@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import spesRoute from "./routes/specific_route";
 import authRoute from "./routes/auth_route";
+import userInfoRoute from "./routes/user_info_route";
 import userRoute from "./routes/user_update_route";
 import cousreRoute from "./routes/courses_route";
 import courseReviewRoute from "./routes/courses_reviews_route";
@@ -35,6 +36,7 @@ const initApp = (): Promise<Express> => {
         res.header("Access-Control-Allow-Credentials", "true");
         next();
       })
+      app.use("/user_info", userInfoRoute);
       app.use("/course", cousreRoute);
       app.use("/review", courseReviewRoute);
       app.use("/specific", spesRoute)

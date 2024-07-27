@@ -200,7 +200,7 @@ class wall_controller {
         console.log("getWallByTrainerId - controller");
         try {
             const trainerId = req.params.trainerId;
-    
+            console.log("trainerId", req.params.trainerId);
             // Main aggregation pipeline for dapits
             const dapitPipeline: PipelineStage[] = [
                 {
