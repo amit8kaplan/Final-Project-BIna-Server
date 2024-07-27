@@ -14,7 +14,7 @@ router.get('/', post_controller.getAllPosts.bind(post_controller));
 //get post by trainer id
 router.get('/:trainerId', post_controller.getPostByIdtrainer.bind(post_controller));
 //post new post
-router.post('', post_controller.post.bind(post_controller));
+router.post('/', post_controller.post.bind(post_controller));
 //update post
 router.put('/:id', post_controller.put.bind(post_controller));
 //delete post
