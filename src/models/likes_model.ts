@@ -2,17 +2,18 @@ import exp from "constants";
 import mongoose from "mongoose";
 
 export interface ILikes{
-    type: string;
-    idPostOrDapit: string;
+    count: number;
+    idDapitOrPost: string;
     _id?: string;
 }
 
 const likesSchema = new mongoose.Schema<ILikes>({
-    type: {
-        type: String,
+    count: {
+        type: Number,
+        default: 0,
         required: true,
     },
-    idPostOrDapit: {
+    idDapitOrPost: {
         type: String,
         required: true,
     }

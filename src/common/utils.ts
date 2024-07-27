@@ -1,6 +1,8 @@
-import mongoose, { FilterQuery } from "mongoose";
+import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import user_model from "../models/user_model";
 import course_model, { ICourse } from "../models/course_model";
+import dapit_model from "../models/dapit_model";
+import post_model from "../models/post_model";
 import { Request } from "express";
 import * as fc from 'fast-csv';
 import fs from 'fs';
@@ -240,6 +242,72 @@ export async function decCountInCourseName(id: string | number | mongoose.mongo.
     }
     catch (err) {
         return { message: err.message };
+    }
+
+}
+
+export  async  function PostPipeline(id: string) {
+   const postPipeline: PipelineStage[] = [
+        {
+            $match: { idTrainer: id },
+        },
+        {
+            $sort: { date: -1 }, // Sort posts by date ascending
+        },
+        {
+            $lookup: {
+                from: "responses",
+                let: { postId: "$_id" }, // Define variable to hold the ObjectId as string
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: { $eq: ["$idPost", { $toString: "$$postId" }] }, // Convert ObjectId to string for comparison
+                        },
+                    },
+                ],
+                as: "responses",
+            },
+        },
+    ];
+    return postPipeline;
+}
+
+export async function DapitPipeline(id: string) {
+    const dapitPipeline: PipelineStage[] = [
+        {
+            $match: { idTrainer: id },
+        },
+        {
+            $sort: { date: -1 }, // Sort dapits by date ascending
+        },
+        {
+            $lookup: {
+                from: "responses",
+                let: { dapitId: "$_id" }, // Define variable to hold the ObjectId as string
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: { $eq: ["$idDapit", { $toString: "$$dapitId" }] }, // Convert ObjectId to string for comparison
+                        },
+                    },
+                ],
+                as: "responses",
+            },
+        },
+    ];
+    return dapitPipeline;
+}
+
+export async function aggregateDataWall (dapitPipeline: PipelineStage[],postPipeline: PipelineStage[] ){
+    try {
+        const [dapits, posts] = await Promise.all([
+            dapit_model.aggregate(dapitPipeline),
+            post_model.aggregate(postPipeline),
+        ]);
+        return { dapits, posts };
+    } catch (error) {
+        console.error('Error fetching dapit:', error);
+        return { dapits: [null], posts: [null]};
     }
 
 }

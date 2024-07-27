@@ -13,8 +13,10 @@ router.get('/:trainerId', wall_controller.getWallByTrainerId.bind(wall_controlle
 // gets wall by filter
 router.get('/:trainerId/getByFilter', wall_controller.getWallByFilter.bind(wall_controller));
 // //get all the likes of the wall {key: idDapitOrPost, value: number of likes}
-// router.get ('/likes/:id', wall_controller.getLikes.bind(wall_controller));
+router.get ('/likes/:trainerId', wall_controller.getLikes.bind(wall_controller));
 // //put new like by id Post or Dapit
-// router.put('/likes/', wall_controller.putLike.bind(wall_controller));
+router.put('/likes/', wall_controller.putLike.bind(wall_controller));
 
+//post a new like by id Post or Dapit
+router.post('/likes/', wall_controller.postLike.bind(wall_controller));
 export default router;

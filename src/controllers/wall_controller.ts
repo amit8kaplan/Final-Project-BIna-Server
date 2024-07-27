@@ -13,7 +13,7 @@
 // class wall_controller{
 
 //   async getWallByTrainerId(req: Request, res: Response) {
-//     console.log("getWallByTrainerId - controller");
+//     //console.log("getWallByTrainerId - controller");
 //     try {
 //         const trainerId = req.params.trainerId;
 //         if (!trainerId) {
@@ -75,7 +75,7 @@
 //             { $unwind: { path: "$posts", preserveNullAndEmptyArrays: true } },
 //             { $sort: { date: 1 } },
 //         ];
-//         console.log("pipeline", pipeline);
+//         //console.log("pipeline", pipeline);
 //         const wall = await wall_model.aggregate(pipeline);
 
 //         if (wall.length > 0) {
@@ -95,7 +95,7 @@
       
       
 //     async getWallByFilter(req: Request, res: Response){
-//         console.log("getWallByFilter - controller");
+//         //console.log("getWallByFilter - controller");
 //         const trainerId = req.params.trainerId;
 //          // Construct filters based on request query parameters
 //         const partOfStringFilters = filterPartOf(req, ['nameInstructor', 'namePersonalInstructor', 'nameTrainer', 'group', 'session', 'summary']);
@@ -195,110 +195,134 @@ import response_model from "../models/response_model";
 import { Request, Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
 import likes_model from "../models/likes_model";
-
+import {PostPipeline , DapitPipeline, aggregateDataWall} from "../common/utils";
 class wall_controller {
 
-    // async getLikes(req: Request, res: Response) {
-    //     console.log("getLikes - controller");
-    //     try {
-    //         const TrainerId = req.params.id;
-    //         if (!TrainerId) {
-    //             return res.status(400).json({ message: "ID is required" });
-    //         }
-
-    //         const posts
-
-    //         const likes = await likes_model.aggregate([
-    //             { $match: { idPost: id } },
-    //             { $group: { _id: "$idPost", likes: { $sum: 1 } } },
-    //         ]);
-    //         if (likes.length > 0) {
-    //             res.status(200).json(likes);
-    //         } else {
-    //             res.status(404).json({ message: "Likes not found" });
-    //         }
-    //     } catch (err) {
-    //         res.status(500).json({ message: err.message });
-    //     }
-    // }
-
-    async getWallByTrainerId(req: Request, res: Response) {
-        console.log("getWallByTrainerId - controller");
+    async getLikes(req: Request, res: Response) {
+        //console.log("getLikes - controller");
         try {
             const trainerId = req.params.trainerId;
-            console.log("trainerId", req.params.trainerId);
+            //console.log("trainerId", req.params.trainerId);
             // Main aggregation pipeline for dapits
-            const dapitPipeline: PipelineStage[] = [
-                {
-                    $match: { idTrainer: trainerId },
-                },
-                {
-                    $sort: { date: -1 }, // Sort dapits by date ascending
-                },
-                {
-                    $lookup: {
-                        from: "responses",
-                        let: { dapitId: "$_id" }, // Define variable to hold the ObjectId as string
-                        pipeline: [
-                            {
-                                $match: {
-                                    $expr: { $eq: ["$idDapit", { $toString: "$$dapitId" }] }, // Convert ObjectId to string for comparison
-                                },
-                            },
-                        ],
-                        as: "responses",
-                    },
-                },
-            ];
-    
+            const dapitPipeline: PipelineStage[] = await DapitPipeline(trainerId);
+            
             // Main aggregation pipeline for posts
-            const postPipeline: PipelineStage[] = [
-                {
-                    $match: { idTrainer: trainerId },
-                },
-                {
-                    $sort: { date: -1 }, // Sort posts by date ascending
-                },
-                {
-                    $lookup: {
-                        from: "responses",
-                        let: { postId: "$_id" }, // Define variable to hold the ObjectId as string
-                        pipeline: [
-                            {
-                                $match: {
-                                    $expr: { $eq: ["$idPost", { $toString: "$$postId" }] }, // Convert ObjectId to string for comparison
-                                },
-                            },
-                        ],
-                        as: "responses",
-                    },
-                },
-            ];
+            const postPipeline: PipelineStage[] = await PostPipeline(trainerId);
     
             // Execute both pipelines in parallel
-            const [dapits, posts] = await Promise.all([
-                dapit_model.aggregate(dapitPipeline),
-                post_model.aggregate(postPipeline),
-            ]);
-            // console.log("dapits", JSON.stringify(dapits, null, 2));
-            // console.log("posts", JSON.stringify(posts, null, 2));
-            const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());    
-            if (combined.length > 0) {
-                res.status(200).json(combined);
-            } 
-            else if (combined.length == 0) {
+            const resultsagg = await aggregateDataWall(dapitPipeline,postPipeline)
+            const dapits = resultsagg.dapits
+            const posts = resultsagg.posts
+            //console.log("dapits", dapits);
+                //console.log("posts", posts);
+            let idsDapits;               
+            let idsPosts;
+            let likesDapits;
+            let likesPosts;
+                
+            if (dapits.length > 0) {
+                idsDapits = dapits.map((dapit) => dapit._id);
+                likesDapits = await likes_model.find({ idDapitOrPost: { $in: idsDapits } });
+            }
+            if (posts.length > 0) {
+                idsPosts = posts.map((post) => post._id);
+                likesPosts = await likes_model.find({ idDapitOrPost: { $in: idsPosts } });
+            }
+            const likes = [...likesDapits, ...likesPosts];
+            res.status(200).json(likes);
+            } catch (err) {
+                res.status(500).json({ message: err.message });
+            }
+    }
+    async putLike(req: Request, res: Response) {
+        console.log("putLike - controller");
+        try {
+            const idDapitOrPost = req.body.idDapitOrPost;
+            const like = req.body.like;
+            const count = req.body.count;
+            console.log("idDapitOrPost", idDapitOrPost);
+            console.log("count", count);
+            console.log("like", like);
+            
+            if (!idDapitOrPost || !like || !count) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+            let newLike;
+            if (like === "like") {
+                console.log("like");
+                newLike =await likes_model.updateOne(
+                    { idDapitOrPost: idDapitOrPost },
+                    { $inc: { count: 1 } }
+                );
+            }
+            else if (like === "dislike") {
+                newLike = await likes_model.updateOne(
+                    { idDapitOrPost: idDapitOrPost },
+                    { $inc: { count: -1 } }
+                );
+            }
+            res.status(200).json(newLike);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
+    async postLike(req: Request, res: Response) {
+        //console.log("postLike - controller");
+        try {
+            const idDapitOrPost = req.body.idDapitOrPost;
+            //console.log("idDapitOrPost", idDapitOrPost);
+            
+            if (!idDapitOrPost) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+            const newLike = await likes_model.create({ idDapitOrPost, count: 1 });
+            res.status(200).json(newLike);
+        } catch (err) {
+            //console.log("err", err);
+            res.status(500).json({ message: err.message})
+        }
+}
+
+    async getWallByTrainerId(req: Request, res: Response) {
+        //console.log("getWallByTrainerId - controller");
+        try {
+            const trainerId = req.params.trainerId;
+            //console.log("trainerId", req.params.trainerId);
+            // Main aggregation pipeline for dapits
+            const dapitPipeline: PipelineStage[] = await DapitPipeline(trainerId);
+            
+            // Main aggregation pipeline for posts
+            const postPipeline: PipelineStage[] = await PostPipeline(trainerId);
+    
+            // Execute both pipelines in parallel
+            const resultsagg = await aggregateDataWall(dapitPipeline,postPipeline)
+            const dapits = resultsagg.dapits
+            const posts = resultsagg.posts
+            if (dapits.length > 0 || posts.length > 0) {
+                // //console.log("dapits", JSON.stringify(dapits, null, 2));
+                // //console.log("posts", JSON.stringify(posts, null, 2));
+                const combined:any[] = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());    
+                if (combined.length > 0) {
+                    res.status(200).json(combined);
+                } 
+                else if (combined.length == 0) {
+                    res.status(200)
+                }else {
+                    res.status(404).json({ message: "Wall not found" });
+                }
+            }
+            else if (dapits.length == 0 && posts.length == 0) {
                 res.status(200)
-            }else {
-                res.status(404).json({ message: "Wall not found" });
             }
         } catch (err) {
-            console.log("err", err);
+            //console.log("err", err);
             res.status(500)
         }
     }
     
     async getWallByFilter(req: Request, res: Response) {
-        console.log("getWallByFilter - controller");
+        //console.log("getWallByFilter - controller");
         const trainerId = req.params.trainerId;
 
         // Construct filters based on request query parameters
@@ -315,8 +339,8 @@ class wall_controller {
             idTrainer: trainerId,
             ...filterPartOf(req, ["nameInstractor", "content"])
         };
-        console.log("postFilters", postFilters);
-        console.log("dapitFilters", dapitFilters);
+        //console.log("postFilters", postFilters);
+        //console.log("dapitFilters", dapitFilters);
         try {
             const dapitPipeline: PipelineStage[] = [
                 { $match: dapitFilters },
@@ -360,8 +384,8 @@ class wall_controller {
                 dapit_model.aggregate(dapitPipeline),
                 post_model.aggregate(postPipeline),
             ]);
-            // console.log("dapits", JSON.stringify(dapits, null, 2));
-            // console.log("posts", JSON.stringify(posts, null, 2));
+            // //console.log("dapits", JSON.stringify(dapits, null, 2));
+            // //console.log("posts", JSON.stringify(posts, null, 2));
             const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
             if (combined.length > 0) {
                 res.status(200).json(combined);
