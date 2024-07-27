@@ -194,8 +194,34 @@ import post_model from "../models/post_model";
 import response_model from "../models/response_model";
 import { Request, Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
+import likes_model from "../models/likes_model";
 
 class wall_controller {
+
+    // async getLikes(req: Request, res: Response) {
+    //     console.log("getLikes - controller");
+    //     try {
+    //         const TrainerId = req.params.id;
+    //         if (!TrainerId) {
+    //             return res.status(400).json({ message: "ID is required" });
+    //         }
+
+    //         const posts
+
+    //         const likes = await likes_model.aggregate([
+    //             { $match: { idPost: id } },
+    //             { $group: { _id: "$idPost", likes: { $sum: 1 } } },
+    //         ]);
+    //         if (likes.length > 0) {
+    //             res.status(200).json(likes);
+    //         } else {
+    //             res.status(404).json({ message: "Likes not found" });
+    //         }
+    //     } catch (err) {
+    //         res.status(500).json({ message: err.message });
+    //     }
+    // }
+
     async getWallByTrainerId(req: Request, res: Response) {
         console.log("getWallByTrainerId - controller");
         try {
@@ -259,11 +285,15 @@ class wall_controller {
             const combined = [...dapits, ...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());    
             if (combined.length > 0) {
                 res.status(200).json(combined);
-            } else {
+            } 
+            else if (combined.length == 0) {
+                res.status(200)
+            }else {
                 res.status(404).json({ message: "Wall not found" });
             }
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            console.log("err", err);
+            res.status(500)
         }
     }
     

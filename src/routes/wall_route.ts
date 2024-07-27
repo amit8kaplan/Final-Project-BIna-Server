@@ -12,5 +12,9 @@ import exp from 'constants';
 router.get('/:trainerId', wall_controller.getWallByTrainerId.bind(wall_controller));
 // gets wall by filter
 router.get('/:trainerId/getByFilter', wall_controller.getWallByFilter.bind(wall_controller));
+// //get all the likes of the wall {key: idDapitOrPost, value: number of likes}
+// router.get ('/likes/:id', wall_controller.getLikes.bind(wall_controller));
+// //put new like by id Post or Dapit
+// router.put('/likes/', wall_controller.putLike.bind(wall_controller));
 
 export default router;
