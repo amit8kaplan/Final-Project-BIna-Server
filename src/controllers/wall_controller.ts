@@ -247,20 +247,22 @@ class wall_controller {
             if (!idDapitOrPost || !like || !count) {
                 return res.status(400).json({ message: "Missing required fields" });
             }
-            let newLike;
             if (like === "like") {
                 console.log("like");
-                newLike =await likes_model.updateOne(
+                await likes_model.updateOne(
                     { idDapitOrPost: idDapitOrPost },
                     { $inc: { count: 1 } }
                 );
+                
             }
             else if (like === "dislike") {
-                newLike = await likes_model.updateOne(
+                await likes_model.updateOne(
                     { idDapitOrPost: idDapitOrPost },
                     { $inc: { count: -1 } }
                 );
             }
+            const newLike = await likes_model.findOne({ idDapitOrPost: idDapitOrPost });
+            console.log("newLike", newLike);
             res.status(200).json(newLike);
         } catch (err) {
             res.status(500).json({ message: err.message });
