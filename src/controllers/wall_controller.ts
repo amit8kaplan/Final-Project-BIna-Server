@@ -191,7 +191,8 @@
 import { filterPartOf } from "../common/utils";
 import dapit_model from "../models/dapit_model";
 import post_model from "../models/post_model";
-import response_model from "../models/response_model";
+// import response_model from "../models/response_model";
+import comments_model from "../models/comments_model";
 import { Request, Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
 import likes_model from "../models/likes_model";
@@ -269,6 +270,34 @@ class wall_controller {
         }
     }
 
+
+    async changeFlag(req: Request, res: Response){
+        console.log("putFlag - controller");
+        try {
+            const idDapitOrPost = req.body.idDapitOrPost;
+            console.log("idDapitOrPost", idDapitOrPost);
+            if (!idDapitOrPost) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+        
+            const prevLike = await likes_model.findOne({ idDapitOrPost: idDapitOrPost });
+            console.log("prevLike", prevLike);
+            
+            const newFlag = await likes_model.findByIdAndUpdate({
+                _id: prevLike._id,
+            }, {
+                flag: !prevLike.flag,
+            }, {
+                new: true,
+            });
+            console.log("newFlag", newFlag);
+            res.status(200).json(newFlag);
+        } catch (err) {
+            //console.log("err", err);
+            
+            res.status(500).json({ message: err.message });
+        }
+    }
     async postLike(req: Request, res: Response) {
         //console.log("postLike - controller");
         try {
@@ -278,7 +307,8 @@ class wall_controller {
             if (!idDapitOrPost) {
                 return res.status(400).json({ message: "Missing required fields" });
             }
-            const newLike = await likes_model.create({ idDapitOrPost, count: 1 });
+            const newLike = await likes_model.create({ idDapitOrPost,flag: false, count: 1 });
+            console.log("newLike post", newLike);
             res.status(200).json(newLike);
         } catch (err) {
             //console.log("err", err);
@@ -394,6 +424,115 @@ class wall_controller {
             } else {
                 res.status(404).json({ message: "Wall not found" });
             }
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async getComments(req: Request, res: Response) {
+        console.log("getComments - controller");
+        try {
+            const trainerId = req.params.trainerId;
+            //console.log("trainerId", req.params.trainerId);
+            // Main aggregation pipeline for dapits
+            const dapitPipeline: PipelineStage[] = await DapitPipeline(trainerId);
+            
+            // Main aggregation pipeline for posts
+            const postPipeline: PipelineStage[] = await PostPipeline(trainerId);
+    
+            // Execute both pipelines in parallel
+            const resultsagg = await aggregateDataWall(dapitPipeline,postPipeline)
+            const dapits = resultsagg.dapits
+            const posts = resultsagg.posts
+            let idsDapits;
+            let idsPosts;
+            let commentsDapits;
+            let commentsPosts;
+            if (dapits.length > 0) {
+                idsDapits = dapits.map((dapit) => dapit._id);
+                commentsDapits = await comments_model.find({ idDapit: { $in: idsDapits } });
+            }
+            if (posts.length > 0) {
+                idsPosts = posts.map((post) => post._id);
+                commentsPosts = await comments_model.find({ idPost: { $in: idsPosts } });
+            }
+            const comments = [...commentsDapits, ...commentsPosts];
+            console.log("getComments", comments);
+            res.status(200).json(comments);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async postComment(req: Request, res: Response) {
+        console.log("postComment - controller");
+        try {
+            const idDapitOrPost = req.body.idDapitOrPost;
+            const personalName = req.body.personalName;
+            const content = req.body.content;
+            console.log("idDapitOrPost", idDapitOrPost);
+            console.log("personalName", personalName);
+            console.log("content", content);
+            if (!idDapitOrPost || !personalName || !content) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+            const newComment = await comments_model.create({ idDapitOrPost, count: 1,comments: [{ personalName, content, date: new Date() }] });
+            console.log("newComment", newComment);
+            res.status(200).json(newComment);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async putComment(req: Request, res: Response) {
+        console.log("putComment - controller");
+        try {
+            const idDapitOrPost = req.body.idDapitOrPost;
+            const personalName = req.body.personalName;
+            const content = req.body.content;
+            console.log("idDapitOrPost", idDapitOrPost);
+            console.log("personalName", personalName);
+            console.log("content", content);
+            if (!idDapitOrPost || !personalName || !content) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+            const prevComment = await comments_model.findOne({ idDapitOrPost: idDapitOrPost });
+            console.log("prevComment", prevComment);
+            const newComment = await comments_model.findByIdAndUpdate({
+                _id: prevComment._id,
+            }, {
+                $push: { comments: { personalName, content, date: new Date() }, 
+                        count: prevComment.count + 1 },
+            },
+            
+             {
+                new: true,
+            });
+            console.log("newComment", newComment);
+            res.status(200).json(newComment);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async deleteComment(req: Request, res: Response) {
+        console.log("deleteComment - controller");
+        try {
+            const idDapitOrPost = req.body.idDapitOrPost;
+            const commentId = req.body.commentId;
+            console.log("idDapitOrPost", idDapitOrPost);
+            console.log("commentId", commentId);
+            if (!idDapitOrPost || !commentId) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+            const prevComment = await comments_model.findOne({ idDapitOrPost: idDapitOrPost });
+            console.log("prevComment", prevComment);
+            const newComments = prevComment.comments.filter((comment) => comment?._id.toString() !== commentId);
+            const newComment = await comments_model.findByIdAndUpdate({
+                _id: prevComment._id,
+            }, {
+                comments: newComments,
+            }, {
+                new: true,
+            });
+            console.log("newComment", newComment);
+            res.status(200).json(newComment);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }

@@ -19,4 +19,14 @@ router.put('/likes/', wall_controller.putLike.bind(wall_controller));
 
 //post a new like by id Post or Dapit
 router.post('/likes/', wall_controller.postLike.bind(wall_controller));
+
+router.put('/flag/', wall_controller.changeFlag.bind(wall_controller));
+
+
+
+router.get('/comments/:trainerId', wall_controller.getComments.bind(wall_controller));
+router.post('/comments/', wall_controller.postComment.bind(wall_controller));
+router.put('/comments/', wall_controller.putComment.bind(wall_controller));
+router.delete('/comments/', wall_controller.deleteComment.bind(wall_controller));
+
 export default router;

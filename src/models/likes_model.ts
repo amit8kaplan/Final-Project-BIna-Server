@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 export interface ILikes{
     count: number;
     idDapitOrPost: string;
+    flag: boolean;
     _id?: string;
 }
 
@@ -16,7 +17,12 @@ const likesSchema = new mongoose.Schema<ILikes>({
     idDapitOrPost: {
         type: String,
         required: true,
-    }
+    },
+    flag: {
+        type: Boolean,
+        default: false,
+        required: true,
+    },
 });
 
 export default mongoose.model<ILikes>("Likes", likesSchema);
