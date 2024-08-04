@@ -505,7 +505,7 @@ class wall_controller {
                 _id: prevComment._id,
             }, {
                 $push: { comments: { personalName, content, date: new Date() }, 
-                        count: prevComment.count + 1 },
+                        $inc: { count: 1 } },
             },
             
              {
@@ -514,6 +514,7 @@ class wall_controller {
             console.log("newComment", newComment);
             res.status(200).json(newComment);
         } catch (err) {
+            console.log("err", err);
             res.status(500).json({ message: err.message });
         }
     }
