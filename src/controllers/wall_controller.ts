@@ -432,7 +432,7 @@ class wall_controller {
         console.log("getComments - controller");
         try {
             const trainerId = req.params.trainerId;
-            //console.log("trainerId", req.params.trainerId);
+            console.log("trainerId", req.params.trainerId);
             // Main aggregation pipeline for dapits
             const dapitPipeline: PipelineStage[] = await DapitPipeline(trainerId);
             
@@ -442,18 +442,24 @@ class wall_controller {
             // Execute both pipelines in parallel
             const resultsagg = await aggregateDataWall(dapitPipeline,postPipeline)
             const dapits = resultsagg.dapits
+            console.log("dapits", dapits);
             const posts = resultsagg.posts
+            console.log("posts", posts);
             let idsDapits;
             let idsPosts;
             let commentsDapits;
             let commentsPosts;
             if (dapits.length > 0) {
                 idsDapits = dapits.map((dapit) => dapit._id);
-                commentsDapits = await comments_model.find({ idDapit: { $in: idsDapits } });
+                console.log("idsDapits", idsDapits);
+                commentsDapits = await comments_model.find({ idDapitOrPost: { $in: idsDapits } });
+                console.log("commentsDapits", commentsDapits);
             }
             if (posts.length > 0) {
                 idsPosts = posts.map((post) => post._id);
-                commentsPosts = await comments_model.find({ idPost: { $in: idsPosts } });
+                console.log("idsPosts", idsPosts);
+                commentsPosts = await comments_model.find({ idDapitOrPost: { $in: idsPosts } });
+                console.log("commentsPosts", commentsPosts);
             }
             const comments = [...commentsDapits, ...commentsPosts];
             console.log("getComments", comments);
