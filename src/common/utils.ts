@@ -2,6 +2,7 @@ import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import user_model from "../models/user_model";
 import course_model, { ICourse } from "../models/course_model";
 import dapit_model from "../models/dapit_model";
+import { IDapit } from "../models/dapit_model";
 import post_model from "../models/post_model";
 import { Request } from "express";
 import * as fc from 'fast-csv';
@@ -46,6 +47,12 @@ export function filterByDate(req: Request) {
             $gte: new Date(req.query.startDate as string),
             $lte: new Date(req.query.endDate as string)
         };
+    }
+    else if (req.query.startDate) {
+        filter.date = { $gte: new Date(req.query.startDate as string) };
+    }
+    else if (req.query.endDate) {
+        filter.date = { $lte: new Date(req.query.endDate as string) };
     }
     return filter;
 }
@@ -311,3 +318,108 @@ export async function aggregateDataWall (dapitPipeline: PipelineStage[],postPipe
     }
 
 }
+export function jsonToTextWithInsertion(jsonData: object, insertBeforeKey: string, insertText: string): string {
+    // Helper function to parse JSON recursively
+    function parseObject(obj: any, indentLevel: number = 0): string {
+      let result = '';
+      const indent = '  '.repeat(indentLevel); // Indentation for nested objects
+  
+      for (const [key, value] of Object.entries(obj)) {
+        // Insert the custom text before the specified key
+        if (key === insertBeforeKey) {
+          result += `${indent}${insertText}\n`;
+        }
+  
+        // Add the key and its value
+        result += `${indent}${key}: `;
+  
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          result += '\n' + parseObject(value, indentLevel + 1); // Recursively parse nested objects
+        } else if (Array.isArray(value)) {
+          result += value.join(' ') + '\n'; // Flatten arrays
+        } else {
+          result += `${value}\n`;
+        }
+      }
+      return result;
+    }
+  
+    // Convert the JSON object into a formatted string
+    return parseObject(jsonData).trim();
+  }
+  
+  // Example usage:
+  const jsonData = {
+    // Your JSON data here...
+    // (Same structure as the one you provided)
+  };
+  
+  const insertBeforeKey = "identification"; // Specify the key before which the custom text should be inserted
+  const insertText = "  This is custom text inserted here!"; // Custom text to insert
+  
+  console.log(jsonToTextWithInsertion(jsonData, insertBeforeKey, insertText));
+  
+// export function jsonToTextWithInsertion_OnDapit (obj: object) {
+    // const json = obj as IDapit;
+    // const indentLevel:number = 0;
+    // let summerize:string = "";
+    // let advantage = "";
+    // let disavantage = "";
+    // let finalGrade = "";
+    // let changeTobeCommender = "";
+    // let result = "this is the form that writen on the trainer "+ json.nameTrainer + " after is flight. The Instactor in the flight was " + json.nameInstractor +".\n" +
+    // "The silabus is " + json.silabus + ", in the session"  + json.session + ".\n" + "These are the things he is being tested on, during the flight:\n"; 
+    // let indent = ' '.repeat(indentLevel)
+    // for (const [key, value] of Object.entries(json)) {
+    //     if (key != "nameTrainer" && key != "nameInstractor" && key != "silabus" && key != "session" && key!= "date" && key != "tags" && key != "_id" && key != "idPersonalInstractor" && key != "idInstractor" && key != "idTrainer") {
+    //         if (key === "summerize") {
+    //             summerize = value;
+    //         }
+    //         else if (key === "advantage") {
+    //             advantage = value;
+    //         }
+    //         else if (key === "disavantage") {
+    //             disavantage = value;
+    //         }
+    //         else if (key === "finalGrade") {
+    //             finalGrade = value;
+    //         }
+    //         else if (key === "changeTobeCommender") {
+    //             changeTobeCommender = value;
+    //         }
+    //         else if (Array.isArray(value)) {
+    //             if (typeof value[0] === 'object') {
+    //               result += '\n' + value.map(item => parseObject(item, indentLevel + 1)).join('');
+    //             } else {
+    //               result += value.join(' ') + '\n'; // Flatten arrays
+    //             }
+    //         }
+    //          // Handle simple key-value pairs
+    //         else {
+    //             result += `${value}\n`;
+    //         }
+        
+    //     }
+    // }
+    // if (advantage != "") {
+    //     result += "The advantage of the trainer is: " + advantage + ".\n";
+    // }
+    // else if (disavantage != "") {
+    //     result += "The disavantage of the trainer is: " + disavantage + ".\n";
+    // }
+    // else if (summerize != "") {
+    //     result += "The summerize of the flight is: " + summerize + ".\n";
+    // }
+    // else if (finalGrade != "")
+    // {
+    //     result += "The final Grade is: " + finalGrade + ".\n";
+    // }
+    // else if (changeTobeCommender != "")
+    // {
+    //     result += "The change to be commender is: " + changeTobeCommender + ".\n";
+    // }
+    // return result;}
+
+// function parseObject(item: any, arg1: number): any {
+//     throw new Error("Function not implemented.");
+// }

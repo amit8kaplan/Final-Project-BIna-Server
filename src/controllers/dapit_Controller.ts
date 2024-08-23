@@ -7,7 +7,7 @@ import Instractor_model from "../models/Instractor_model";
 import PersonalInstractor_model from "../models/PersonalInstractor_model";
 import trainer_model, { ITrainer } from "../models/trainer_model";
 import { AuthResquest } from "../common/auth_middleware";
-import {extractUserName, toJSONFile} from "../common/utils";
+import {extractUserName, jsonToTextWithInsertion, toJSONFile} from "../common/utils";
 import { FilterQuery } from "mongoose";
 import { filterExists,filterPartOf ,filterByTags, filterByProfessionalFieldsTospesificData, filterParseInt, filterStringUsingIn, filterByDate ,escapeRegExp , professionalFields, professionalFieldsHas, finalFields} from "../common/utils";
 import exp from "constants";
@@ -135,6 +135,7 @@ class dapit_Controller extends BaseController<IDapit>{
         let filter = {}; // Initialize filter object as an empty object
         console.log("getByFilterBasicInfo - get controller");
         console.log("Logic: " + req.query.tagsLogic)
+        console.log("getByFilterBasicInfo req.query: " + JSON.stringify(req.query));
         // Get filter conditions from different filter functions
         filter = {
             ...filterPartOf(req, ['advantage', 'disavantage', 'nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize']), // Spread operator
@@ -151,6 +152,8 @@ class dapit_Controller extends BaseController<IDapit>{
         }      
         try {
           const obj = await this.model.find(filter);
+          console.log("jsonToTextWithInsertion_OnDapit(obj)" + JSON.stringify(jsonToTextWithInsertion(obj, "description", '')));
+
           res.status(200).send(obj);
         } catch (error) {
           //console.error('Error fetching dapit:', error);

@@ -15,7 +15,7 @@ import wallRoute from "./routes/wall_route";
 import postRoute from "./routes/post_route";
 import resRoute from "./routes/response_route";
 import progressRoute from "./routes/progress_data_route";
-
+import aiRoute from "./routes/ai_route";
 
 
 
@@ -39,6 +39,7 @@ const initApp = (): Promise<Express> => {
         res.header("Access-Control-Allow-Credentials", "true");
         next();
       })
+      app.use("/ai", aiRoute);
       app.use("/user_info", userInfoRoute);
       app.use("/course", cousreRoute);
       app.use("/review", courseReviewRoute);
