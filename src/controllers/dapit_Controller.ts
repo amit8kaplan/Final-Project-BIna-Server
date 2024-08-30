@@ -305,6 +305,19 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
+    public async deleteAllDapitWithTrainerId(req: Request, res: Response) {
+        console.log("deleteAllDapitWithTrainerId - delete controller");
+        const trainerId = req.query.trainerId;
+        console.log("trainerId: " + trainerId);
+        try {
+
+            const obj = await this.model.deleteMany({idTrainer: trainerId});
+            res.status(200).send(obj);
+        } catch (error) {
+            console.error('Error deleting dapit:', error);
+            res.status(500).send({ message: 'Error deleting dapit' });
+        }
+    }
    
 }
 

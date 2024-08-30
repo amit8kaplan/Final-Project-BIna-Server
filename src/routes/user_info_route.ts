@@ -31,7 +31,8 @@ router.put('/updatePersonalInstractor', UserInfoController.updatePersonalInstrac
 router.put('/updateIdsTrainersInGroup', UserInfoController.updateIdsTrainersInGroup.bind(UserInfoController));
 
 
-// router.delete('/deleteTrainer', UserInfoController.deleteTrainer.bind(UserInfoController));
+router.delete('/deleteTrainer', UserInfoController.deleteOnlyTrainer.bind(UserInfoController));
+router.delete('/deletePersonalInstractorAfterDeleteTrainer', UserInfoController.deletePersonalInstractorAfterDeleteTrainer.bind(UserInfoController));
 // router.delete('/deleteInstractor', UserInfoController.deleteInstractor.bind(UserInfoController));
 // router.delete('/deleteGroup', UserInfoController.deleteGroup.bind(UserInfoController));
 // router.delete('/deleteSession', UserInfoController.deleteSession.bind(UserInfoController));

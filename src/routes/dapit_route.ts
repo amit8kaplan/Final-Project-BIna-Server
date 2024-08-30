@@ -14,6 +14,8 @@ router.get('/getSementically/:id', dapit_Controller.getSementically.bind(dapit_C
 router.get('/getByFilter', dapit_Controller.getByFilter.bind(dapit_Controller));
 router.post('/', dapit_Controller.post.bind(dapit_Controller));
 router.put('/:id', dapit_Controller.putById.bind(dapit_Controller));
+router.delete ('/deleteAllDapitWithTrainerId', dapit_Controller.deleteAllDapitWithTrainerId.bind(dapit_Controller));
+
 router.delete('/:id', dapit_Controller.deleteById.bind(dapit_Controller));
 router.get('/getIDsBaseOnTrainerAndInstractorName', dapit_Controller.getIDsBaseOnTrainerAndInstractorName.bind(dapit_Controller));
 export default router;

@@ -314,6 +314,34 @@ class UserInfoController  {
             res.status(409).json({ message: err.message });
         }
     }
-            
+
+    /**
+     * 
+     * 
+     * delete
+     * 
+     */
+
+
+    public async deleteOnlyTrainer(req: Request, res: Response) {
+        try {
+            const trainerId = req.query.trainerId;
+            await Trainer.findByIdAndDelete(trainerId);
+            res.status(200).json({ message: 'Trainer deleted successfully' });
+        } catch (err) {
+            res.status(409).json({ message: err.message });
+        }     
+    }
+    public async deletePersonalInstractorAfterDeleteTrainer(req: Request, res: Response) {
+        try {
+            const trainerId = req.query.trainerId;
+            await PersonalInstractor.findOneAndDelete({idTrainer: trainerId});
+            res.status(200).json({ message: 'PersonalInstractor deleted successfully' });
+        } catch (err) {
+            res.status(409).json({ message: err.message });
+        }     
+    }
+    
+    
 }
 export default new UserInfoController();
