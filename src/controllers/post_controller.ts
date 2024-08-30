@@ -15,19 +15,19 @@ class post_controller extends BaseController<IPost>{
         super(post_model)
     }
     async post(req: Request, res: Response){
-        console.log("post Post - controller");
+        //console.log("post Post - controller");
         try{
            const body = req.body;
             const obj = await post_model.create(body);
-            console.log("obj", JSON.stringify(obj, null, 2));
+            //console.log("obj", JSON.stringify(obj, null, 2));
             res.status(201).send(obj);
         }catch(err){
-            console.log("err", err);
+            //console.log("err", err);
             res.status(500).json({message: err.message});
         }
     }
     async getAllPosts(req: Request, res: Response){
-        console.log("getAllPosts - controller");
+        //console.log("getAllPosts - controller");
         try{
             const posts = await post_model.find();
             res.status(200).json(posts);
@@ -36,7 +36,7 @@ class post_controller extends BaseController<IPost>{
         }
     }
     async getPostByIdtrainer(req: Request, res: Response){
-        console.log("getPostByIdtrainer - controller");
+        //console.log("getPostByIdtrainer - controller");
         try{
             const trainerId = req.params.trainerId;
             const posts = await post_model.find({idTrainer: trainerId});
@@ -46,18 +46,18 @@ class post_controller extends BaseController<IPost>{
         }
     }
     async put(req: Request, res: Response){
-        console.log("put - controller");
+        //console.log("put - controller");
         try{
-            console.log("req.body", req.body);
+            //console.log("req.body", req.body);
             const post = await post_model.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            console.log("post after update", post)
+            //console.log("post after update", post)
             res.status(200).json(post);
         }catch(err){
             res.status(500).json({message: err.message});
         }
     }
     async delete(req: Request, res: Response){
-        console.log("delete - controller");
+        //console.log("delete - controller");
         try{
             const id = req.params.id;
             await post_model.findByIdAndDelete(id);

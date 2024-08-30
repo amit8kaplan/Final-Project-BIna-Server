@@ -9,18 +9,18 @@ class coursesReviewsController extends BaseController<IcourseReview>{
         super(CourseReview)
     }
     async get(req: AuthResquest, res: Response) {
-        console.log("get by query parameter:");
-        console.log("req.query:", JSON.stringify(req.query, null, 2));
+        //console.log("get by query parameter:");
+        //console.log("req.query:", JSON.stringify(req.query, null, 2));
       
         // Check for existence of specific query parameters
         if (req.query.course_id || req.query.owner_id || req.query.score) {
-          console.log("Using query parameters");
+          //console.log("Using query parameters");
       
           let filter: FilterQuery<IcourseReview>;
       
           if (req.query.course_id) {
             filter = { course_id: req.query.course_id as string}
-            console.log("filter:", filter)
+            //console.log("filter:", filter)
           }
       
           if (req.query.owner_id) {
@@ -34,7 +34,7 @@ class coursesReviewsController extends BaseController<IcourseReview>{
           const obj = await this.model.find(filter);
           res.status(200).send(obj);
         } else {
-          console.log("No query parameters provided");
+          //console.log("No query parameters provided");
           // Return all documents if no query parameters are specified
           const obj = await this.model.find();
           res.status(200).send(obj);

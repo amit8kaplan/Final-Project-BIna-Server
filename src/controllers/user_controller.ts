@@ -12,17 +12,17 @@ class UserController extends BaseController<IUser>{
     async deletePhotoOfUser(req: AuthResquest, res: Response) {
         let prevuser;
         try {
-            console.log("deletePhotoOfUser")
+            //console.log("deletePhotoOfUser")
             prevuser = await User.findById(req.user._id);
-            console.log("prevuser.imgUrl: ", prevuser.imgUrl)
+            //console.log("prevuser.imgUrl: ", prevuser.imgUrl)
             if (prevuser.imgUrl === "") {
-                console.log("the user has no photo inside the if")
+                //console.log("the user has no photo inside the if")
                 res.status(500).json({ message: "the user has no photo" });
             }
             const user = await User.findByIdAndUpdate(req.user._id, { imgUrl: "" });
             res.status(200).send(user);
         } catch (err) {
-            console.log("the user have error in deletePhotoOfUser")
+            //console.log("the user have error in deletePhotoOfUser")
             res.status(500);
         }
     }

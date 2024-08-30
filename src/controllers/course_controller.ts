@@ -18,7 +18,7 @@ class course_controller extends BaseController<ICourse> {
 
     
     async get(req: Request, res: Response) {
-        console.log("query", req.query);
+        //////console.log("query", req.query);
         let filter: FilterQuery<ICourse> = {};
     
         if (req.query.id) {
@@ -44,7 +44,7 @@ class course_controller extends BaseController<ICourse> {
             const obj = await this.model.find(filter);
             res.status(200).send(obj);
         } catch (error) {
-            console.error('Error fetching courses:', error);
+            //////console.error('Error fetching courses:', error);
             res.status(500).send({ message: 'Error fetching courses' });
         }
     }

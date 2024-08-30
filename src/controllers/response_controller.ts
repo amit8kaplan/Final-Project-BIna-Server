@@ -14,18 +14,18 @@ class resonse_controller extends BaseController<IResponse>{
         super(response_model)
     }
     async post(req: Request, res: Response){
-        console.log("post response - controller");
+        //console.log("post response - controller");
         try{
             const body = req.body;
             const obj = await response_model.create(body);
             res.status(201).send(obj);
         }catch(err){
-            console.log("err", err);
+            //console.log("err", err);
             res.status(500).json({message: err.message});
         }
     }
     async getAllResponses(req: Request, res: Response){
-        console.log("getAllResponses - controller");
+        //console.log("getAllResponses - controller");
         try{
             const responses = await response_model.find();
             res.status(200).json(responses);
@@ -34,7 +34,7 @@ class resonse_controller extends BaseController<IResponse>{
         }
     }
     async getResponseByIdPost(req: Request, res: Response){
-        console.log("getResponseByIdPost - controller");
+        //console.log("getResponseByIdPost - controller");
         try{
             const postId = req.params.postId;
             const responses = await response_model.find({idPost: postId});
@@ -44,7 +44,7 @@ class resonse_controller extends BaseController<IResponse>{
         }
     }
     async getResponseByIdDapit(req: Request, res: Response){
-        console.log("getResponseByIdDapit - controller");
+        //console.log("getResponseByIdDapit - controller");
         try{
             const dapitId = req.params.dapitId;
             const responses = await response_model.find({idDapit: dapitId});
@@ -54,7 +54,7 @@ class resonse_controller extends BaseController<IResponse>{
         }
     }
     async put(req: Request, res: Response){
-        console.log("put - controller");
+        //console.log("put - controller");
         try{
             const response = await response_model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             res.status(200).json(response);
@@ -63,7 +63,7 @@ class resonse_controller extends BaseController<IResponse>{
         }
     }
     async delete(req: Request, res: Response){
-        console.log("delete - controller");
+        //console.log("delete - controller");
         try{
             const id = req.params.id;
             await response_model.findByIdAndDelete(id);

@@ -24,23 +24,23 @@ class dapit_Controller extends BaseController<IDapit>{
     }
     //THIS RUN GREAT!
     async get (req: Request, res: Response) {
-        //console.log("get all dapit - get controller");
+        ////console.log("get all dapit - get controller");
         try {
             const obj = await this.model.find();
             res.status(200).send(obj);
         } catch (error) {
-            //console.error('Error fetching dapit:', error);
+            ////console.error('Error fetching dapit:', error);
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
     
     async getByFilter(req: Request, res: Response) {
-        //console.log("getByFilter - get controller");
+        ////console.log("getByFilter - get controller");
     
         // Initialize filter as an empty array
         let filters: any[] = filterExists(req, professionalFields);
     
-        //console.log("filters in getByFilter: " + JSON.stringify(filters));
+        ////console.log("filters in getByFilter: " + JSON.stringify(filters));
     
         // Initialize filter object
         const filterObject: any = {};
@@ -49,7 +49,7 @@ class dapit_Controller extends BaseController<IDapit>{
         if (req.query.logic === "and") {
             filterObject.$and = filters;
         } else if (req.query.logic === "or") {
-            //console.log("or logic");
+            ////console.log("or logic");
             filterObject.$or = filters;
         } else {
             return res.status(400).send({ message: 'Invalid query logic' });
@@ -59,12 +59,12 @@ class dapit_Controller extends BaseController<IDapit>{
             const obj = await this.model.find(filterObject);
             res.status(200).send(obj);
         } catch (error) {
-            //console.error('Error fetching dapit:', error);
+            ////console.error('Error fetching dapit:', error);
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
     async getCSVfile(req: Request, res: Response) {
-        //console.log("getCSVfile - get controller");
+        ////console.log("getCSVfile - get controller");
         try {
             const data = await this.model.find();
             const bool = toCSVFile(data, "csv/allCSV.csv");
@@ -73,34 +73,34 @@ class dapit_Controller extends BaseController<IDapit>{
             else
                 res.status(500).send({ message: 'Error creating CSV file' });
         } catch (error) {
-            //console.error('Error fetching dapit:', error);
+            ////console.error('Error fetching dapit:', error);
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
     async getCSVfiletrainerId(req: Request, res: Response) {
         try {
             const trainerId = req.params.trainerId;
-            //console.log("getCSVfiletrainerId: " + trainerId);
+            ////console.log("getCSVfiletrainerId: " + trainerId);
         
             const data = await this.model.find({ idTrainer: trainerId });
             const name = data[0].nameTrainer;
-            //console.log("name: " + name);
+            ////console.log("name: " + name);
             const bool = toCSVFile(data, "csv/" + name+"1.csv");    
             if (bool)
                 res.status(200).send({ message: 'CSV file created successfully' });
             else
                 res.status(500).send({ message: 'Error creating CSV file' });
             } catch (error) {
-            //console.error('Error fetching dapit:', error);
+            ////console.error('Error fetching dapit:', error);
             res.status(500).send({ message: 'Error fetching dapit' });
             }
       }
 
     async getDocumentbyFilter(req: Request, res: Response) {
-        //console.log("getDocumentbyFilter - get controller");
+        ////console.log("getDocumentbyFilter - get controller");
         try {
             const query = req.query;
-            //console.log(" getDocumentbyFilter query: " + JSON.stringify(query));
+            ////console.log(" getDocumentbyFilter query: " + JSON.stringify(query));
             let data;
             let fileName;
             if (Object.keys(query).length === 0) {
@@ -108,9 +108,9 @@ class dapit_Controller extends BaseController<IDapit>{
                 fileName = "all.json";
             }
             else {
-                //console.log("in the else getDocumentbyFilter query: ");
+                ////console.log("in the else getDocumentbyFilter query: ");
                 data = await this.model.find(query);
-                //console.log("data: " + JSON.stringify(data));
+                ////console.log("data: " + JSON.stringify(data));
                 fileName = data[0]._id + ".json";
             }
             if (data.length === 0) {
@@ -124,7 +124,7 @@ class dapit_Controller extends BaseController<IDapit>{
                 res.status(500).send({ message: 'Error creating JSON file' });
             }
         } catch (error) {
-                //console.error('Error fetching data:', error);
+                ////console.error('Error fetching data:', error);
                 res.status(500).send({ message: 'Error fetching data' });
         }
     }
@@ -133,9 +133,9 @@ class dapit_Controller extends BaseController<IDapit>{
 
     async getByFilterBasicInfo(req: Request, res: Response) {
         let filter = {}; // Initialize filter object as an empty object
-        console.log("getByFilterBasicInfo - get controller");
-        console.log("Logic: " + req.query.tagsLogic)
-        console.log("getByFilterBasicInfo req.query: " + JSON.stringify(req.query));
+        //console.log("getByFilterBasicInfo - get controller");
+        //console.log("Logic: " + req.query.tagsLogic)
+        //console.log("getByFilterBasicInfo req.query: " + JSON.stringify(req.query));
         // Get filter conditions from different filter functions
         filter = {
             ...filterPartOf(req, ['advantage', 'disavantage', 'nameInstractor', 'namePersonalInstractor', 'nameTrainer', 'group', 'idPersonalInstractor', 'idInstractor', 'idTrainer', 'session', 'summerize']), // Spread operator
@@ -146,17 +146,17 @@ class dapit_Controller extends BaseController<IDapit>{
             ...filterByTags(req, req.query.tagsLogic as string)
         
         };
-        //console.log("filer in controller: " + JSON.stringify(filter, null, 2));
+        ////console.log("filer in controller: " + JSON.stringify(filter, null, 2));
         if (req.query.date){
             filter["date"] = new Date(req.query.date as string);
         }      
         try {
           const obj = await this.model.find(filter);
-          console.log("jsonToTextWithInsertion_OnDapit(obj)" + JSON.stringify(jsonToTextWithInsertion(obj, "description", '')));
+          //console.log("jsonToTextWithInsertion_OnDapit(obj)" + JSON.stringify(jsonToTextWithInsertion(obj, "description", '')));
 
           res.status(200).send(obj);
         } catch (error) {
-          //console.error('Error fetching dapit:', error);
+          ////console.error('Error fetching dapit:', error);
           res.status(500).send({ message: 'Error fetching dapit' });
         }
       }
@@ -164,18 +164,18 @@ class dapit_Controller extends BaseController<IDapit>{
     async getIDsBaseOnTrainerAndInstractorName(req: Request, res: Response) {
 
 
-        console.log("getIDsBaseOnTrainerAndInstractorName - get controller");
+        //console.log("getIDsBaseOnTrainerAndInstractorName - get controller");
         try{
             
             const trainerName = req.query.trainerName;
             const instractorName = req.query.instractorName;
-            console.log("trainerName: " + trainerName);
-            console.log("instractorName: " + instractorName);
+            //console.log("trainerName: " + trainerName);
+            //console.log("instractorName: " + instractorName);
             const trainerObj = await trainer_model.find({name: trainerName});
-            // console.log("trainerObj: " + JSON.stringify(trainerObj));
+            // //console.log("trainerObj: " + JSON.stringify(trainerObj));
 
             const trainerID = trainerObj.map((item) => item._id);
-            // console.log("trainerID: " + trainerID);
+            // //console.log("trainerID: " + trainerID);
             const PersonalInstractorObj = await PersonalInstractor_model.find({idTrainer: trainerID});
             const PersonalInstractorID = PersonalInstractorObj.map((item) => item.idInstractor);
             
@@ -183,54 +183,54 @@ class dapit_Controller extends BaseController<IDapit>{
             const InstractorID = InstractorObj.map((item) => item._id);
 
             const PersonalNameFromtheInstractor = await Instractor_model.find({_id: PersonalInstractorID});
-            // console.log("PersonalNameFromtheInstractor: " + JSON.stringify(PersonalNameFromtheInstractor));
+            // //console.log("PersonalNameFromtheInstractor: " + JSON.stringify(PersonalNameFromtheInstractor));
             const personalName = PersonalNameFromtheInstractor.map((item) => item.name);
 
-            // console.log("trainerID: " + trainerID);
-            // console.log("PersonalInstractorID: " + PersonalInstractorID);
-            // console.log("InstractorID: " + InstractorID);
-            // console.log("personalName: " + personalName);
+            // //console.log("trainerID: " + trainerID);
+            // //console.log("PersonalInstractorID: " + PersonalInstractorID);
+            // //console.log("InstractorID: " + InstractorID);
+            // //console.log("personalName: " + personalName);
 
             res.status(200).send({trainerID: trainerID, PersonalInstractorID: PersonalInstractorID, InstractorID: InstractorID, personalName: personalName});
         }
         catch (error) {
-            //console.error('Error fetching dapit:', error);
+            ////console.error('Error fetching dapit:', error);
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
     
 
     async post (req: Request, res: Response) {
-        console.log("post - post controller");
-        console.log("req.body: " + JSON.stringify(req.body));
+        //console.log("post - post controller");
+        //console.log("req.body: " + JSON.stringify(req.body));
         try {
             const obj = new this.model(req.body);
             await obj.save();
             res.status(200).send(obj);
         } catch (error) {
-            console.error('Error creating dapit:', error);
+            //console.error('Error creating dapit:', error);
             res.status(500).send({ message: 'Error creating dapit' });
         }
     }
 
     async putById (req: Request, res: Response) {
-        //console.log("put by id - put controller");
+        ////console.log("put by id - put controller");
         try {
             const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             res.status(200).send(obj);
         } catch (error) {
-            //console.error('Error updating dapit:', error);
+            ////console.error('Error updating dapit:', error);
             res.status(500).send({ message: 'Error updating dapit' });
         }
     }
     async deleteById (req: Request, res: Response) {
-        //console.log("delete by id - delete controller");
-        //console.log("id" + req.params.id);
+        ////console.log("delete by id - delete controller");
+        ////console.log("id" + req.params.id);
         try {
             await this.model.findByIdAndDelete(req.params.id);
             res.status(200).send({ message: 'Deleted successfully' , deletedId: req.params.id});
         } catch (error) {
-            //console.error('Error deleting dapit:', error);
+            ////console.error('Error deleting dapit:', error);
             res.status(500).send({ message: 'Error deleting dapit' });
         }
     }   
@@ -257,8 +257,8 @@ class dapit_Controller extends BaseController<IDapit>{
           ];
           
         
-        console.log("getSementically - get controller");
-        console.log("id: " + req.params.id);
+        //console.log("getSementically - get controller");
+        //console.log("id: " + req.params.id);
         try {
             const transformedObj = {
                 text: [], // initialize empty text array
@@ -266,9 +266,9 @@ class dapit_Controller extends BaseController<IDapit>{
             const idDapit = req.params.id;
             const obj = await this.model.find({_id: idDapit});
             for (const category  of gradingCategories) {
-                console.log("category: " + category)
-                // console.log("obj[0][category]: " + obj[0][category])
-                // console.log("obj[0][category].description: " + obj[0][category][0].description)
+                //console.log("category: " + category)
+                // //console.log("obj[0][category]: " + obj[0][category])
+                // //console.log("obj[0][category].description: " + obj[0][category][0].description)
                 if (obj[0][category] && obj[0][category].length > 0 && obj[0][category][0].description)
                 {
                     transformedObj.text.push(`${category}: ${obj[0][category][0].description}`);
@@ -279,29 +279,29 @@ class dapit_Controller extends BaseController<IDapit>{
             }
             const labelSums: {[label: string]: number} = {};
             const flaskres = await axios.post('http://127.0.0.1:5000/sentimental', transformedObj);
-            console.log("flaskres: " + JSON.stringify(flaskres.data));
-            console.log("transformedObj: " + JSON.stringify(transformedObj));
-            console.log("obj: " + JSON.stringify(obj));
-            console.log("flaskres.data.length: " + flaskres.data.length);
+            //console.log("flaskres: " + JSON.stringify(flaskres.data));
+            //console.log("transformedObj: " + JSON.stringify(transformedObj));
+            //console.log("obj: " + JSON.stringify(obj));
+            //console.log("flaskres.data.length: " + flaskres.data.length);
             for (let i = 0; i < flaskres.data.length-1; i++) {
-                console.log("inside the loop")
-                console.log("flaskres.data[i].scores: " + JSON.stringify(flaskres.data[i].scores));
+                //console.log("inside the loop")
+                //console.log("flaskres.data[i].scores: " + JSON.stringify(flaskres.data[i].scores));
                 const scores = flaskres.data[i];
                 
                 for (const score of scores) {
                     labelSums[score.label] = (labelSums[score.label] || 0) + score.score;
                 }
             }
-            console.log("flaskres.data[flaskres.data.length-1].scores: " + JSON.stringify(flaskres.data[flaskres.data.length-1].scores));
+            //console.log("flaskres.data[flaskres.data.length-1].scores: " + JSON.stringify(flaskres.data[flaskres.data.length-1].scores));
             const scoreLast = flaskres.data[flaskres.data.length-1];
             for (const score of scoreLast) {
-                console.log("inside the last one")
+                //console.log("inside the last one")
                 labelSums[score.label] = (labelSums[score.label] || 0) + score.score*1.2;
             }
-            console.log("labelSums: " + JSON.stringify(labelSums));
+            //console.log("labelSums: " + JSON.stringify(labelSums));
             res.status(200).send(labelSums);
         } catch (error) {
-            // console.error('Error fetching dapit:', error);
+            // //console.error('Error fetching dapit:', error);
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
