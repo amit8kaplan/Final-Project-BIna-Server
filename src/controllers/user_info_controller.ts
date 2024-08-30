@@ -341,7 +341,53 @@ class UserInfoController  {
             res.status(409).json({ message: err.message });
         }     
     }
-    
-    
+    public async deleteInstractor(req: Request, res: Response){
+        try{
+            const instractorId = req.query.instractorId;
+            await Instractor.findByIdAndDelete(instractorId);
+            res.status(200).json({ message: 'Instractor deleted successfully' });
+        }catch(err){
+            res.status(409).json({ message: err.message });
+        }
+    }
+
+    public async deleteTheGroup(req: Request, res: Response){
+        try{
+            const groupId = req.query.groupId;
+            await Group.findByIdAndDelete(groupId);
+            res.status(200).json({ message: 'Group deleted successfully' });
+        }catch(err){
+            res.status(409).json({ message: err.message });
+        }
+    }
+    public async deleteSpesificTrainerFromGroup(req: Request, res: Response){
+        try{
+            const groupId = req.query.groupId;
+            const trainerId = req.query.trainerId;
+            await Group.findByIdAndUpdate(groupId, { $pull: { idsTrainers: trainerId } });
+            res.status(200).json({ message: 'Trainer deleted from group successfully' });
+        }catch(err){
+            res.status(409).json({ message: err.message });
+        }
+    }
+    public async deleteSession(req: Request, res: Response){
+        try{
+            const sessionId = req.query.sessionId;
+            await Session.findByIdAndDelete(sessionId);
+            res.status(200).json({ message: 'Session deleted successfully' });
+        }catch(err){
+            res.status(409).json({ message: err.message });
+        }
+    }
+    public async deleteSpesificSilabusFromSession(req: Request, res: Response){
+        try{
+            const sessionId = req.query.sessionId;
+            const silabus = req.query.silabus;
+            await Session.findByIdAndUpdate(sessionId, { $pull: { silabus: silabus } });
+            res.status(200).json({ message: 'Silabus deleted from session successfully' });
+        }catch(err){
+            res.status(409).json({ message: err.message });
+        }
+    }
 }
 export default new UserInfoController();

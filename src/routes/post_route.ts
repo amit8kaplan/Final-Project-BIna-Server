@@ -19,7 +19,7 @@ router.post('/', post_controller.post.bind(post_controller));
 router.put('/:id', post_controller.put.bind(post_controller));
 
 router.delete('/deleteAllPostWithTrainerId', post_controller.deleteAllPostWithTrainerId.bind(post_controller));
-
+router.delete('/deleteAll', post_controller.deleteAll.bind(post_controller));
 //delete post
 router.delete('/:id', post_controller.delete.bind(post_controller));
 

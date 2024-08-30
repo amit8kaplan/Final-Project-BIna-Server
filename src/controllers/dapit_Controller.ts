@@ -213,6 +213,54 @@ class dapit_Controller extends BaseController<IDapit>{
         }
     }
 
+    async changeGroupName (req: Request, res: Response) {
+        //console.log("changeGroupName - put controller");
+        //console.log("req.body: " + JSON.stringify(req.body));
+        try {
+            const filter = {group: req.body.oldName};
+            const update = {group: req.body.newName};
+            const obj = await this.model.updateMany(filter, update);
+            res.status(200).send(obj);
+        } catch (error) {
+            //console.error('Error updating dapit:', error);
+            res.status(500).send({ message: 'Error updating dapit' });
+        }
+    }
+    async changeSessionAndSilabus(req: Request, res: Response) {
+        //console.log("changeSessionAndSilabus - put controller");
+        //console.log("req.body: " + JSON.stringify(req.body));
+        try {
+            const { oldSession, newSession, oldSilabus, newSilabus } = req.body;
+    
+            if (!oldSession || !newSession || !oldSilabus || !newSilabus) {
+                return res.status(400).send({ message: 'All fields (oldSession, newSession, oldSilabus, newSilabus) are required' });
+            }
+    
+            const filter = { session: oldSession, silabus: oldSilabus };
+            const update = { session: newSession, silabus: newSilabus };
+            const obj = await this.model.updateMany(filter, update);
+    
+            res.status(200).send(obj);
+        } catch (error) {
+            //console.error('Error updating session and silabus:', error);
+            res.status(500).send({ message: 'Error updating session and silabus' });
+        }
+    }
+
+    async ChangeOnBasedCriteria (req: Request, res: Response) {
+        //console.log("ChangeOnBasedCriteria - put controller");
+        //console.log("req.body: " + JSON.stringify(req.body));
+        try {
+            const filter = req.body.filter;
+            const update = req.body.update;
+            const obj = await this.model.updateMany(filter, update);
+            res.status(200).send(obj);
+        } catch (error) {
+            //console.error('Error updating dapit:', error);
+            res.status(500).send({ message: 'Error updating dapit' });
+        }
+    }
+
     async putById (req: Request, res: Response) {
         ////console.log("put by id - put controller");
         try {
@@ -312,6 +360,41 @@ class dapit_Controller extends BaseController<IDapit>{
         try {
 
             const obj = await this.model.deleteMany({idTrainer: trainerId});
+            res.status(200).send(obj);
+        } catch (error) {
+            console.error('Error deleting dapit:', error);
+            res.status(500).send({ message: 'Error deleting dapit' });
+        }
+    }
+    // public async deleteAllDapitBasedOnCriteria(req: Request, res: Response) {
+    //     console.log("deleteAllDapitBasedOnCriteria - delete controller");
+    //     const filter = req.query.filter;
+    //     console.log("filter: " + filter);
+    //     try {
+    //         const obj = await this.model.deleteMany(filter);
+    //         res.status(200).send(obj);
+    //     } catch (error) {
+    //         console.error('Error deleting dapit:', error);
+    //         res.status(500).send({ message: 'Error deleting dapit' });
+    //     }
+    // }
+
+    public async deleteAllDapitsOfGroup(req: Request, res: Response) {
+        console.log("deleteAllDapitsOfGroup - delete controller");
+        const group = req.query.group;
+        console.log("group: " + group);
+        try {
+            const obj = await this.model.deleteMany({group: group});
+            res.status(200).send(obj);
+        } catch (error) {
+            console.error('Error deleting dapit:', error);
+            res.status(500).send({ message: 'Error deleting dapit' });
+        }
+    }
+     async deleteAll(req: Request, res: Response) {
+        console.log("deleteAll - delete controller");
+        try {
+            const obj = await this.model.deleteMany();
             res.status(200).send(obj);
         } catch (error) {
             console.error('Error deleting dapit:', error);

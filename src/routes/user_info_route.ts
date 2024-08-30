@@ -33,9 +33,10 @@ router.put('/updateIdsTrainersInGroup', UserInfoController.updateIdsTrainersInGr
 
 router.delete('/deleteTrainer', UserInfoController.deleteOnlyTrainer.bind(UserInfoController));
 router.delete('/deletePersonalInstractorAfterDeleteTrainer', UserInfoController.deletePersonalInstractorAfterDeleteTrainer.bind(UserInfoController));
-// router.delete('/deleteInstractor', UserInfoController.deleteInstractor.bind(UserInfoController));
-// router.delete('/deleteGroup', UserInfoController.deleteGroup.bind(UserInfoController));
-// router.delete('/deleteSession', UserInfoController.deleteSession.bind(UserInfoController));
-
+router.delete('/deleteInstractor', UserInfoController.deleteInstractor.bind(UserInfoController));
+router.delete('/deleteTheGroup', UserInfoController.deleteTheGroup.bind(UserInfoController));
+router.delete('/deleteSpesificTrainerFromGroup', UserInfoController.deleteSpesificTrainerFromGroup.bind(UserInfoController));
+router.delete('/deleteSession', UserInfoController.deleteSession.bind(UserInfoController));
+router.delete('/deleteSpesificSilabusFromSession', UserInfoController.deleteSpesificSilabusFromSession.bind(UserInfoController));
 router
 export default router;

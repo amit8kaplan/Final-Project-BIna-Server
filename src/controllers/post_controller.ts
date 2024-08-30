@@ -66,6 +66,15 @@ class post_controller extends BaseController<IPost>{
             res.status(500).json({message: err.message});
         }
     }
+    async deleteAll(req: Request, res: Response){
+        console.log("deleteAll - controller");
+        try{
+            const obj = await post_model.deleteMany();
+            res.status(204).json(obj);
+        }catch(err){
+            res.status(500).json({message: err.message});
+        }
+    }
     async delete(req: Request, res: Response){
         //console.log("delete - controller");
         try{
