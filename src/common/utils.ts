@@ -7,6 +7,12 @@ import post_model from "../models/post_model";
 import { Request } from "express";
 import * as fc from 'fast-csv';
 import fs from 'fs';
+const nodemailer = require('nodemailer');
+const outlook_pwd = process.env.OUTLOOK_PWD;
+const outlook_host = process.env.OUTLOOK_HOST;
+const outlook_port = process.env.OUTLOOK_PORT;
+const outlook_user = process.env.OUTLOOK_USER;
+
 export function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -317,6 +323,36 @@ export async function aggregateDataWall (dapitPipeline: PipelineStage[],postPipe
         return { dapits: [null], posts: [null]};
     }
 
+}
+
+
+export async function sentEmailToUser (email: string) {
+    const smtpConfig = {
+        host: outlook_host,
+        port: outlook_port,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: outlook_user, // your Outlook email
+            pass: outlook_pwd // your email password
+        }
+    }; 
+    const mailOptions = {
+        from: outlook_user, // sender address
+        to: email, // list of receivers
+        subject: 'Test Email', // Subject line
+        text: 'This is a test email sent from a Node.js script.' // plain text body
+    };
+
+    try {
+        // Create a transporter
+        let transporter = nodemailer.createTransport(smtpConfig);
+
+        // Send mail with defined transport object
+        let info = await transporter.sendMail(mailOptions);
+        return info;
+    } catch (error) {
+        return { message: error.message };
+    }
 }
 export function jsonToTextWithInsertion(jsonData: object, insertBeforeKey: string, insertText: string): string {
     // Helper function to parse JSON recursively

@@ -192,6 +192,7 @@ import { filterPartOf } from "../common/utils";
 import dapit_model from "../models/dapit_model";
 import post_model from "../models/post_model";
 // import response_model from "../models/response_model";
+import {sentEmailToUser} from "../common/utils" 
 import comments_model from "../models/comments_model";
 import { Request, Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
@@ -547,6 +548,23 @@ class wall_controller {
             });
             //console.log("newComment", newComment);
             res.status(200).json(newComment);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+    async sendMail(req: Request, res: Response) {
+        console.log("sendMail - controller");
+        try {
+            const { email } = req.body;
+            console.log("email", email);
+            //console.log("subject", subject);
+            //console.log("text", text);
+            if (!email ) {
+                return res.status(400).json({ message: "Missing required fields" });
+            }
+            const results = await sentEmailToUser(email);
+            // Send email logic here
+            res.status(200).json({ message: "Email sent", results: results });
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
