@@ -187,7 +187,7 @@
 // }
 
 // export default new wall_controller();
-
+import { Session } from "inspector";
 import { filterPartOf } from "../common/utils";
 import dapit_model from "../models/dapit_model";
 import post_model from "../models/post_model";
@@ -197,7 +197,10 @@ import comments_model from "../models/comments_model";
 import { Request, Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
 import likes_model from "../models/likes_model";
-import {PostPipeline , DapitPipeline, aggregateDataWall} from "../common/utils";
+import {PostPipeline , DapitPipeline, aggregateDataWall, findMail, sendMailUtil} from "../common/utils";
+import {otptemplateHTML} from "../common/templates";
+import 'express-session'; // Ensure this import is present to apply the augmentation
+import { ISession } from "../types/express-session";
 class wall_controller {
 
     async getLikes(req: Request, res: Response) {
@@ -552,8 +555,52 @@ class wall_controller {
             res.status(500).json({ message: err.message });
         }
     }
+    async sentMailOtp(req: Request, res: Response) {
+        console.log("sentMailOtp - controller");
+            try{
+                const idInstractorTomail = req.body.idInstractor;
+                const emailTo = await findMail(idInstractorTomail);
+                const otp = Math.floor(100000 + Math.random() * 900000);
+                const otpString = otp.toString();
+                const otpEntry = {
+                    email: emailTo,
+                    otp: otpString,
+                    flag: false
+                };
+                //create session.s
+                (req.session as ISession).otp = otpString;
+                console.log((req.session as ISession).otp, "otp");
+    
+                const otptamplate = otptemplateHTML;
+                const data = otptamplate.replace('{{OTP_CODE}}', otpString);
+                // console.log("data", data);
+                const subject = 'OTP Verification to BIna';
+                const objres = await sendMailUtil(emailTo, subject, data);
+    
+                res.status(200).json(objres);
+            }catch(err){
+                res.status(500).json({message: err.message});
+            }
+        }
+    async verify(req: Request, res: Response) {
+        console.log("verify - controller");
+        const otp = (req.session as ISession).otp;
+        console.log("otp", otp);
+        try {
+            const { otpUser } = req.body;
+            console.log("otpUser", otpUser);
+            console.log("otp", otp);
+            if (!otpUser || otpUser !== otp) {
+                return res.status(400).json({ message: "Invalid OTP" });
+            }
+            res.status(200).json({ message: "OTP verified" });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
     async sendMail(req: Request, res: Response) {
         console.log("sendMail - controller");
+        const otp = (req.session as ISession).otp;
         try {
             const { email } = req.body;
             console.log("email", email);

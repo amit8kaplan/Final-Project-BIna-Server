@@ -326,6 +326,41 @@ export async function aggregateDataWall (dapitPipeline: PipelineStage[],postPipe
 }
 
 
+
+//todo: built the function
+export async function findMail(id:string) {
+    return "amit.y.kaplan@gmail.com"
+    
+}
+
+export async function sendMailUtil(emailTo: string, subjectTo: string, data: string): Promise<{ success: boolean; message: string }> {
+    const smtpConfig = {
+        host: outlook_host,
+        port: outlook_port,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: outlook_user, // your Outlook email
+            pass: outlook_pwd // your email password
+        }
+    }; 
+    const mailOptions = {
+        from: outlook_user, // sender address
+        to: emailTo, // list of receivers
+        subject: subjectTo, // Subject line
+        text: data
+    };
+    try {
+        let transporter = nodemailer.createTransport(smtpConfig);
+
+        // Send mail with defined transport object
+        let info = await transporter.sendMail(mailOptions);
+
+        return { success: true, message: 'Email sent successfully' };
+    } catch (error) {
+        return { success: false, message: error.message };
+    }
+}
+
 export async function sentEmailToUser (email: string) {
     const smtpConfig = {
         host: outlook_host,

@@ -6,6 +6,8 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "lib": ["es2015"]
+    "lib": ["es2015"],
+    "typeRoots": ["./node_modules/@types", "./src/types"], // Ensure this is set
+    "types": ["express", "express-session"] // Include express and express-session types
   }
 }

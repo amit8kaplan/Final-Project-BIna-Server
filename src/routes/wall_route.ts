@@ -29,7 +29,8 @@ router.post('/comments/', wall_controller.postComment.bind(wall_controller));
 router.put('/comments/', wall_controller.putComment.bind(wall_controller));
 router.delete('/comments/', wall_controller.deleteComment.bind(wall_controller));
 
-
+router.post('/verify', wall_controller.verify.bind(wall_controller));
 router.post('/sendMail', wall_controller.sendMail.bind(wall_controller));
+router.post('/sentMailOtp', wall_controller.sentMailOtp.bind(wall_controller));
 
 export default router;

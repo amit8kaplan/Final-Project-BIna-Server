@@ -16,7 +16,7 @@ import postRoute from "./routes/post_route";
 import resRoute from "./routes/response_route";
 import progressRoute from "./routes/progress_data_route";
 import aiRoute from "./routes/ai_route";
-
+import session from 'express-session';
 
 
 const initApp = (): Promise<Express> => {
@@ -28,8 +28,14 @@ const initApp = (): Promise<Express> => {
     const url = process.env.DB_URL;
     mongoose.connect(url!).then(() => {
       const app = express();
-      app.use(cors());
 
+      app.use(cors());
+      app.use(session({
+        secret: 'your-secret-key', // Replace with your own secret
+        resave: false,             // Forces session to be saved even if unmodified
+        saveUninitialized: true,   // Forces a session that is "uninitialized" to be saved to the store
+        cookie: { maxAge: 600000 } // Session max age in milliseconds (10 minutes)
+      }));
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ extended: true }));
       app.use((req, res, next) => {
