@@ -16,8 +16,23 @@ import postRoute from "./routes/post_route";
 import resRoute from "./routes/response_route";
 import progressRoute from "./routes/progress_data_route";
 import aiRoute from "./routes/ai_route";
-import session from 'express-session';
+import { createClient } from 'redis';
 
+// Initialize Redis client
+const redisClient = createClient();
+redisClient.on('error', (err) => console.error('Redis Client Error', err));
+
+async function initializeRedisClient() {
+  try {
+    await redisClient.connect();
+    console.log('Redis client connected');
+  } catch (err) {
+    console.error('Failed to connect to Redis', err);
+  }
+}
+
+initializeRedisClient();
+export { redisClient };
 
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -30,12 +45,6 @@ const initApp = (): Promise<Express> => {
       const app = express();
 
       app.use(cors());
-      app.use(session({
-        secret: 'your-secret-key', // Replace with your own secret
-        resave: false,             // Forces session to be saved even if unmodified
-        saveUninitialized: true,   // Forces a session that is "uninitialized" to be saved to the store
-        cookie: { maxAge: 600000 } // Session max age in milliseconds (10 minutes)
-      }));
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ extended: true }));
       app.use((req, res, next) => {
@@ -44,21 +53,22 @@ const initApp = (): Promise<Express> => {
         res.header("Access-Control-Allow-Headers", "*");
         res.header("Access-Control-Allow-Credentials", "true");
         next();
-      })
+      });
       app.use("/ai", aiRoute);
       app.use("/user_info", userInfoRoute);
       app.use("/course", cousreRoute);
       app.use("/review", courseReviewRoute);
-      app.use("/specific", spesRoute)
+      app.use("/specific", spesRoute);
       app.use("/auth", authRoute);
       app.use("/user", userRoute);
-      app.use("/dapit", dapitRoute)
-      app.use("/matrics", matricsRoute)
-      app.use("/wall", wallRoute)
-      app.use("/post", postRoute)
-      app.use("/response", resRoute)
-      app.use("/progress", progressRoute)
+      app.use("/dapit", dapitRoute);
+      app.use("/matrics", matricsRoute);
+      app.use("/wall", wallRoute);
+      app.use("/post", postRoute);
+      app.use("/response", resRoute);
+      app.use("/progress", progressRoute);
       app.use("/public", express.static("public"));
+
       resolve(app);
     });
   });

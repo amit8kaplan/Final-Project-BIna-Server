@@ -2,23 +2,24 @@ import { Request, Response, NextFunction  } from 'express';
 import { createClient } from 'redis';
 import {findMail, sendMailUtil} from '../common/utils';
 import {otptemplateHTML} from "../common/templates";
+import {redisClient} from '../app'; // Import the redisClient from app.ts
 
 // Assuming you have Redis initialized
-const redisClient = createClient();
+// const redisClient = createClient();
 
-redisClient.on('error', (err) => console.error('Redis Client Error', err));
+// redisClient.on('error', (err) => console.error('Redis Client Error', err));
 
-async function initializeRedisClient() {
-    try {
-        await redisClient.connect();
-        console.log('Redis client connected');
-    } catch (err) {
-        console.error('Failed to connect to Redis', err);
-    }
-}
+// async function initializeRedisClient() {
+//     try {
+//         await redisClient.connect();
+//         console.log('Redis client connected');
+//     } catch (err) {
+//         console.error('Failed to connect to Redis', err);
+//     }
+// }
 
 // Call the initialization function
-initializeRedisClient();
+// initializeRedisClient();
 // Generate OTP
 function generateOTP(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -48,7 +49,7 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
 
     // Save OTP and clientId in Redis (local store) for 10 minutes
     try {
-        await redisClient.setEx(sessionKey, 600, JSON.stringify({ otp })); // Use setEx with TTL
+        await redisClient.setEx(sessionKey, 120, JSON.stringify({ otp })); // Use setEx with TTL
         // Here you would send the OTP via email (mocked for now)
         console.log(`Sending OTP ${otp} to email ${emailTo}`);
         console.log(redisClient.get(sessionKey), "redisClient.get(sessionKey)");
@@ -99,7 +100,44 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
     }
 }
 
+// Controller to delete a session
+export async function deleteSession(req: Request, res: Response): Promise<void> {
+    const { clientId } = req.body;
 
+    if (!clientId) {
+        res.status(400).json({ message: 'Client ID is required' });
+        return;
+    }
+
+    const sessionKey = `session:${clientId}`;
+
+    try {
+        await redisClient.del(sessionKey);
+        res.status(200).json({ message: 'Session deleted successfully' });
+    } catch (err) {
+        console.error('Failed to delete session:', err);
+        res.status(500).json({ message: 'Failed to delete session' });
+    }
+}
+export async function getAllSessions(req: Request, res: Response): Promise<void> {
+    try {
+        const keys = await redisClient.keys('session:*');
+        const sessions = [];
+
+        for (const key of keys) {
+            const sessionData = await redisClient.get(key);
+            const ttl = await redisClient.ttl(key); // Get the remaining TTL for the session
+            if (sessionData) {
+                sessions.push({ key, data: JSON.parse(sessionData), ttl });
+            }
+        }
+
+        res.status(200).json(sessions);
+    } catch (err) {
+        console.error('Failed to retrieve sessions:', err);
+        res.status(500).json({ message: 'Failed to retrieve sessions' });
+    }
+}
 export async function checkClientSession(req: Request, res: Response, next: NextFunction) {
     const clientId = req.headers['client-id'] as string;
     const otp = req.headers['otp'] as string;
