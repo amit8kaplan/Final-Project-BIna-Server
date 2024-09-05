@@ -79,31 +79,26 @@ initApp().then((app) => {
           const sessionData = await redisClient.get(key);
           const ttl = await redisClient.ttl(key); // Get the remaining TTL for the session
           if (sessionData) {
-            currentSessions.set(key, { data: JSON.parse(sessionData), ttl });
+            const parsedData = JSON.parse(sessionData);
+            delete parsedData.storedOtp; // Remove the otp field
+            currentSessions.set(key, { data: parsedData, ttl });
           }
         });
   
         await Promise.all(batchPromises); // Wait for all promises in the batch to resolve
       }
   
-      // Check if there are new sessions or sessions under 1 minute
-      const newSessions = [];
-      const sessionsUnderOneMinute = [];
-  
+      // Collect all sessions without the otp field
+      const allSessions = [];
       currentSessions.forEach((value, key) => {
-        if (!previousSessions.has(key)) {
-          newSessions.push({ key, ...value });
-        } else if (value.ttl <= 60) {
-          sessionsUnderOneMinute.push({ key, ...value });
-        }
+        allSessions.push({ key, ...value.data, ttl: value.ttl });
       });
   
-      // Notify all connected clients if there are new sessions or sessions under 1 minute
-      if (newSessions.length > 0 || sessionsUnderOneMinute.length > 0) {
-        const sessionsToNotify = [...newSessions, ...sessionsUnderOneMinute];
+      // Notify all connected clients with all sessions
+      if (allSessions.length > 0) {
         wss.clients.forEach(client => {
           if (client.readyState === client.OPEN) {
-            client.send(JSON.stringify(sessionsToNotify));
+            client.send(JSON.stringify(allSessions));
           }
         });
       }
@@ -113,5 +108,5 @@ initApp().then((app) => {
     } catch (err) {
       console.error('Failed to retrieve sessions:', err);
     }
-  }, 10000); // Check every 60 seconds
+  }, 60000); // Check every 60 seconds
 });

@@ -56,7 +56,7 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
         const otptamplate = otptemplateHTML;
         const data = otptamplate.replace('{{OTP_CODE}}', otp);
         const subject = 'OTP Verification to BIna';
-        // const objres = await sendMailUtil(emailTo, subject, data);
+        const objres = await sendMailUtil(emailTo, subject, data);
         res.status(200).json({ message: 'OTP sent via email' });
         // res.status(200).json({ message: 'OTP sent via email', objres: objres });
     } catch (err) {
@@ -128,7 +128,9 @@ export async function getAllSessions(req: Request, res: Response): Promise<void>
             const sessionData = await redisClient.get(key);
             const ttl = await redisClient.ttl(key); // Get the remaining TTL for the session
             if (sessionData) {
-                sessions.push({ key, data: JSON.parse(sessionData), ttl });
+                const parsedData = JSON.parse(sessionData);
+                delete parsedData.storedOtp; // Remove the otp field
+                sessions.push({ key, storedClientId: parsedData.storedClientId, ttl });
             }
         }
 
