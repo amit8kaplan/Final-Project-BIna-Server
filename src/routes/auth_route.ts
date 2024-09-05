@@ -1,12 +1,26 @@
 import express from "express";
 const router = express.Router();
 import authController from "../controllers/auth_controller";
-router.post("/register", authController.register);
-router.post("/google", authController.googleSignin);
-router.post("/login", authController.login);
-router.get("/logout", authController.logout);
-router.get("/refresh", authController.refresh);
-router.get("/register/randomphoto", authController.randomPhoto);
+import { sentOtpUsingMail, verifyFirstTimeOtp  } from "../controllers/auth_new_controller";
+import { checkClientSession } from "../controllers/auth_new_controller";
+
+router.post("/sent-otp", sentOtpUsingMail);
+router.post("/verify-otp", verifyFirstTimeOtp);
+
+router.get('/protected', checkClientSession, (req, res) => {
+    res.json({ message: 'Protected route' });
+});
+export default router;
+
+
+
+
+// router.post("/register", authController.register);
+// router.post("/google", authController.googleSignin);
+// router.post("/login", authController.login);
+// router.get("/logout", authController.logout);
+// router.get("/refresh", authController.refresh);
+// router.get("/register/randomphoto", authController.randomPhoto);
 
 /**
 * @swagger
@@ -238,4 +252,4 @@ router.get("/register/randomphoto", authController.randomPhoto);
 
 
 
-export default router;
+// export default router;

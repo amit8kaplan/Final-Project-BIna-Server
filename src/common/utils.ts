@@ -12,7 +12,8 @@ const outlook_pwd = process.env.OUTLOOK_PWD;
 const outlook_host = process.env.OUTLOOK_HOST;
 const outlook_port = process.env.OUTLOOK_PORT;
 const outlook_user = process.env.OUTLOOK_USER;
-
+import redis from 'redis';
+import { promisify } from 'util';
 export function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -325,7 +326,29 @@ export async function aggregateDataWall (dapitPipeline: PipelineStage[],postPipe
 
 }
 
+export function generateOTP(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+export async function makeAnewRedisClient() {
+    const client = redis.createClient();
+    console.log("client: ", client);
+    client.on('error', (err) => {
+        console.error('Redis error:', err);
+    });
+    const setexAsync = promisify(client.setEx).bind(client);
+    const getAsync = promisify(client.get).bind(client);
+    const delAsync = promisify(client.del).bind(client);
+    return { setexAsync, getAsync, delAsync, client };
+}
 
+export async function storeOTPInSession(clientId: string, otp: string, client: any): Promise<void> {
+    try {
+        await client.setexAsync(clientId, 600, otp); // 600 seconds = 10 minutes
+        return;
+    } catch (err) {
+        throw new Error(`Failed to store OTP: ${err.message}`);
+    }
+} 
 
 //todo: built the function
 export async function findMail(id:string) {

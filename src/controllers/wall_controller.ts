@@ -197,10 +197,11 @@ import comments_model from "../models/comments_model";
 import { Request, Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
 import likes_model from "../models/likes_model";
-import {PostPipeline , DapitPipeline, aggregateDataWall, findMail, sendMailUtil} from "../common/utils";
+import {PostPipeline , DapitPipeline, aggregateDataWall, findMail, sendMailUtil,makeAnewRedisClient} from "../common/utils";
 import {otptemplateHTML} from "../common/templates";
 import 'express-session'; // Ensure this import is present to apply the augmentation
 import { ISession } from "../types/express-session";
+import { get } from "http";
 class wall_controller {
 
     async getLikes(req: Request, res: Response) {
@@ -558,6 +559,10 @@ class wall_controller {
     async sentMailOtp(req: Request, res: Response) {
         console.log("sentMailOtp - controller");
             try{
+                if (!req.body.idInstractor) {
+                    return res.status(400).json({ message: "Missing required fields" });
+                }
+                // if (getAsync(req.body.idInstractor)) {
                 const idInstractorTomail = req.body.idInstractor;
                 const emailTo = await findMail(idInstractorTomail);
                 const otp = Math.floor(100000 + Math.random() * 900000);
@@ -576,8 +581,10 @@ class wall_controller {
                 // console.log("data", data);
                 const subject = 'OTP Verification to BIna';
                 const objres = await sendMailUtil(emailTo, subject, data);
-    
-                res.status(200).json(objres);
+                const { setexAsync, getAsync, delAsync, client }= await makeAnewRedisClient();
+                await setexAsync(idInstractorTomail, 600, otpString);
+                const getOtp = await getAsync(idInstractorTomail);
+                res.status(200).json({mail: objres, getOtp: getOtp});
             }catch(err){
                 res.status(500).json({message: err.message});
             }
