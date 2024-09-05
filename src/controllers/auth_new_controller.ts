@@ -167,6 +167,8 @@ async function checkClientSessionAndPermission(req: Request, res: Response, next
             return res.status(401).json({ message: 'Unauthorized: OTP not verified' });
         }
         if (permissionHierarchy[permissions].includes(requiredPermission)) {
+            //add the premission to the request in the body
+            req.headers['permissions'] = permissions;
             next(); // Session and OTP are valid, proceed to the route
         } else {
             return res.status(401).json({ message: 'Unauthorized: Permission denied' });
