@@ -1,9 +1,8 @@
 import express from 'express';
 const router = express.Router();
 import dapit_Controller from '../controllers/dapit_Controller';
-import authMiddleware from '../common/auth_middleware';
-import { upload_vid } from '../common/file_upload';
-import exp from 'constants';
+
+import { checkClientSessionAndPermissionToAdmin,checkClientSessionAndPermissionToRegular } from "../controllers/auth_new_controller";
 
 router.get('/', dapit_Controller.get.bind(dapit_Controller));
 router.get('/getByFilterBasicInfo', dapit_Controller.getByFilterBasicInfo.bind(dapit_Controller));
@@ -12,13 +11,13 @@ router.get('/getCSVfile/:trainerId', dapit_Controller.getCSVfiletrainerId.bind(d
 router.get('/getDocumentbyFilter', dapit_Controller.getDocumentbyFilter.bind(dapit_Controller));
 router.get('/getSementically/:id', dapit_Controller.getSementically.bind(dapit_Controller));
 router.get('/getByFilter', dapit_Controller.getByFilter.bind(dapit_Controller));
-router.post('/', dapit_Controller.post.bind(dapit_Controller));
-router.put('/ChangeOnBasedCriteria', dapit_Controller.ChangeOnBasedCriteria.bind(dapit_Controller));
-router.put('/:id', dapit_Controller.putById.bind(dapit_Controller));
-router.delete ('/deleteAllDapitWithTrainerId', dapit_Controller.deleteAllDapitWithTrainerId.bind(dapit_Controller));
+router.post('/',checkClientSessionAndPermissionToRegular ,  dapit_Controller.post.bind(dapit_Controller));
+router.put('/ChangeOnBasedCriteria',checkClientSessionAndPermissionToRegular , dapit_Controller.ChangeOnBasedCriteria.bind(dapit_Controller));
+router.put('/:id',checkClientSessionAndPermissionToRegular, dapit_Controller.putById.bind(dapit_Controller));
+router.delete ('/deleteAllDapitWithTrainerId',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteAllDapitWithTrainerId.bind(dapit_Controller));
 // router.delete ('/deleteAllDapitBasedOnCriteria', dapit_Controller.deleteAllDapitBasedOnCriteria.bind(dapit_Controller));
-router.delete ('deleteAllDapitsOfGroup', dapit_Controller.deleteAllDapitsOfGroup.bind(dapit_Controller));
-router.delete('/deleteAll', dapit_Controller.deleteAll.bind(dapit_Controller));
-router.delete('/:id', dapit_Controller.deleteById.bind(dapit_Controller));
+router.delete ('deleteAllDapitsOfGroup',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteAllDapitsOfGroup.bind(dapit_Controller));
+router.delete('/deleteAll',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteAll.bind(dapit_Controller));
+router.delete('/:id',checkClientSessionAndPermissionToRegular, dapit_Controller.deleteById.bind(dapit_Controller));
 router.get('/getIDsBaseOnTrainerAndInstractorName', dapit_Controller.getIDsBaseOnTrainerAndInstractorName.bind(dapit_Controller));
 export default router;

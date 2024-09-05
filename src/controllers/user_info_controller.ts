@@ -281,6 +281,23 @@ class UserInfoController  {
             res.status(409).json({ message: err.message });
         }
     }
+    public async updateIdsInstractorsInGroup(req: Request, res: Response) {
+        console.log("updateIdsInstractorsInGroup");
+        console.log(req.body);
+        
+        try {
+            const groupId = req.body.groupId;
+            const instractorId = req.body.instractorId;
+            const groupData = await Group.findByIdAndUpdate(
+                groupId, 
+                { $addToSet: { idsInstractors: instractorId } }, 
+                { new: true }
+            );
+            res.status(200).json(groupData);
+        } catch (err) {
+            res.status(409).json({ message: err.message });
+        }
+    }
 
     public async updatePersonalInstractor(req: Request, res: Response) {
         console.log("updatePersonalInstractor");

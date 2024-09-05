@@ -4,6 +4,7 @@ export interface IGroup{
     name: string;
     _id?: string;
     idsTrainers?: string[];
+    idsInstractors?: string[];
 }
 
 const groupSchema = new mongoose.Schema<IGroup>({
@@ -12,6 +13,10 @@ const groupSchema = new mongoose.Schema<IGroup>({
         required: true,
     },
     idsTrainers: {
+        type: [String],
+        required: false,
+    },
+    idsInstractors: {
         type: [String],
         required: false,
     }

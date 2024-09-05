@@ -3,23 +3,8 @@ import { createClient } from 'redis';
 import {findMail, sendMailUtil} from '../common/utils';
 import {otptemplateHTML} from "../common/templates";
 import {redisClient} from '../app'; // Import the redisClient from app.ts
-
-// Assuming you have Redis initialized
-// const redisClient = createClient();
-
-// redisClient.on('error', (err) => console.error('Redis Client Error', err));
-
-// async function initializeRedisClient() {
-//     try {
-//         await redisClient.connect();
-//         console.log('Redis client connected');
-//     } catch (err) {
-//         console.error('Failed to connect to Redis', err);
-//     }
-// }
-
-// Call the initialization function
-// initializeRedisClient();
+import Instractor_model from '../models/Instractor_model';
+import {IInstractor} from '../models/Instractor_model';
 // Generate OTP
 function generateOTP(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -66,13 +51,27 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
 // Controller to verify OTP and open a session
 export async function verifyFirstTimeOtp(req: Request, res: Response) {
     const { clientId, otpUser } = req.body;
-
+    let permission:string;
     if (!clientId || !otpUser) {
         return res.status(400).json({ message: 'Client ID and OTP are required' });
     }
 
     const sessionKey = `session:${clientId}`;
-
+    try{
+        const instractor :IInstractor = await Instractor_model.findOne({_id: clientId});
+        if(!instractor){
+            return res.status(400).json({ message: 'Client ID is not found' });
+        }
+        if (!instractor.permissions || instractor.permissions === "") {
+            permission = "regular";
+        } else {
+            permission = instractor.permissions;
+        }
+  
+    }catch(err){
+        console.error('Failed to find client ID:', err);
+        return res.status(400).json({ message: 'Client ID is not found' });
+    }
     try {
         const sessionData = await redisClient.get(sessionKey);
 
@@ -87,7 +86,8 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         }
         const sessionInfo = {
             storedClientId: clientId,
-            storedOtp: otp
+            storedOtp: otp,
+            permissions: permission,
         }
         // OTP is correct, open a 10-minute session
         await redisClient.setEx(sessionKey, 600, JSON.stringify({ ...sessionInfo, verified: true }));
@@ -140,6 +140,55 @@ export async function getAllSessions(req: Request, res: Response): Promise<void>
         res.status(500).json({ message: 'Failed to retrieve sessions' });
     }
 }
+
+const permissionHierarchy = {
+    admin: ['admin', 'group', 'regular'],
+    group: ['group', 'regular'],
+    regular: ['regular']
+};
+
+async function checkClientSessionAndPermission(req: Request, res: Response, next: NextFunction, requiredPermission: string) {
+    const clientId = req.headers['client-id'] as string;
+    const otp = req.headers['otp'] as string;
+    if (!clientId || !otp) {
+        return res.status(400).json({ message: 'Client ID and OTP are required' });
+    }
+    const sessionKey = `session:${clientId}`;
+    try {
+        const sessionData = await redisClient.get(sessionKey);
+        if (!sessionData) {
+            return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
+        }
+        const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
+        if (storedClientId !== clientId || storedOtp !== otp) {
+            return res.status(401).json({ message: 'Unauthorized: Invalid client ID or OTP' });
+        }
+        if (!verified) {
+            return res.status(401).json({ message: 'Unauthorized: OTP not verified' });
+        }
+        if (permissionHierarchy[permissions].includes(requiredPermission)) {
+            next(); // Session and OTP are valid, proceed to the route
+        } else {
+            return res.status(401).json({ message: 'Unauthorized: Permission denied' });
+        }
+    } catch (err) {
+        console.error('Redis error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+export async function checkClientSessionAndPermissionToAdmin(req: Request, res: Response, next: NextFunction) {
+    return checkClientSessionAndPermission(req, res, next, 'admin');
+}
+
+export async function checkClientSessionAndPermissionToRegular(req: Request, res: Response, next: NextFunction) {
+    return checkClientSessionAndPermission(req, res, next, 'regular');
+}
+
+export async function checkClientSessionAndPermissionToGroup(req: Request, res: Response, next: NextFunction) {
+    return checkClientSessionAndPermission(req, res, next, 'group');
+}
+
 export async function checkClientSession(req: Request, res: Response, next: NextFunction) {
     const clientId = req.headers['client-id'] as string;
     const otp = req.headers['otp'] as string;
@@ -157,8 +206,9 @@ export async function checkClientSession(req: Request, res: Response, next: Next
             return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
         }
 
-        const { storedClientId, storedOtp, verified } = JSON.parse(sessionData);
-        console.log(storedClientId, storedOtp, verified, "storedClientId, storedOtp, verified");
+
+        const { storedClientId, storedOtp, verified, permission } = JSON.parse(sessionData);
+        console.log(storedClientId, storedOtp, verified,permission, "storedClientId, storedOtp, verified, permission");
         if (storedClientId !== clientId || storedOtp !== otp) {
             return res.status(401).json({ message: 'Unauthorized: Invalid client ID or OTP' });
         }
