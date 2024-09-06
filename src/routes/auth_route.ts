@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
 import authController from "../controllers/auth_controller";
-import { sentOtpUsingMail,getAllSessions, verifyFirstTimeOtp, deleteSession  } from "../controllers/auth_new_controller";
+import { sentOtpUsingMail,getAllSessions, verifyFirstTimeOtp, deleteSession , deleteAllSessionExecptHimSelf } from "../controllers/auth_new_controller";
 import { checkClientSession } from "../controllers/auth_new_controller";
+import {checkClientSessionAndPermissionToAdmin, checkClientSessionAndPermissionToRegular, checkClientSessionAndPermissionToGroup} from '../controllers/auth_new_controller';
 
 router.post("/sent-otp", sentOtpUsingMail);
 router.post("/verify-otp", verifyFirstTimeOtp);
@@ -12,7 +13,8 @@ router.get('/protected', checkClientSession, (req, res) => {
 });
 export default router;
 
-router.delete("/delete-session", deleteSession);
+router.delete("/RegularDeleteSession",checkClientSessionAndPermissionToRegular, deleteSession);
+router.delete("/AdminDeleteAllSessionExecptHimSelf",checkClientSessionAndPermissionToAdmin, deleteAllSessionExecptHimSelf);
 router.get("/getAllsession", getAllSessions);
 
 

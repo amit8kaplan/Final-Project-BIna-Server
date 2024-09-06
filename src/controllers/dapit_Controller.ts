@@ -210,9 +210,9 @@ class dapit_Controller extends BaseController<IDapit>{
             {
                 res.status(400).send({ message: 'Invalid request' });
             }
-            if (req.body.idTrainer !== clientId || permmistion !== "admin") {
-                res.status(401).send({ message: 'Unauthorized' });
-            }
+            // if (req.body.idInstractor !== clientId || permmistion !== "admin") {
+            //     res.status(401).send({ message: 'Unauthorized' });
+            // }
             const obj = new this.model(req.body);
             await obj.save();
             res.status(200).send(obj);

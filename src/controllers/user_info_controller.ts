@@ -342,7 +342,7 @@ class UserInfoController  {
         console.log(req.body);
         
         try {
-            const newInstractorName = req.body.newInstractorName;
+            const newInstractorName = req.body.instractorName;
             const trainerName = req.body.TrainerName;
             const instractorData = await Instractor.find({name: newInstractorName});
             console.log("instractorData", instractorData);

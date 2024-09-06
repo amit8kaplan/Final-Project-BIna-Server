@@ -14,7 +14,7 @@ router.get('/:trainerId', post_controller.getPostByIdtrainer.bind(post_controlle
 router.post('/', post_controller.post.bind(post_controller));
 //update post
 router.put('/:id', post_controller.put.bind(post_controller));
-
+//never use the deleteAllPostWithTrainerId
 router.delete('/deleteAllPostWithTrainerId',checkClientSessionAndPermissionToAdmin, post_controller.deleteAllPostWithTrainerId.bind(post_controller));
 router.delete('/deleteAll', post_controller.deleteAll.bind(post_controller));
 //delete post

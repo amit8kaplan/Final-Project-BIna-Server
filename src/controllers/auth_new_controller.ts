@@ -5,6 +5,7 @@ import {otptemplateHTML} from "../common/templates";
 import {redisClient} from '../app'; // Import the redisClient from app.ts
 import Instractor_model from '../models/Instractor_model';
 import {IInstractor} from '../models/Instractor_model';
+
 // Generate OTP
 function generateOTP(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -14,6 +15,7 @@ function generateOTP(): string {
 export async function sentOtpUsingMail(req: Request, res: Response) {
     const { clientId } = req.body;
 
+    
     if (!clientId) {
         return res.status(400).json({ message: 'Client ID and email are required' });
     }
@@ -23,6 +25,7 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
     // Close existing session if any
     try {
         await redisClient.del(sessionKey); // Use await with the del function
+        
     } catch (err) {
         console.error('Failed to close existing session', err);
     }
@@ -51,9 +54,17 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
 // Controller to verify OTP and open a session
 export async function verifyFirstTimeOtp(req: Request, res: Response) {
     const { clientId, otpUser } = req.body;
+    const prevClientId = req.headers['client-id'] as string;
+    const prevOtp = req.headers['otp'] as string;
     let permission:string;
     if (!clientId || !otpUser) {
         return res.status(400).json({ message: 'Client ID and OTP are required' });
+    }
+    //find the previous session and delete it
+    
+    if (prevClientId!= "" && prevOtp!= "") {
+        const OldsessionKey = `session:${prevClientId}`;
+        await redisClient.del(OldsessionKey); // Use await with the del function
     }
 
     const sessionKey = `session:${clientId}`;
@@ -102,14 +113,10 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
 
 // Controller to delete a session
 export async function deleteSession(req: Request, res: Response): Promise<void> {
-    const { clientId } = req.body;
+    const ClientId = req.headers['client-id'] as string;
+    const Otp = req.headers['otp'] as string;
 
-    if (!clientId) {
-        res.status(400).json({ message: 'Client ID is required' });
-        return;
-    }
-
-    const sessionKey = `session:${clientId}`;
+    const sessionKey = `session:${ClientId}`;
 
     try {
         await redisClient.del(sessionKey);
@@ -119,6 +126,28 @@ export async function deleteSession(req: Request, res: Response): Promise<void> 
         res.status(500).json({ message: 'Failed to delete session' });
     }
 }
+
+// controller to delete all sessions except the current one
+export async function deleteAllSessionExecptHimSelf(req: Request, res: Response): Promise<void> {
+    const ClientId = req.headers['client-id'] as string;
+    const Otp = req.headers['otp'] as string;
+
+    const sessionKey = `session:${ClientId}`;
+
+    try {
+        const keys = await redisClient.keys('session:*');
+        for (const key of keys) {
+            if(key !== sessionKey){
+                await redisClient.del(key);
+            }
+        }
+        res.status(200).json({ message: 'All Sessions deleted successfully' });
+    } catch (err) {
+        console.error('Failed to delete session:', err);
+        res.status(500).json({ message: 'Failed to delete session' });
+    }
+}
+
 export async function getAllSessions(req: Request, res: Response): Promise<void> {
     try {
         const keys = await redisClient.keys('session:*');

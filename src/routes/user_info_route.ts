@@ -38,5 +38,5 @@ router.delete('/deleteTheGroup',checkClientSessionAndPermissionToAdmin, UserInfo
 router.delete('/deleteSpesificTrainerFromGroup',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteSpesificTrainerFromGroup.bind(UserInfoController));
 router.delete('/deleteSession',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteSession.bind(UserInfoController));
 router.delete('/deleteSpesificSilabusFromSession',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteSpesificSilabusFromSession.bind(UserInfoController));
-router
+
 export default router;
