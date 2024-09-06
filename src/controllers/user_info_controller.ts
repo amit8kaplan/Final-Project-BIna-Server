@@ -126,13 +126,31 @@ class UserInfoController  {
 
     public async addInstractor(req: Request, res: Response) {
         try {
+            let permission;
             const instractorData: IInstractor = req.body;
+            if (!instractorData.permissions 
+                || instractorData.permissions == "" 
+                || instractorData.permissions == null
+                || instractorData.permissions == undefined)
+            {
+                permission = "regular";
+            }
+            else if (instractorData.permissions !== "admin" && instractorData.permissions !== "group") {
+                permission = "regular";
+            }
+            else {
+                permission = instractorData.permissions;
+            }
+            const newInstractorData = {
+                name: instractorData.name,
+                permissions: permission
+            }
             //find instractor by name - if the name already exists, return an error
             const instractor = await Instractor.findOne({name: instractorData.name});
             if (instractor) {
                 return res.status(409).json({ message: 'name Instractor already exists' });
             }
-            const newInstractor = new Instractor(instractorData);
+            const newInstractor = new Instractor(newInstractorData);
             await newInstractor.save();
             res.status(201).json(newInstractor);
         } catch (err) {
@@ -185,6 +203,10 @@ class UserInfoController  {
 
     public async addGroup(req: Request, res: Response) {
         try {
+            const group = await Group.findOne({name: req.body.name});
+            if (group) {
+                return res.status(409).json({ message: 'name Group already exists' });
+            }
             const groupData = req.body;
             const newGroup = new Group(groupData);
             await newGroup.save();
@@ -196,6 +218,10 @@ class UserInfoController  {
 
     public async addSession(req: Request, res: Response) {
         try {
+            const session = await Session.findOne({name: req.body.name});
+            if (session) {
+                return res.status(409).json({ message: 'name Session already exists' });
+            }
             const sessionData = req.body;
             const newSession = new Session(sessionData);
             await newSession.save();
@@ -222,6 +248,10 @@ class UserInfoController  {
         try {
             const trainerData: ITrainer = req.body;
             const trainerId = req.query.trainerId;
+            const trainer = await Trainer.findOne({name: trainerData.name});
+            if (trainer) {
+                return res.status(409).json({ message: 'name Trainer already exists' });
+            }
             const updatedTrainer = await Trainer.findByIdAndUpdate(trainerId, trainerData, { new: true });
             res.status(200).json(updatedTrainer);
         } catch (err) {
@@ -233,6 +263,10 @@ class UserInfoController  {
         try {
             const instractorData: IInstractor = req.body;
             const instractorId = req.query.instractorId;
+            const instractor = await Instractor.findOne({name: instractorData.name});
+            if (instractor) {
+                return res.status(409).json({ message: 'name Instractor already exists' });
+            }
             const updatedInstractor = await Instractor.findByIdAndUpdate(instractorId, instractorData, { new: true });
             res.status(200).json(updatedInstractor);
         } catch (err) {
@@ -246,6 +280,10 @@ class UserInfoController  {
         console.log(req.query);
         try {
             const groupData = req.body;
+            const group = await Group.findOne({name: groupData.name});
+            if (group) {
+                return res.status(409).json({ message: 'name Group already exists' });
+            }
             const groupId = req.query.groupId;
             const updatedGroup = await Group.findByIdAndUpdate(groupId, groupData, { new: true });
             res.status(200).json(updatedGroup);

@@ -12,6 +12,7 @@ router.get('/getDocumentbyFilter', dapit_Controller.getDocumentbyFilter.bind(dap
 router.get('/getSementically/:id', dapit_Controller.getSementically.bind(dapit_Controller));
 router.get('/getByFilter', dapit_Controller.getByFilter.bind(dapit_Controller));
 router.post('/',checkClientSessionAndPermissionToRegular ,  dapit_Controller.post.bind(dapit_Controller));
+//changeOnBasedCriteria is a function i use in client??
 router.put('/ChangeOnBasedCriteria',checkClientSessionAndPermissionToRegular , dapit_Controller.ChangeOnBasedCriteria.bind(dapit_Controller));
 router.put('/:id',checkClientSessionAndPermissionToRegular, dapit_Controller.putById.bind(dapit_Controller));
 router.delete ('/deleteAllDapitWithTrainerId',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteAllDapitWithTrainerId.bind(dapit_Controller));
