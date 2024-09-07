@@ -4,6 +4,7 @@ import course_model, { ICourse } from "../models/course_model";
 import dapit_model from "../models/dapit_model";
 import { IDapit } from "../models/dapit_model";
 import post_model from "../models/post_model";
+import Instractor, {IInstractor} from "../models/Instractor_model";
 import { Request } from "express";
 import * as fc from 'fast-csv';
 import fs from 'fs';
@@ -351,9 +352,16 @@ export async function storeOTPInSession(clientId: string, otp: string, client: a
 } 
 
 //todo: built the function
-export async function findMail(id:string) {
-    return "amit.y.kaplan@gmail.com"
-    
+export async function findMail(id: string): Promise<string> {
+    try {
+        const instractor: IInstractor = await Instractor.findById(id);
+        if (!instractor || !instractor.email || instractor.email === "") {
+            throw new Error("Email not found or is empty");
+        }
+        return instractor.email;
+    } catch (err) {
+        throw new Error(err.message);
+    }
 }
 
 export async function sendMailUtil(emailTo: string, subjectTo: string, data: string): Promise<{ success: boolean; message: string }> {

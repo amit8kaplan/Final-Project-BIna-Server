@@ -14,77 +14,92 @@ function generateOTP(): string {
 // Controller to send OTP via email and store clientId/OTP
 export async function sentOtpUsingMail(req: Request, res: Response) {
     const { clientId } = req.body;
-
-    
     if (!clientId) {
         return res.status(400).json({ message: 'Client ID and email are required' });
     }
-    const emailTo = await findMail(clientId);
-    const sessionKey = `session:${clientId}`;
+    try{
+        const emailTo = await findMail(clientId);
+        const sessionKey = `sessionTemp:${clientId}`;
+        // Close existing session if any
+        try {await redisClient.del(sessionKey); // Use await with the del function
+            }
+         catch (err) {console.error('Failed to close existing session', err);}
+        // Generate a new OTP
+        const otp = generateOTP();
+        // Save OTP and clientId in Redis (local store) for 10 minutes
+        try {
+            await redisClient.setEx(sessionKey, 120, JSON.stringify({ otp })); // Use setEx with TTL
+            // Here you would send the OTP via email (mocked for now)
+            console.log(`Sending OTP ${otp} to email ${emailTo}`);
+            console.log(redisClient.get(sessionKey), "redisClient.get(sessionKey)");
+            const otptamplate = otptemplateHTML;
+            const data = otptamplate.replace('{{OTP_CODE}}', otp);
+            const subject = 'OTP Verification to BIna';
+            const objres = await sendMailUtil(emailTo, subject, data);
+            const [localPart, domain] = emailTo.split('@');
+            if (localPart.length <= 4) { 
+                res.status(200).json({ message: 'OTP sent via email', email: emailTo });
+            }
+            else{
+                const maskedLocalPart = `${localPart.slice(0, 2)}${'*'.repeat(localPart.length - 4)}${localPart.slice(-2)}`;
+                const maskedEmail = `${maskedLocalPart}@${domain}`;
+                res.status(200).json({ message: 'OTP sent via email', email: maskedEmail });
+            }
+        } catch (err) {
+            res.status(500).json({ message: 'Failed to store OTP in Redis' });
+        }
+    }catch(err){
+        console.error('Failed to find client ID:', err);
+        res.status(500).json({ message: err.message });
 
-    // Close existing session if any
-    try {
-        await redisClient.del(sessionKey); // Use await with the del function
-        
-    } catch (err) {
-        console.error('Failed to close existing session', err);
     }
-
-    // Generate a new OTP
-    const otp = generateOTP();
-    
-
-
-    // Save OTP and clientId in Redis (local store) for 10 minutes
-    try {
-        await redisClient.setEx(sessionKey, 120, JSON.stringify({ otp })); // Use setEx with TTL
-        // Here you would send the OTP via email (mocked for now)
-        console.log(`Sending OTP ${otp} to email ${emailTo}`);
-        console.log(redisClient.get(sessionKey), "redisClient.get(sessionKey)");
-        const otptamplate = otptemplateHTML;
-        const data = otptamplate.replace('{{OTP_CODE}}', otp);
-        const subject = 'OTP Verification to BIna';
-        const objres = await sendMailUtil(emailTo, subject, data);
-        res.status(200).json({ message: 'OTP sent via email' });
-        // res.status(200).json({ message: 'OTP sent via email', objres: objres });
-    } catch (err) {
-        res.status(500).json({ message: 'Failed to store OTP in Redis' });
-    }
-}
-// Controller to verify OTP and open a session
+}// Controller to verify OTP and open a session
 export async function verifyFirstTimeOtp(req: Request, res: Response) {
+    console.log("verifyFirstTimeOtp");
     const { clientId, otpUser } = req.body;
+    console.log(clientId, otpUser, "clientId, otpUser");
     const prevClientId = req.headers['client-id'] as string;
     const prevOtp = req.headers['otp'] as string;
-    let permission:string;
+    console.log(prevClientId, prevOtp, "prevClientId, prevOtp");
+
     if (!clientId || !otpUser) {
         return res.status(400).json({ message: 'Client ID and OTP are required' });
     }
-    //find the previous session and delete it
-    
-    if (prevClientId!= "" && prevOtp!= "") {
-        const OldsessionKey = `session:${prevClientId}`;
-        await redisClient.del(OldsessionKey); // Use await with the del function
+
+    // Delete the previous session if it exists
+    try {
+        if (prevClientId && prevOtp) {
+            const OldsessionKey = `session:${prevClientId}`;
+            const oldSessionExists = await redisClient.exists(OldsessionKey);
+
+            if (oldSessionExists) {
+                await redisClient.del(OldsessionKey); // Delete old session
+                console.log(`Deleted old session: ${OldsessionKey}`);
+            }
+        }
+    } catch (err) {
+        console.error('Failed to close existing session:', err);
+        return res.status(500).json({ message: 'Failed to close existing session' });
     }
 
+    const sessionTempKey = `sessionTemp:${clientId}`;
     const sessionKey = `session:${clientId}`;
-    try{
-        const instractor :IInstractor = await Instractor_model.findOne({_id: clientId});
-        if(!instractor){
+    // Ensure client exists in the database
+    let permission: string;
+    try {
+        const instractor: IInstractor = await Instractor_model.findOne({ _id: clientId });
+        if (!instractor) {
             return res.status(400).json({ message: 'Client ID is not found' });
         }
-        if (!instractor.permissions || instractor.permissions === "") {
-            permission = "regular";
-        } else {
-            permission = instractor.permissions;
-        }
-  
-    }catch(err){
+        permission = instractor.permissions || 'regular';
+    } catch (err) {
         console.error('Failed to find client ID:', err);
         return res.status(400).json({ message: 'Client ID is not found' });
     }
+
+    // Verify OTP and open new session
     try {
-        const sessionData = await redisClient.get(sessionKey);
+        const sessionData = await redisClient.get(sessionTempKey);
 
         if (!sessionData) {
             return res.status(401).json({ message: 'Session not found or expired' });
@@ -95,21 +110,28 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         if (otp !== otpUser) {
             return res.status(400).json({ message: 'Invalid OTP' });
         }
+
+        // OTP is valid, create a new session and store it
         const sessionInfo = {
             storedClientId: clientId,
             storedOtp: otp,
             permissions: permission,
-        }
-        // OTP is correct, open a 10-minute session
+        };
+
+        // Set new session with 10-minute expiry
         await redisClient.setEx(sessionKey, 600, JSON.stringify({ ...sessionInfo, verified: true }));
-        const get = await redisClient.get(sessionKey);
-        console.log(get, "get");
+        console.log('New session opened:', sessionKey);
+
+        //delete the temp session
+        await redisClient.del(sessionTempKey);
+
         res.status(200).json({ message: 'OTP verified and session opened' });
     } catch (err) {
         console.error('Redis error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 }
+
 
 // Controller to delete a session
 export async function deleteSession(req: Request, res: Response): Promise<void> {
@@ -150,6 +172,7 @@ export async function deleteAllSessionExecptHimSelf(req: Request, res: Response)
 
 export async function getAllSessions(req: Request, res: Response): Promise<void> {
     try {
+        
         const keys = await redisClient.keys('session:*');
         const sessions = [];
 
