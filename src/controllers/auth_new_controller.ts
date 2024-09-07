@@ -37,13 +37,14 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
             const subject = 'OTP Verification to BIna';
             const objres = await sendMailUtil(emailTo, subject, data);
             const [localPart, domain] = emailTo.split('@');
+            const ttl = await redisClient.ttl(sessionKey);
             if (localPart.length <= 4) { 
-                res.status(200).json({ message: 'OTP sent via email', email: emailTo });
+                res.status(200).json({ message: 'OTP sent via email', email: emailTo, ttl: ttl });
             }
             else{
                 const maskedLocalPart = `${localPart.slice(0, 2)}${'*'.repeat(localPart.length - 4)}${localPart.slice(-2)}`;
                 const maskedEmail = `${maskedLocalPart}@${domain}`;
-                res.status(200).json({ message: 'OTP sent via email', email: maskedEmail });
+                res.status(200).json({ message: 'OTP sent via email', email: maskedEmail,ttl: ttl });
             }
         } catch (err) {
             res.status(500).json({ message: 'Failed to store OTP in Redis' });
@@ -119,13 +120,13 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         };
 
         // Set new session with 10-minute expiry
-        await redisClient.setEx(sessionKey, 600, JSON.stringify({ ...sessionInfo, verified: true }));
+        await redisClient.setEx(sessionKey, 600000, JSON.stringify({ ...sessionInfo, verified: true }));
         console.log('New session opened:', sessionKey);
 
         //delete the temp session
         await redisClient.del(sessionTempKey);
 
-        res.status(200).json({ message: 'OTP verified and session opened' });
+        res.status(200).json({ message: 'OTP verified and session opened', permissions: permission });
     } catch (err) {
         console.error('Redis error:', err);
         res.status(500).json({ message: 'Server error' });

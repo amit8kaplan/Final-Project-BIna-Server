@@ -217,7 +217,7 @@ class dapit_Controller extends BaseController<IDapit>{
             await obj.save();
             res.status(200).send(obj);
         } catch (error) {
-            //console.error('Error creating dapit:', error);
+            console.error('Error creating dapit:', error);
             res.status(500).send({ message: 'Error creating dapit' });
         }
     }

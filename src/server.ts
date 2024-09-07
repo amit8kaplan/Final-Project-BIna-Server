@@ -50,16 +50,52 @@ initApp().then((app) => {
 
   wss.on('connection', (ws) => {
     console.log('Client connected');
+    
+    // Immediately send all sessions to all connected clients when a new client connects
+    sendAllSessionsToClients();
 
     ws.on('close', () => {
       console.log('Client disconnected');
     });
   });
 
-  // Track the previous state of sessions
   let previousSessions = new Map<string, any>();
 
   const BATCH_SIZE = 100; // Define the batch size
+  const THRESHOLD_TTL = 60; // Threshold for sessions that are 60 seconds away from ending
+
+  // Function to send all sessions to all connected clients
+  const sendAllSessionsToClients = async () => {
+    try {
+      const keys = await redisClient.keys('session:*');
+      const allSessions = [];
+
+      for (let i = 0; i < keys.length; i += BATCH_SIZE) {
+        const batchKeys = keys.slice(i, i + BATCH_SIZE);
+
+        const batchPromises = batchKeys.map(async (key) => {
+          const sessionData = await redisClient.get(key);
+          const ttl = await redisClient.ttl(key);
+          if (sessionData && !key.startsWith('sessionTemp:')) { // Ignore temporary sessions
+            const parsedData = JSON.parse(sessionData);
+            delete parsedData.storedOtp; // Remove the otp field
+            allSessions.push({ key, ...parsedData, ttl });
+          }
+        });
+
+        await Promise.all(batchPromises);
+      }
+
+      // Send all sessions to all connected clients
+      wss.clients.forEach(client => {
+        if (client.readyState === client.OPEN) {
+          client.send(JSON.stringify({ allSessions }));
+        }
+      });
+    } catch (err) {
+      console.error('Failed to retrieve and send all sessions:', err);
+    }
+  };
 
   setInterval(async () => {
     try {
@@ -67,7 +103,7 @@ initApp().then((app) => {
       if (wss.clients.size === 0) {
         return;
       }
-  
+
       const keys = await redisClient.keys('session:*');
       const currentSessions = new Map<string, any>();
   
@@ -77,36 +113,38 @@ initApp().then((app) => {
   
         const batchPromises = batchKeys.map(async (key) => {
           const sessionData = await redisClient.get(key);
-          const ttl = await redisClient.ttl(key); // Get the remaining TTL for the session
-          if (sessionData) {
+          const ttl = await redisClient.ttl(key);
+          if (sessionData && !key.startsWith('sessionTemp:')) { // Exclude temporary sessions
             const parsedData = JSON.parse(sessionData);
-            delete parsedData.storedOtp; // Remove the otp field
+            delete parsedData.storedOtp;
             currentSessions.set(key, { data: parsedData, ttl });
           }
         });
   
-        await Promise.all(batchPromises); // Wait for all promises in the batch to resolve
+        await Promise.all(batchPromises);
       }
-  
-      // Collect all sessions without the otp field
-      const allSessions = [];
+
+      // Identify new sessions and sessions close to ending
+      const newSessions = [];
+      const sessionsCloseToEnding = [];
       currentSessions.forEach((value, key) => {
-        allSessions.push({ key, ...value.data, ttl: value.ttl });
+        if (!previousSessions.has(key)) {
+          newSessions.push({ key, ...value.data, ttl: value.ttl });
+        }
+        if (value.ttl <= THRESHOLD_TTL) {
+          sessionsCloseToEnding.push({ key, ...value.data, ttl: value.ttl });
+        }
       });
-  
-      // Notify all connected clients with all sessions
-      if (allSessions.length > 0) {
-        wss.clients.forEach(client => {
-          if (client.readyState === client.OPEN) {
-            client.send(JSON.stringify(allSessions));
-          }
-        });
+
+      // Notify all clients with new sessions if there are any
+      if (newSessions.length > 0 || sessionsCloseToEnding.length > 0) {
+        sendAllSessionsToClients();
       }
-  
+
       // Update the previous state of sessions
       previousSessions = currentSessions;
     } catch (err) {
       console.error('Failed to retrieve sessions:', err);
     }
-  }, 60000); // Check every 60 seconds
+  }, 5000); // Check every 5 seconds
 });
