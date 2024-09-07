@@ -1,13 +1,13 @@
 import express from "express";
 const router = express.Router();
 import authController from "../controllers/auth_controller";
-import { sentOtpUsingMail,getAllSessions, verifyFirstTimeOtp, deleteSession , deleteAllSessionExecptHimSelf } from "../controllers/auth_new_controller";
+import { sentOtpUsingMail,getAllSessions, verifyFirstTimeOtp,getMyTtlSession, deleteSession , deleteAllSessionExecptHimSelf } from "../controllers/auth_new_controller";
 import { checkClientSession } from "../controllers/auth_new_controller";
 import {checkClientSessionAndPermissionToAdmin, checkClientSessionAndPermissionToRegular, checkClientSessionAndPermissionToGroup} from '../controllers/auth_new_controller';
 
 router.post("/sent-otp", sentOtpUsingMail);
 router.post("/verify-otp", verifyFirstTimeOtp);
-
+router.get("/getMyTtlSession", getMyTtlSession);
 router.get('/protected', checkClientSession, (req, res) => {
     res.json({ message: 'Protected route' });
 });

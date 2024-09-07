@@ -122,20 +122,36 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         // Set new session with 10-minute expiry
         await redisClient.setEx(sessionKey, 120, JSON.stringify({ ...sessionInfo, verified: true }));
         console.log('New session opened:', sessionKey);
-
+        // const ttl = await redisClient.ttl(sessionKey);
+        // console.log('Session TTL:', ttl);
         //delete the temp session
         await redisClient.del(sessionTempKey);
 
-        res.status(200).json({ message: 'OTP verified and session opened', permissions: permission });
+        res.status(200).json({ message: 'OTP verified and session opened', permissions: permission ,ttl: await redisClient.ttl(sessionKey) });
     } catch (err) {
         console.error('Redis error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 }
 
-
+export async function getMyTtlSession(req: Request, res: Response) {
+    const clientId = req.headers['client-id'] as string;
+    const otp = req.headers['otp'] as string;
+    if (!clientId || !otp) {
+        return res.status(400).json({ message: 'Client ID and OTP are required' });
+    }
+    const sessionKey = `session:${clientId}`;
+    try {
+        const ttl = await redisClient.ttl(sessionKey);
+        res.status(200).json({ ttl });
+    } catch (err) {
+        console.error('Failed to retrieve TTL:', err);
+        res.status(500).json({ message: 'Failed to retrieve TTL' });
+    }
+}
 // Controller to delete a session
 export async function deleteSession(req: Request, res: Response): Promise<void> {
+    console.log("RegularDeleteSession deleteSession");
     const ClientId = req.headers['client-id'] as string;
     const Otp = req.headers['otp'] as string;
 

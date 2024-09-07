@@ -50,9 +50,6 @@ initApp().then((app) => {
 
   wss.on('connection', (ws) => {
     console.log('Client connected');
-    
-    // Immediately send all sessions to all connected clients when a new client connects
-    sendAllSessionsToClients();
 
     ws.on('close', () => {
       console.log('Client disconnected');
@@ -62,40 +59,6 @@ initApp().then((app) => {
   let previousSessions = new Map<string, any>();
 
   const BATCH_SIZE = 100; // Define the batch size
-  const THRESHOLD_TTL = 60; // Threshold for sessions that are 60 seconds away from ending
-
-  // Function to send all sessions to all connected clients
-  const sendAllSessionsToClients = async () => {
-    try {
-      const keys = await redisClient.keys('session:*');
-      const allSessions = [];
-
-      for (let i = 0; i < keys.length; i += BATCH_SIZE) {
-        const batchKeys = keys.slice(i, i + BATCH_SIZE);
-
-        const batchPromises = batchKeys.map(async (key) => {
-          const sessionData = await redisClient.get(key);
-          const ttl = await redisClient.ttl(key);
-          if (sessionData && !key.startsWith('sessionTemp:')) { // Ignore temporary sessions
-            const parsedData = JSON.parse(sessionData);
-            delete parsedData.storedOtp; // Remove the otp field
-            allSessions.push({ key, ...parsedData, ttl });
-          }
-        });
-
-        await Promise.all(batchPromises);
-      }
-
-      // Send all sessions to all connected clients
-      wss.clients.forEach(client => {
-        if (client.readyState === client.OPEN) {
-          client.send(JSON.stringify({ allSessions }));
-        }
-      });
-    } catch (err) {
-      console.error('Failed to retrieve and send all sessions:', err);
-    }
-  };
 
   setInterval(async () => {
     try {
@@ -106,45 +69,38 @@ initApp().then((app) => {
 
       const keys = await redisClient.keys('session:*');
       const currentSessions = new Map<string, any>();
-  
+
       // Process sessions in batches
       for (let i = 0; i < keys.length; i += BATCH_SIZE) {
         const batchKeys = keys.slice(i, i + BATCH_SIZE);
-  
+
         const batchPromises = batchKeys.map(async (key) => {
           const sessionData = await redisClient.get(key);
-          const ttl = await redisClient.ttl(key);
           if (sessionData && !key.startsWith('sessionTemp:')) { // Exclude temporary sessions
             const parsedData = JSON.parse(sessionData);
-            delete parsedData.storedOtp;
-            currentSessions.set(key, { data: parsedData, ttl });
+            currentSessions.set(key, parsedData);
           }
         });
-  
+
         await Promise.all(batchPromises);
       }
 
       // Identify closed sessions
-      let sessionsChanged = false;
+      const closedSessions = [];
       previousSessions.forEach((value, key) => {
         if (!currentSessions.has(key)) {
-          sessionsChanged = true;
+          const clientId = key.split(':')[1]; // Extract clientId from the session key
+          closedSessions.push(clientId);
         }
       });
 
-      // Identify new sessions and sessions close to ending
-      currentSessions.forEach((value, key) => {
-        if (!previousSessions.has(key)) {
-          sessionsChanged = true;
-        }
-        if (value.ttl <= THRESHOLD_TTL) {
-          sessionsChanged = true;
-        }
-      });
-
-      // Notify all clients with all sessions if there are any changes
-      if (sessionsChanged) {
-        sendAllSessionsToClients();
+      // Notify all clients with closed sessions if there are any
+      if (closedSessions.length > 0) {
+        wss.clients.forEach(client => {
+          if (client.readyState === client.OPEN) {
+            client.send(JSON.stringify({ closedSessions }));
+          }
+        });
       }
 
       // Update the previous state of sessions
