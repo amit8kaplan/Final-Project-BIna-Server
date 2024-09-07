@@ -120,7 +120,7 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         };
 
         // Set new session with 10-minute expiry
-        await redisClient.setEx(sessionKey, 600000, JSON.stringify({ ...sessionInfo, verified: true }));
+        await redisClient.setEx(sessionKey, 120, JSON.stringify({ ...sessionInfo, verified: true }));
         console.log('New session opened:', sessionKey);
 
         //delete the temp session
