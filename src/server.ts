@@ -124,20 +124,26 @@ initApp().then((app) => {
         await Promise.all(batchPromises);
       }
 
-      // Identify new sessions and sessions close to ending
-      const newSessions = [];
-      const sessionsCloseToEnding = [];
-      currentSessions.forEach((value, key) => {
-        if (!previousSessions.has(key)) {
-          newSessions.push({ key, ...value.data, ttl: value.ttl });
-        }
-        if (value.ttl <= THRESHOLD_TTL) {
-          sessionsCloseToEnding.push({ key, ...value.data, ttl: value.ttl });
+      // Identify closed sessions
+      let sessionsChanged = false;
+      previousSessions.forEach((value, key) => {
+        if (!currentSessions.has(key)) {
+          sessionsChanged = true;
         }
       });
 
-      // Notify all clients with new sessions if there are any
-      if (newSessions.length > 0 || sessionsCloseToEnding.length > 0) {
+      // Identify new sessions and sessions close to ending
+      currentSessions.forEach((value, key) => {
+        if (!previousSessions.has(key)) {
+          sessionsChanged = true;
+        }
+        if (value.ttl <= THRESHOLD_TTL) {
+          sessionsChanged = true;
+        }
+      });
+
+      // Notify all clients with all sessions if there are any changes
+      if (sessionsChanged) {
         sendAllSessionsToClients();
       }
 
