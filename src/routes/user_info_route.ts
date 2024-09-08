@@ -3,7 +3,7 @@ const router = express.Router();
 import UserInfoController from '../controllers/user_info_controller';
 import {checkClientSessionAndPermissionToAdmin, checkClientSessionAndPermissionToRegular, checkClientSessionAndPermissionToGroup} from '../controllers/auth_new_controller';
 import authMiddleware from '../common/auth_middleware';
-import { upload_vid } from '../common/file_upload';
+// import { upload_vid } from '../common/file_upload';
 import exp from 'constants'; 
 
 router.get('/getAllPersonalInstractors', UserInfoController.getAllPersonalInstractors.bind(UserInfoController));

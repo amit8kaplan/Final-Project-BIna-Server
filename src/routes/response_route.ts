@@ -5,7 +5,7 @@ import wall_controller from '../controllers/wall_controller';
 import response_controller from '../controllers/response_controller';
 import post_controller from '../controllers/post_controller';
 import authMiddleware from '../common/auth_middleware';
-import { upload_vid } from '../common/file_upload';
+// import { upload_vid } from '../common/file_upload';
 import exp from 'constants';
 
 //gets all the responses

@@ -8,6 +8,8 @@ export interface IPost{
     content: string;
     date: Date;
     _id?: string;
+    file: File | null;
+    filePath?: string;
 }
 
 const postSchema = new mongoose.Schema<IPost>({
@@ -35,6 +37,7 @@ const postSchema = new mongoose.Schema<IPost>({
         required: true,
         default: Date.now,
     },
+    
 });
 
 export default mongoose.model<IPost>("Post", postSchema);

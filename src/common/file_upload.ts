@@ -1,49 +1,31 @@
-import multer from "multer";
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
+const router = express.Router();
+
+// Ensure the upload directory exists
+const ensureUploadDirectory = (dir) => {
+    console.log("file_upload.ts: ensureUploadDirectory: dir: ", dir);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        
-        cb(null, 'public/')
+        const uploadPath = path.join(__dirname, "../../upload"); // Adjusted path
+        console.log("file_upload.ts: storage: destination: uploadPath: ", uploadPath);
+        ensureUploadDirectory(uploadPath);
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-        const ext = file.originalname.split('.')
-            .filter(Boolean) 
-            .slice(1)
-            .join('.')
-        cb(null, Date.now() + "." + ext)
-    }
-})
-
-const upload_img = multer({
-    storage: storage,
-    limits: {
-        fileSize: 10 * 1024 * 1024 
-    },
-    fileFilter: function (req, file, cb) {
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']; 
-        if (allowedTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(new Error('Only images are allowed (JPEG, PNG, GIF)'));
-        }
+        console.log("file_upload.ts: storage: filename: file: ", file);
+        const ext = path.extname(file.originalname);
+        console.log("file_upload.ts: storage: filename: ext: ", ext);
+        cb(null, `${Date.now()}${ext}`);
     }
 });
 
-
-const upload_vid = multer({
-    storage: storage,
-    limits: {
-        fileSize: 100 * 1024 * 1024 // 100MB limit
-    },
-    fileFilter: function (req, file, cb) {
-        const allowedTypes = ['video/mp4', 'video/webm', 'video/quicktime']; 
-        if (allowedTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(new Error('Only video files are allowed'));
-        }
-    }
-});
-
-
-export { upload_img, upload_vid };
+export const upload = multer({ storage });
