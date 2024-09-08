@@ -5,7 +5,7 @@ import authMiddleware from '../common/auth_middleware';
 // import { upload_vid } from '../common/file_upload';
 import exp from 'constants';
 
-router.get('/getMegamGradesAvg', matrics_Controller.getMegamGradesAvg.bind(matrics_Controller));
+router.post('/getMegamGradesAvg', matrics_Controller.getMegamGradesAvg.bind(matrics_Controller));
 
 router.get('/getAveragePerformance', matrics_Controller.getAveragePerformance.bind(matrics_Controller));
 export default router;

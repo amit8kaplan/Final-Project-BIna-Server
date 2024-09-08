@@ -6,6 +6,7 @@ import exp from "node:constants";
 import getByFilterBasicInfo from "./dapit_Controller";
 import { Console } from "node:console";
 import { escapeRegExp, professionalFields, finalFields } from "../common/utils";
+import { IGroup } from "../models/group_model";
 //TODO: add final grades in pianoo and in the Megama Grades
 // function escapeRegExp(string) {
 //     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
@@ -176,8 +177,11 @@ class matrics_Controller extends BaseController<IDapit> {
     
   //TODO: calc by precents!
     async getMegamGradesAvg(req: Request, res: Response) {
-        //console.log('getMegamGradesAvg in matrics_Controller.ts');
+        console.log('getMegamGradesAvg in matrics_Controller.ts');
         try {
+            const group :IGroup = req.body;
+            console.log("group", group)
+            if (!group) res.status(400).json({ error: 'Group is required' });
             const groupAverages: { [session: string]: number } = {};
             const groupAvgLength: { [session: string]: number } = {};
             const hanichAvgPerSession: { [session: string]: { [trainer: string]: number } } = {}; 
@@ -186,10 +190,10 @@ class matrics_Controller extends BaseController<IDapit> {
             const sessionAvgPerHanichLength: { [trainer: string]: { [session: string]: number } } = {};
             // Group by group and professional category and calculate averages
             //console.log('req.query.group:', req.query.group);
-            if (!req.query.group) res.status(400).json({ error: 'Group is required' });
-            const escapedGroup = escapeRegExp(req.query.group as string);
+            // const escapedGroup = escapeRegExp(req.query.group as string);
             let filter: FilterQuery<IDapit> = {};
-            filter["group"] = { $regex: new RegExp(escapedGroup, 'i') };
+            filter["group"] = group.name;
+            // filter["group"] = { $regex: new RegExp(escapedGroup, 'i') };
             const dapits: IDapit[] = await this.model.find(filter);
             // //console.log('dapits:', dapits);
             dapits.forEach(dapit => {

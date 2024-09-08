@@ -16,8 +16,8 @@ router.get("/progress_Data", (req, res) => {
         { session: 9, finished: 0, total: 100 },
         { session: 10, finished: 0, total: 100 }
     ];
-    console.log("progress_Data");
-    console.log(progress_Data);
+    // console.log("progress_Data");
+    // console.log(progress_Data);
     res.json(progress_Data);
 });
 
@@ -35,8 +35,8 @@ router.get("/avg_progress", (req, res) => {
         { session: 9, prevCourseAvg: 7.9, thisCourseAvg: 8.1 },
         { session: 10, prevCourseAvg: 8.0, thisCourseAvg: 8.2 }
       ];
-      console.log("avgResultsData");
-        console.log(avgResultsData);
+      // console.log("avgResultsData");
+        // console.log(avgResultsData);
       res.json(avgResultsData);
     });
 
