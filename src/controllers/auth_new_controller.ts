@@ -120,7 +120,7 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         };
 
         // Set new session with 10-minute expiry
-        await redisClient.setEx(sessionKey, 120, JSON.stringify({ ...sessionInfo, verified: true }));
+        await redisClient.setEx(sessionKey, 6000, JSON.stringify({ ...sessionInfo, verified: true }));
         console.log('New session opened:', sessionKey);
         // const ttl = await redisClient.ttl(sessionKey);
         // console.log('Session TTL:', ttl);
@@ -219,6 +219,7 @@ const permissionHierarchy = {
 async function checkClientSessionAndPermission(req: Request, res: Response, next: NextFunction, requiredPermission: string) {
     const clientId = req.headers['client-id'] as string;
     const otp = req.headers['otp'] as string;
+    // const permissions = req.headers['permissions'] as string;
     if (!clientId || !otp) {
         return res.status(400).json({ message: 'Client ID and OTP are required' });
     }
@@ -228,25 +229,26 @@ async function checkClientSessionAndPermission(req: Request, res: Response, next
         if (!sessionData) {
             return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
         }
-        const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
-        if (storedClientId !== clientId || storedOtp !== otp) {
-            return res.status(401).json({ message: 'Unauthorized: Invalid client ID or OTP' });
-        }
-        if (!verified) {
-            return res.status(401).json({ message: 'Unauthorized: OTP not verified' });
-        }
-        if (permissionHierarchy[permissions].includes(requiredPermission)) {
-            //add the premission to the request in the body
-            req.headers['permissions'] = permissions;
-            next(); // Session and OTP are valid, proceed to the route
-        } else {
-            return res.status(401).json({ message: 'Unauthorized: Permission denied' });
+        else{
+            const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
+            if (storedClientId !== clientId || storedOtp !== otp) {
+                return res.status(401).json({ message: 'Unauthorized: Invalid client ID or OTP' });
+            }
+            else if (!verified) {
+                return res.status(401).json({ message: 'Unauthorized: OTP not verified' });
+            }
+            else if (permissionHierarchy[permissions].includes(requiredPermission)) {
+                return next(); // Session and OTP are valid, proceed to the route
+            } else {
+                return res.status(403).json({ message: 'Unauthorized: Permission denied' });
+            }
         }
     } catch (err) {
         console.error('Redis error:', err);
-        res.status(500).json({ message: 'Server error' });
+        return res.status(500).json({ message: 'Server error' });
     }
 }
+
 
 export async function checkClientSessionAndPermissionToAdmin(req: Request, res: Response, next: NextFunction) {
     return checkClientSessionAndPermission(req, res, next, 'admin');

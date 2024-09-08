@@ -33,7 +33,19 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error fetching dapit' });
         }
     }
-    
+    async getById(req: Request, res: Response) {
+        ////console.log("get by id - get controller");
+        const id = req.query.id;
+
+        try {
+            const obj = await this.model.findById(id);
+            res.status(200).send(obj);
+        } catch (error) {
+            ////console.error('Error fetching dapit:', error);
+            res.status(500).send({ message: 'Error fetching dapit' });
+        }
+    }
+
     async getByFilter(req: Request, res: Response) {
         ////console.log("getByFilter - get controller");
     
@@ -276,17 +288,21 @@ class dapit_Controller extends BaseController<IDapit>{
         ////console.log("put by id - put controller");
         const clientId = req.headers['client-id'] as string;
         const permmistion = req.headers['permissions'] as string;
+        console.log("put by id - put controller", clientId, permmistion);
 
         try {
             const dapit :IDapit = await this.model.findById(req.params.id);
             if (!dapit) {
                  res.status(404).send({ message: 'Dapit not found' });
             }
-            if(dapit.idTrainer !== clientId || permmistion !== "admin"){
-                res.status(401).send({ message: 'Unauthorized' });
+            else if(dapit.idInstractor !== clientId){
+                res.status(401).send({ message: 'Unauthorized clientId and idInstractor not equal' });
             }
-            const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            res.status(200).send(obj);
+            else {
+                const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+                console.log("obj: " + obj);
+                res.status(200).send(obj);
+            }
         } catch (error) {
             ////console.error('Error updating dapit:', error);
             res.status(500).send({ message: 'Error updating dapit' });
