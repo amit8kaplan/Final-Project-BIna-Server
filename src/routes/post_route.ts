@@ -10,7 +10,7 @@ router.get('/', post_controller.getAllPosts.bind(post_controller));
 // Get post by trainer id
 router.get('/:trainerId', post_controller.getPostByIdtrainer.bind(post_controller));
 // Post new post
-router.post('/', uploadFile ,post_controller.post.bind(post_controller));
+router.post('/', upload.single('file') ,post_controller.post.bind(post_controller));
 // Update post
 router.put('/:id', post_controller.put.bind(post_controller));
 // Never use the deleteAllPostWithTrainerId
@@ -18,5 +18,5 @@ router.delete('/deleteAllPostWithTrainerId', checkClientSessionAndPermissionToAd
 router.delete('/deleteAll', post_controller.deleteAll.bind(post_controller));
 // Delete post
 router.delete('/:id', post_controller.delete.bind(post_controller));
-
+router.get('/getFileByPathFile/:pathFile', post_controller.getFileByPathFile.bind(post_controller));
 export default router;

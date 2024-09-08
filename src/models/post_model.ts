@@ -37,7 +37,9 @@ const postSchema = new mongoose.Schema<IPost>({
         required: true,
         default: Date.now,
     },
-    
+    filePath: {
+        type: String, // Ensure filePath is defined in the schema
+    },
 });
 
 export default mongoose.model<IPost>("Post", postSchema);

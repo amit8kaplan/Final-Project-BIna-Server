@@ -8,6 +8,8 @@ import mongoose, { FilterQuery, PipelineStage } from "mongoose";
 import { BaseController } from "./base_controller";
 import { filterByDate, filterByProfessionalFieldsTospesificData, filterByTags, filterExists, filterParseInt, filterPartOf, filterStringUsingIn, finalFields } from "../common/utils";
 import { post } from "../routes/user_update_route";
+import fs from 'fs';
+import path from 'path';
 
 class post_controller extends BaseController<IPost> {
     constructor() {
@@ -15,11 +17,15 @@ class post_controller extends BaseController<IPost> {
     }
 
     async post(req: Request, res: Response) {
+        console.log("post_controller.ts: post: req.body: ", req.body);
         try {
             const body = req.body;
+            console.log("post_controller.ts: post: body: ", body);
+            console.log("post_controller.ts: post: req.file.path: ", req.file.path); 
             if (req.file) {
                 body.filePath = req.file.path; // Save the file path to the body
             }
+            console.log("post_controller.ts: post: body after: ", body);
             const obj = await post_model.create(body);
             res.status(201).send(obj);
         } catch (err) {
@@ -30,11 +36,31 @@ class post_controller extends BaseController<IPost> {
     async getAllPosts(req: Request, res: Response) {
         try {
             const posts = await post_model.find();
-            res.status(200).json(posts);
+            const postsWithFileNames = posts.map(post => {
+                const { file, ...postWithoutFile } = post.toObject();
+                return postWithoutFile;
+            });
+            res.status(200).json(postsWithFileNames);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
     }
+    async getFileByPathFile(req: Request, res: Response) {
+        try {
+            const pathFile = req.params.pathFile;
+            console.log("pathFile: ", pathFile);
+            const filePath = path.join(__dirname, '../upload', pathFile);
+
+            if (fs.existsSync(filePath)) {
+                res.status(200).sendFile(filePath);
+            } else {
+                res.status(500).json({ message: 'File does not exist' });
+            }
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+
 
     async getPostByIdtrainer(req: Request, res: Response) {
         try {
