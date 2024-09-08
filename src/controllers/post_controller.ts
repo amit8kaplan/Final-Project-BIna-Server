@@ -21,10 +21,14 @@ class post_controller extends BaseController<IPost> {
         try {
             const body = req.body;
             console.log("post_controller.ts: post: body: ", body);
-            console.log("post_controller.ts: post: req.file.path: ", req.file.path); 
+
             if (req.file) {
+                console.log("post_controller.ts: post: req.file.path: ", req.file.path);
                 body.filePath = req.file.path; // Save the file path to the body
+            } else {
+                console.log("post_controller.ts: post: No file uploaded");
             }
+
             console.log("post_controller.ts: post: body after: ", body);
             const obj = await post_model.create(body);
             res.status(201).send(obj);
@@ -49,17 +53,26 @@ class post_controller extends BaseController<IPost> {
         try {
             const pathFile = req.params.pathFile;
             console.log("pathFile: ", pathFile);
-            const filePath = path.join(__dirname, '../upload', pathFile);
+
+            // Check if the provided path is absolute
+            const filePath = path.isAbsolute(pathFile) ? pathFile : path.resolve(__dirname, '../uploads', pathFile);
 
             if (fs.existsSync(filePath)) {
-                res.status(200).sendFile(filePath);
+                res.status(200).sendFile(filePath, (err) => {
+                    if (err) {
+                        console.error('Error sending file:', err);
+                        res.status(500).json({ message: 'Error sending file' });
+                    }
+                });
             } else {
-                res.status(500).json({ message: 'File does not exist' });
+                res.status(404).json({ message: 'File does not exist' });
             }
         } catch (err) {
+            console.error('Error:', err);
             res.status(500).json({ message: err.message });
         }
     }
+
 
 
     async getPostByIdtrainer(req: Request, res: Response) {
