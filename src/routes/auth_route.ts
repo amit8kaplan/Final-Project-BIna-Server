@@ -1,16 +1,16 @@
 import express from "express";
 const router = express.Router();
 import authController from "../controllers/auth_controller";
-import { sentOtpUsingMail,verifyOtp,newTtlSession, getAllSessions,verifyFirstTimeOtpUsingCookies, verifyFirstTimeOtp,getMyTtlSession, deleteSession , deleteAllSessionExecptHimSelf } from "../controllers/auth_new_controller";
+import { sentOtpUsingMail,verifyOtp,newTtlSession, getAllSessions,verifyFirstTimeOtpUsingCookies, verifyFirstTimeOtp,getMyTtlSession, deleteSession , deleteAllSessionExecptHimSelf, checkClientSessionAndPermissionToRegularUsingCookies } from "../controllers/auth_new_controller";
 import { checkClientSession } from "../controllers/auth_new_controller";
 import {checkClientSessionAndPermissionToAdmin, checkClientSessionAndPermissionToRegular, checkClientSessionAndPermissionToGroup} from '../controllers/auth_new_controller';
 
 router.post("/sent-otp", sentOtpUsingMail);
 router.post("/verify-otp", verifyFirstTimeOtp);
+router.post("/newTtlSession", checkClientSessionAndPermissionToRegular, newTtlSession);
 //try to use cookies
-router.post("/verifyNewOtp", verifyFirstTimeOtpUsingCookies);
-router.post("/verifyOtp", verifyOtp);
-router.post("/newTtlSession", checkClientSessionAndPermissionToGroup, newTtlSession);
+// router.post("/verifyNewOtp", verifyFirstTimeOtpUsingCookies);
+// router.post("/verifyOtp", verifyOtp);
 router.get("/getMyTtlSession", getMyTtlSession);
 router.get('/protected', checkClientSession, (req, res) => {
     res.json({ message: 'Protected route' });

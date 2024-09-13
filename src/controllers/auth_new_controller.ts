@@ -117,6 +117,7 @@ export async function verifyFirstTimeOtpUsingCookies(req: Request, res: Response
         const { otp } = JSON.parse(sessionData);
 
         if (otp !== otpUser) {
+            console.log("Invalid OTP");
             return res.status(400).json({ message: 'Invalid OTP' });
         }
 
@@ -135,6 +136,10 @@ export async function verifyFirstTimeOtpUsingCookies(req: Request, res: Response
         //delete the temp session
         await redisClient.del(sessionTempKey);
 
+        //open cookie
+        const value = `${clientId}_${otpUser}_${permission}`;
+
+        
         res.status(200).json({ message: 'OTP verified and session opened', permissions: permission ,ttl: await redisClient.ttl(sessionKey) });
     } catch (err) {
         console.error('Redis error:', err);
@@ -143,18 +148,32 @@ export async function verifyFirstTimeOtpUsingCookies(req: Request, res: Response
 }
 
 export async function newTtlSession(req: Request, res: Response) {
-    const { clientId, seconds } = req.body;
-    if (!clientId || !seconds) {
+    const clientId = req.headers['client-id'] as string;
+    const otpUser = req.headers['otp'] as string;
+    const {  seconds } = req.body;
+    if (!clientId || !otpUser || !seconds) {
         return res.status(400).json({ message: 'Client ID is required' });
     }
     const sessionKey = `session:${clientId}`;
-
+     
     try {
-        const ans = await redisClient.expire(sessionKey, seconds);
-        if (ans)
-            res.status(200).json({ message: 'Session TTL updated successfully' });
-        else
-            res.status(500).json({ message: 'Failed to update TTL' });
+        const sessionData = await redisClient.get(sessionKey);
+        if (!sessionData) {
+            return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
+        }
+        else if (sessionData) {
+            const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
+            if (storedClientId !== clientId || storedOtp !== otpUser) {
+                return res.status(401).json({ message: 'Unauthorized: clientID and otp not good' });
+            }
+            else {
+                const ans = await redisClient.expire(sessionKey, seconds);
+                if (ans)
+                    res.status(200).json({ message: 'Session TTL updated successfully' });
+                else
+                    res.status(500).json({ message: 'Failed to update TTL', permissions: permissions});
+            }
+        }
     } catch (err) {
         console.error('Failed to update TTL:', err);
         res.status(500).json({ message: 'Failed to update TTL' });
@@ -184,8 +203,9 @@ export async function verifyOtp(req: Request, res: Response){
 
 // Controller to verify OTP and open a session
 export async function verifyFirstTimeOtp(req: Request, res: Response) {
-    console.log("verifyFirstTimeOtp");
+    console.log("verifyFirstTimeOtp verify-otp");
     const { clientId, otpUser } = req.body;
+    const hours = req.body.hours || 1;
     console.log(clientId, otpUser, "clientId, otpUser");
     const prevClientId = req.headers['client-id'] as string;
     const prevOtp = req.headers['otp'] as string;
@@ -248,7 +268,7 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
         };
 
         // Set new session with 10-minute expiry
-        await redisClient.setEx(sessionKey, 6000, JSON.stringify({ ...sessionInfo, verified: true }));
+        await redisClient.setEx(sessionKey, hours*60*60, JSON.stringify({ ...sessionInfo, verified: true }));
         console.log('New session opened:', sessionKey);
         // const ttl = await redisClient.ttl(sessionKey);
         // console.log('Session TTL:', ttl);
@@ -375,8 +395,6 @@ async function checkClientSessionAndPermmisionUsingCookies(req: Request, res: Re
         return res.status(500).json({ message: 'Server error' });
     }
 }
-
-
 
 
 async function checkClientSessionAndPermission(req: Request, res: Response, next: NextFunction, requiredPermission: string) {
