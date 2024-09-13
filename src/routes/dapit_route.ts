@@ -26,8 +26,8 @@ router.delete ('/deleteAllDapitWithTrainerId',checkClientSessionAndPermissionToA
 // router.delete ('/deleteAllDapitBasedOnCriteria', dapit_Controller.deleteAllDapitBasedOnCriteria.bind(dapit_Controller));
 router.delete ('deleteAllDapitsOfGroup',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteAllDapitsOfGroup.bind(dapit_Controller));
 router.delete('/deleteAll',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteAll.bind(dapit_Controller));
-router.delete('/deleteDapitRegular/:id',checkClientSessionAndPermissionToRegular, dapit_Controller.deleteById.bind(dapit_Controller));
-router.delete('/deleteDapitAdmin/:id',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteById.bind(dapit_Controller));
+router.delete('/deleteDapitRegular/:id',checkClientSessionAndPermissionToRegular, dapit_Controller.deleteDapitById.bind(dapit_Controller));
+router.delete('/deleteDapitAdmin/:id',checkClientSessionAndPermissionToAdmin, dapit_Controller.deleteDapitById.bind(dapit_Controller));
 
 router.get('/getIDsBaseOnTrainerAndInstractorName', dapit_Controller.getIDsBaseOnTrainerAndInstractorName.bind(dapit_Controller));
 export default router;

@@ -6,6 +6,12 @@ import {redisClient} from '../app'; // Import the redisClient from app.ts
 import Instractor_model from '../models/Instractor_model';
 import {IInstractor} from '../models/Instractor_model';
 
+export interface IredisSessionData {
+    storedClientId: string;
+    storedOtp: string;
+    permissions: string;
+    verified: boolean;
+}
 // Generate OTP
 function generateOTP(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -54,7 +60,129 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
         res.status(500).json({ message: err.message });
 
     }
-}// Controller to verify OTP and open a session
+}
+export async function verifyFirstTimeOtpUsingCookies(req: Request, res: Response) {
+    console.log("verifyFirstTimeOtpUsingCookies");
+    const { clientId, otpUser, seconds, permissionFromreq } = req.body;
+    console.log(clientId, otpUser, seconds, "clientId, otpUser, seconds");
+    const prevClientId = req.headers['path'] as string;
+    const prevOtp = req.headers['value'] as string;
+    if (!clientId || !otpUser) {
+        console.log("Client ID and OTP are required");
+        return res.status(400).json({ message: 'Client ID and OTP are required' });
+    }
+
+    // Delete the previous session if it exists
+    try {
+        if (prevClientId && prevOtp) {
+            const OldsessionKey = `session:${prevClientId}`;
+            const exist =  await redisClient.exists(OldsessionKey)
+            if (exist) {
+                console.log(`Deleted old session: ${OldsessionKey}`);
+                await redisClient.del(OldsessionKey); // Delete old session
+            }
+        }
+    } catch (err) {
+        console.error('Failed to close existing session:', err);
+        return res.status(500).json({ message: 'Failed to close existing session' });
+    }
+    const sessionTempKey = `sessionTemp:${clientId}`;
+    const sessionKey = `session:${clientId}`;
+    // Ensure client exists in the database
+    let permission: string;
+    try {
+        const instractor: IInstractor = await Instractor_model.findOne({ _id: clientId });
+        if (!instractor) {
+            console.log("Client ID is not found 2");
+            return res.status(400).json({ message: 'Client ID is not found' });
+        }
+        permission = instractor.permissions || 'regular';
+        if (permission === "regular" && permissionFromreq !== permission ) {
+            console.log("Permission is not valid", permission, permissionFromreq);
+            return res.status(400).json({ message: 'Permission is not valid' });
+        }
+    } catch (err) {
+        console.error('Failed to find client ID:', err);
+        return res.status(400).json({ message: 'Client ID is not found' });
+    }
+
+    // Verify OTP and open new session
+    try {
+        const sessionData = await redisClient.get(sessionTempKey);
+
+        if (!sessionData) {
+            return res.status(401).json({ message: 'Session not found or expired' });
+        }
+
+        const { otp } = JSON.parse(sessionData);
+
+        if (otp !== otpUser) {
+            return res.status(400).json({ message: 'Invalid OTP' });
+        }
+
+        // OTP is valid, create a new session and store it
+        const sessionInfo = {
+            storedClientId: clientId,
+            storedOtp: otp,
+            permissions: permission,
+        };
+
+        // Set new session with 10-minute expiry
+        await redisClient.setEx(sessionKey, seconds, JSON.stringify({ ...sessionInfo, verified: true }));
+        console.log('New session opened:', sessionKey);
+        // const ttl = await redisClient.ttl(sessionKey);
+        // console.log('Session TTL:', ttl);
+        //delete the temp session
+        await redisClient.del(sessionTempKey);
+
+        res.status(200).json({ message: 'OTP verified and session opened', permissions: permission ,ttl: await redisClient.ttl(sessionKey) });
+    } catch (err) {
+        console.error('Redis error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+export async function newTtlSession(req: Request, res: Response) {
+    const { clientId, seconds } = req.body;
+    if (!clientId || !seconds) {
+        return res.status(400).json({ message: 'Client ID is required' });
+    }
+    const sessionKey = `session:${clientId}`;
+
+    try {
+        const ans = await redisClient.expire(sessionKey, seconds);
+        if (ans)
+            res.status(200).json({ message: 'Session TTL updated successfully' });
+        else
+            res.status(500).json({ message: 'Failed to update TTL' });
+    } catch (err) {
+        console.error('Failed to update TTL:', err);
+        res.status(500).json({ message: 'Failed to update TTL' });
+    }
+}
+
+export async function verifyOtp(req: Request, res: Response){
+    const { clientId, otpUser } = req.body;
+    console.log(clientId, otpUser, "clientId, otpUser");
+    const sessionKey = `session:${clientId}`;
+    const sessionData = await redisClient.get(sessionKey);
+    if (!sessionData) {
+        return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
+    }
+    else if (sessionData) {
+        const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
+        if (storedClientId !== clientId || storedOtp !== otpUser) {
+            const deleted = await redisClient.del(sessionKey);
+            return res.status(401).json({ message: 'Unauthorized: the session deleted', deleted: deleted });
+        }
+        else{
+            return res.status(200).json({ message: 'OTP verified', permissions: permissions });
+        }
+       
+    }
+}
+
+// Controller to verify OTP and open a session
 export async function verifyFirstTimeOtp(req: Request, res: Response) {
     console.log("verifyFirstTimeOtp");
     const { clientId, otpUser } = req.body;
@@ -216,6 +344,41 @@ const permissionHierarchy = {
     regular: ['regular']
 };
 
+async function checkClientSessionAndPermmisionUsingCookies(req: Request, res: Response, next: NextFunction, requiredPermission: string) {
+    const clientId = req.headers['path'] as string;
+    const otp = req.headers['value'] as string; 
+    if (!clientId || !otp) {
+        return res.status(400).json({ message: 'Client ID and OTP are required' });
+    }
+    const sessionKey = `session:${clientId}`;
+    try {
+        const sessionData = await redisClient.get(sessionKey);
+        if (!sessionData) {
+            return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
+        }
+        else{
+            const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
+            if (storedClientId !== clientId || storedOtp !== otp) {
+                return res.status(401).json({ message: 'Unauthorized: Invalid client ID or OTP' });
+            }
+            else if (!verified) {
+                return res.status(401).json({ message: 'Unauthorized: OTP not verified' });
+            }
+            else if (permissionHierarchy[permissions].includes(requiredPermission)) {
+                return next(); // Session and OTP are valid, proceed to the route
+            } else {
+                return res.status(403).json({ message: 'Unauthorized: Permission denied' });
+            }
+        }
+    } catch (err) {
+        console.error('Redis error:', err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+
+
 async function checkClientSessionAndPermission(req: Request, res: Response, next: NextFunction, requiredPermission: string) {
     const clientId = req.headers['client-id'] as string;
     const otp = req.headers['otp'] as string;
@@ -249,6 +412,15 @@ async function checkClientSessionAndPermission(req: Request, res: Response, next
     }
 }
 
+export async function checkClientSessionAndPermissionToAdminUsingCookies(req: Request, res: Response, next: NextFunction) {
+    return checkClientSessionAndPermmisionUsingCookies(req, res, next, 'admin');
+}
+export async function checkClientSessionAndPermissionToRegularUsingCookies(req: Request, res: Response, next: NextFunction) {
+    return checkClientSessionAndPermmisionUsingCookies(req, res, next, 'regular');
+}
+export async function checkClientSessionAndPermissionToGroupUsingCookies(req: Request, res: Response, next: NextFunction) {
+    return checkClientSessionAndPermmisionUsingCookies(req, res, next, 'group');
+}
 
 export async function checkClientSessionAndPermissionToAdmin(req: Request, res: Response, next: NextFunction) {
     return checkClientSessionAndPermission(req, res, next, 'admin');

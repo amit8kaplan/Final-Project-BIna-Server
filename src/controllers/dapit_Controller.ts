@@ -308,26 +308,48 @@ class dapit_Controller extends BaseController<IDapit>{
             res.status(500).send({ message: 'Error updating dapit' });
         }
     }
-    async deleteById (req: Request, res: Response) {
-        ////console.log("delete by id - delete controller");
-        ////console.log("id" + req.params.id);
+    // async deleteById (req: Request, res: Response) {
+    //     ////console.log("delete by id - delete controller");
+    //     ////console.log("id" + req.params.id);
+    //     const clientId = req.headers['client-id'] as string;
+    //     const permmistion = req.headers['permissions'] as string;
+    //     try {
+    //         const dapit :IDapit = await this.model.findById(req.params.id);
+    //         if (!dapit) {
+    //              res.status(404).send({ message: 'Dapit not found' });
+    //         }
+    //         if(dapit.idTrainer !== clientId || permmistion !== "admin"){
+    //             res.status(401).send({ message: 'Unauthorized' });
+    //         }
+    //         await this.model.findByIdAndDelete(req.params.id);
+    //         res.status(200).send({ message: 'Deleted successfully' , deletedId: req.params.id});
+    //     } catch (error) {
+    //         ////console.error('Error deleting dapit:', error);
+    //         res.status(500).send({ message: 'Error deleting dapit' });
+    //     }
+    // }   
+    async deleteDapitById(req: Request, res: Response) {
+        console.log("delete by id - delete controller");
+        console.log("id" + req.params.id);
         const clientId = req.headers['client-id'] as string;
         const permmistion = req.headers['permissions'] as string;
+        console.log("delete by id - delete controller", clientId, permmistion);
         try {
-            const dapit :IDapit = await this.model.findById(req.params.id);
+            const dapit: IDapit = await this.model.findById(req.params.id);
             if (!dapit) {
-                 res.status(404).send({ message: 'Dapit not found' });
+                console.log("Dapit not found");
+                return res.status(404).send({ message: 'Dapit not found' });
             }
-            if(dapit.idTrainer !== clientId || permmistion !== "admin"){
-                res.status(401).send({ message: 'Unauthorized' });
+            if (dapit.idInstractor !== clientId && permmistion !== "admin") {
+                return res.status(401).send({ message: 'Unauthorized' });
             }
             await this.model.findByIdAndDelete(req.params.id);
-            res.status(200).send({ message: 'Deleted successfully' , deletedId: req.params.id});
+            return res.status(200).send({ message: 'Deleted successfully', deletedId: req.params.id });
         } catch (error) {
-            ////console.error('Error deleting dapit:', error);
-            res.status(500).send({ message: 'Error deleting dapit' });
+            console.error('Error deleting dapit:', error);
+            return res.status(500).send({ message: 'Error deleting dapit' });
         }
-    }   
+    }
   
     async getSementically(req: Request, res: Response) {
         const gradingCategories = [
