@@ -165,9 +165,13 @@ export async function verifyOtpAgain(req: Request, res: Response) {
         }
         else if (sessionData) {
             const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
-            if (storedClientId !== clientId || storedOtp !== otpUser) {
-                console.log("Unauthorized: clientID and otp not good");
-                return res.status(401).json({ message: 'Unauthorized: clientID and otp not good' });
+            if (storedClientId !== clientId) {
+                console.log("Unauthorized: The client ID (the instracor) is not correct");
+                return res.status(401).json({ message: 'Unauthorized: The client ID (the instracor) is not correct' });
+            }
+            if (storedOtp !== otpUser){
+                console.log("Unauthorized: The OTP is not correct");
+                return res.status(401).json({ message: 'Unauthorized: The OTP is not correct' });
             }
             else {
                 console.log("OTP verified");
