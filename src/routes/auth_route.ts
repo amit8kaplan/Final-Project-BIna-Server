@@ -3,11 +3,12 @@ const router = express.Router();
 import authController from "../controllers/auth_controller";
 import { sentOtpUsingMail,verifyOtp,newTtlSession, getAllSessions,verifyFirstTimeOtpUsingCookies, verifyFirstTimeOtp,getMyTtlSession, deleteSession , deleteAllSessionExecptHimSelf, checkClientSessionAndPermissionToRegularUsingCookies } from "../controllers/auth_new_controller";
 import { checkClientSession } from "../controllers/auth_new_controller";
-import {checkClientSessionAndPermissionToAdmin, checkClientSessionAndPermissionToRegular, checkClientSessionAndPermissionToGroup} from '../controllers/auth_new_controller';
+import {checkClientSessionAndPermissionToAdmin, checkClientSessionAndPermissionToRegular,verifyOtpAgain, checkClientSessionAndPermissionToGroup} from '../controllers/auth_new_controller';
 
 router.post("/sent-otp", sentOtpUsingMail);
 router.post("/verify-otp", verifyFirstTimeOtp);
 router.post("/newTtlSession", checkClientSessionAndPermissionToRegular, newTtlSession);
+router.post("/verify-otp-again", verifyOtpAgain);
 //try to use cookies
 // router.post("/verifyNewOtp", verifyFirstTimeOtpUsingCookies);
 // router.post("/verifyOtp", verifyOtp);

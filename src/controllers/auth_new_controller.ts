@@ -147,6 +147,40 @@ export async function verifyFirstTimeOtpUsingCookies(req: Request, res: Response
     }
 }
 
+export async function verifyOtpAgain(req: Request, res: Response) {
+    const { clientId, otpUser } = req.body;
+    console.log("verify-otp-again");
+    console.log(clientId, otpUser, "clientId, otpUser");
+    if (!clientId || !otpUser) {
+        console.log("Client ID and OTP are required");
+        return res.status(400).json({ message: 'Client ID and OTP are required' });
+    }
+    const sessionKey = `session:${clientId}`;
+    try{
+        const sessionData = await redisClient.get(sessionKey);
+        const ttl = await redisClient.ttl(sessionKey);
+        if (!sessionData) {
+            console.log("Unauthorized: Session not found or expired");
+            return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
+        }
+        else if (sessionData) {
+            const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
+            if (storedClientId !== clientId || storedOtp !== otpUser) {
+                console.log("Unauthorized: clientID and otp not good");
+                return res.status(401).json({ message: 'Unauthorized: clientID and otp not good' });
+            }
+            else {
+                console.log("OTP verified");
+                return res.status(200).json({ message: 'OTP verified', permissions: permissions , ttl: ttl});
+            }
+        }
+    }catch(err){
+        console.error('Failed to find client ID:', err);
+        return res.status(500).json({ message: err.message });
+    }
+
+}
+
 export async function newTtlSession(req: Request, res: Response) {
     const clientId = req.headers['client-id'] as string;
     const otpUser = req.headers['otp'] as string;
@@ -158,6 +192,7 @@ export async function newTtlSession(req: Request, res: Response) {
      
     try {
         const sessionData = await redisClient.get(sessionKey);
+        console.log(sessionData, "sessionData");
         if (!sessionData) {
             return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
         }
@@ -207,9 +242,9 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
     const { clientId, otpUser } = req.body;
     const hours = req.body.hours || 1;
     console.log(clientId, otpUser, "clientId, otpUser");
-    const prevClientId = req.headers['client-id'] as string;
-    const prevOtp = req.headers['otp'] as string;
-    console.log(prevClientId, prevOtp, "prevClientId, prevOtp");
+    // const prevClientId = req.headers['client-id'] as string;
+    // const prevOtp = req.headers['otp'] as string;
+    // console.log(prevClientId, prevOtp, "prevClientId, prevOtp");
 
     if (!clientId || !otpUser) {
         return res.status(400).json({ message: 'Client ID and OTP are required' });
@@ -217,8 +252,8 @@ export async function verifyFirstTimeOtp(req: Request, res: Response) {
 
     // Delete the previous session if it exists
     try {
-        if (prevClientId && prevOtp) {
-            const OldsessionKey = `session:${prevClientId}`;
+        if (clientId) {
+            const OldsessionKey = `session:${clientId}`;
             const oldSessionExists = await redisClient.exists(OldsessionKey);
 
             if (oldSessionExists) {
