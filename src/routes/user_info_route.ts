@@ -33,6 +33,7 @@ router.put('/updateIdsInstractorsInGroup',checkClientSessionAndPermissionToAdmin
 
 router.delete('/deleteTrainer',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteOnlyTrainer.bind(UserInfoController));
 router.delete('/deletePersonalInstractorAfterDeleteTrainer',checkClientSessionAndPermissionToAdmin ,UserInfoController.deletePersonalInstractorAfterDeleteTrainer.bind(UserInfoController));
+router.delete('/deletePersonalInstractor', checkClientSessionAndPermissionToAdmin, UserInfoController.deletePersonalInstractor.bind(UserInfoController));
 router.delete('/deleteInstractor',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteInstractor.bind(UserInfoController));
 router.delete('/deleteTheGroup',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteTheGroup.bind(UserInfoController));
 router.delete('/deleteSpesificTrainerFromGroup',checkClientSessionAndPermissionToAdmin, UserInfoController.deleteSpesificTrainerFromGroup.bind(UserInfoController));

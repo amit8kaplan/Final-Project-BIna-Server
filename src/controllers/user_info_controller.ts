@@ -173,11 +173,11 @@ public async addTrainer(req: Request, res: Response) {
         console.log("addPersonalInstractor");
         console.log(req.body);
         try {
-            const instractorName = req.body.instractorName;
-            const trainerName = req.body.trainerName;
+            const instractorId = req.body.instractorId;
+            const trainerId = req.body.trainerId;
     
             // Find instractor by name - if the name does not exist, return an error
-            const instractorData = await Instractor.findOne({ name: instractorName });
+            const instractorData = await Instractor.findOne({ _id: instractorId });
             console.log("instractorData", instractorData);
             if (!instractorData) {
                 console.log("error");
@@ -185,7 +185,7 @@ public async addTrainer(req: Request, res: Response) {
             }
     
             // Find trainer by name - if the name does not exist, return an error
-            const trainerData = await Trainer.findOne({ name: trainerName });
+            const trainerData = await Trainer.findOne({ _id: trainerId });
             console.log("trainerData", trainerData);
             if (!trainerData) {
                 console.log("error");
@@ -356,29 +356,38 @@ public async addTrainer(req: Request, res: Response) {
     public async updatePersonalInstractor(req: Request, res: Response) {
         console.log("updatePersonalInstractor");
         console.log(req.body);
-        
+        //instractorId, trainerId, _id: personalInstractorId
         try {
-            const newInstractorName = req.body.instractorName;
-            const trainerName = req.body.TrainerName;
-            const instractorData = await Instractor.find({name: newInstractorName});
+            const newinstractorId = req.body.instractorId;
+            const newTrainerId = req.body.trainerId;
+            const personalInstractorId = req.body._id;
+    
+            const instractorData = await Instractor.find({_id: newinstractorId});
             console.log("instractorData", instractorData);
             if (!instractorData || instractorData.length == 0) {
                 console.log("error");
                 return res.status(409).json({ message: 'name Instractor not exists' });
             }
-            const trainerData = await Trainer.find({name: trainerName});
+    
+            const trainerData = await Trainer.find({_id: newTrainerId});
             console.log("trainerData", trainerData);
             if (!trainerData || trainerData.length == 0) {
                 console.log("error");
                 return res.status(409).json({ message: 'name Trainer not exists' });
             }
+    
             console.log("idTrainer", trainerData[0]._id.toString());
             console.log("idInstractor", instractorData[0]._id.toString());
+    
             const personalInstractorData = await PersonalInstractor.findOneAndUpdate(
-                {idTrainer: trainerData[0]._id.toString()},
-                {idInstractor: instractorData[0]._id.toString()},
+                {_id: personalInstractorId},
+                {
+                    idTrainer: trainerData[0]._id.toString(),
+                    idInstractor: instractorData[0]._id.toString()
+                },
                 {new: true}
             );
+    
             res.status(200).json(personalInstractorData);
         } catch (err) {
             console.log(err);
@@ -411,6 +420,19 @@ public async addTrainer(req: Request, res: Response) {
         } catch (err) {
             res.status(409).json({ message: err.message });
         }     
+    }
+    public async deletePersonalInstractor(req: Request, res: Response) {
+        console.log("deletePersonalInstractor");
+        try {
+            const personalInstractorId = req.query.personalInstractorId;
+            console.log("deletePersonalInstractor personalInstractorId", personalInstractorId);
+            const r = await PersonalInstractor.findOneAndDelete({_id: personalInstractorId});
+            console.log("deletePersonalInstractor res", r);
+            res.status(200).json({ message: 'PersonalInstractor deleted successfully' });
+        } catch (err) {
+            console.log("deletePersonalInstructor err", err);
+            res.status(409).json({ message: err.message });
+        }
     }
     public async deleteInstractor(req: Request, res: Response){
         try{

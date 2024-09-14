@@ -295,7 +295,7 @@ class dapit_Controller extends BaseController<IDapit>{
             if (!dapit) {
                  res.status(404).send({ message: 'Dapit not found' });
             }
-            else if(dapit.idInstractor !== clientId){
+            else if(dapit.idInstractor !== clientId && permmistion !== "admin"){
                 res.status(401).send({ message: 'Unauthorized clientId and idInstractor not equal' });
             }
             else {
