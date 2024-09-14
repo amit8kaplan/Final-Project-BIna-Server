@@ -437,29 +437,37 @@ async function checkClientSessionAndPermmisionUsingCookies(req: Request, res: Re
 
 
 async function checkClientSessionAndPermission(req: Request, res: Response, next: NextFunction, requiredPermission: string) {
+    console.log("checkClientSessionAndPermission");
     const clientId = req.headers['client-id'] as string;
     const otp = req.headers['otp'] as string;
+    console.log(clientId, otp, "checkClientSessionAndPermission clientId, otp");
     // const permissions = req.headers['permissions'] as string;
     if (!clientId || !otp) {
+        console.log("Client ID and OTP are required");
         return res.status(400).json({ message: 'Client ID and OTP are required' });
     }
     const sessionKey = `session:${clientId}`;
     try {
         const sessionData = await redisClient.get(sessionKey);
         if (!sessionData) {
+            console.log("Unauthorized: Session not found or expired");
             return res.status(401).json({ message: 'Unauthorized: Session not found or expired' });
         }
         else{
             const { storedClientId, storedOtp, verified, permissions } = JSON.parse(sessionData);
             if (storedClientId !== clientId || storedOtp !== otp) {
+                console.log("Unauthorized: Invalid client ID or OTP");
                 return res.status(401).json({ message: 'Unauthorized: Invalid client ID or OTP' });
             }
             else if (!verified) {
+                console.log("Unauthorized: OTP not verified");
                 return res.status(401).json({ message: 'Unauthorized: OTP not verified' });
             }
             else if (permissionHierarchy[permissions].includes(requiredPermission)) {
+                console.log("Permission granted");
                 return next(); // Session and OTP are valid, proceed to the route
             } else {
+                console.log("Unauthorized: Permission denied");
                 return res.status(403).json({ message: 'Unauthorized: Permission denied' });
             }
         }

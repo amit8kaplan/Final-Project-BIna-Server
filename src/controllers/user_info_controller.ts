@@ -107,22 +107,34 @@ class UserInfoController  {
  * 
  * 
  */
-    public async addTrainer(req: Request, res: Response) {
-        try {
-            const trainerData: ITrainer = req.body;
-            //find trainer by name - if the name already exists, return an error
-            const trainer = await Trainer.findOne({name: trainerData.name});
-
-            if (trainer) {
-                return res.status(409).json({ message: 'name Trainer already exists' });
-            }
-            const newTrainer = new Trainer(trainerData);
-            await newTrainer.save();
-            res.status(201).json(newTrainer);
-        } catch (err) {
-            res.status(409).json({ message: err.message });
+public async addTrainer(req: Request, res: Response) {
+    try {
+        const trainerData: ITrainer = req.body;
+        console.log("addTrainer trainerData", trainerData);
+        console.log("addTrainer trainerData.name", trainerData.name);
+        // Validate trainerData
+        if (!trainerData.name) {
+            return res.status(400).json({ message: 'Trainer name is required' });
         }
+
+        // Find trainer by name - if the name already exists, return an error
+        const trainer = await Trainer.findOne({ name: trainerData.name });
+        console.log("addTrainer trainer", trainer);
+
+        if (trainer) {
+            console.log("error 409");
+            return res.status(409).json({ message: 'Trainer name already exists' });
+        }
+
+        const newTrainer = new Trainer(trainerData);
+        console.log("addTrainer newTrainer", newTrainer);
+        await newTrainer.save();
+        res.status(201).json(newTrainer);
+    } catch (err) {
+        console.error("Error adding trainer:", err);
+        res.status(500).json({ message: err.message });
     }
+}
 
     public async addInstractor(req: Request, res: Response) {
         try {
@@ -248,7 +260,11 @@ class UserInfoController  {
         try {
             const trainerData: ITrainer = req.body;
             const trainerId = req.query.trainerId;
+            console.log("trainerData", trainerData);
+            console.log("trainerId", trainerId);
+            console.log("trainerData.name", trainerData.name);
             const trainer = await Trainer.findOne({name: trainerData.name});
+            console.log("trainer", trainer);
             if (trainer) {
                 return res.status(409).json({ message: 'name Trainer already exists' });
             }
@@ -264,7 +280,7 @@ class UserInfoController  {
             const instractorData: IInstractor = req.body;
             const instractorId = req.query.instractorId;
             const instractor = await Instractor.findOne({name: instractorData.name});
-            if (instractor) {
+            if (instractor && instractor._id.toString() !== instractorId) {
                 return res.status(409).json({ message: 'name Instractor already exists' });
             }
             const updatedInstractor = await Instractor.findByIdAndUpdate(instractorId, instractorData, { new: true });

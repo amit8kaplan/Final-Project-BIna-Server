@@ -10,9 +10,6 @@ router.post("/verify-otp", verifyFirstTimeOtp);
 router.post("/newTtlSession", checkClientSessionAndPermissionToRegular, newTtlSession);
 router.post("/verify-otp-again", verifyOtpAgain);
 router.delete("/deleteCookie", checkClientSessionAndPermissionToRegular, deleteSession);
-//try to use cookies
-// router.post("/verifyNewOtp", verifyFirstTimeOtpUsingCookies);
-// router.post("/verifyOtp", verifyOtp);
 router.get("/getMyTtlSession", getMyTtlSession);
 router.get('/protected', checkClientSession, (req, res) => {
     res.json({ message: 'Protected route' });
