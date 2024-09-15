@@ -297,7 +297,7 @@ public async addTrainer(req: Request, res: Response) {
         try {
             const groupData = req.body;
             const group = await Group.findOne({name: groupData.name});
-            if (group) {
+            if (group && group._id.toString() !== req.query.groupId) {
                 return res.status(409).json({ message: 'name Group already exists' });
             }
             const groupId = req.query.groupId;
