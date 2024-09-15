@@ -219,11 +219,11 @@ public async addTrainer(req: Request, res: Response) {
             console.log(req.body);
             // Extract the name field correctly
             const groupData = {
-                name: req.body.name.name,
-                idsTrainers: req.body.name.idsTrainers,
-                idsInstractors: req.body.name.idsInstractors
+                name: req.body.name,
+                idsTrainers: req.body.idsTrainers,
+                idsInstractors: req.body.idsInstractors
             };
-            const group = await Group.findOne({ name: req.body.name.name });
+            const group = await Group.findOne({ name: req.body.name });
             if (group) {
                 console.log("error 409 group", group);
                 return res.status(409).json({ message: 'name Group already exists' });
@@ -236,11 +236,14 @@ public async addTrainer(req: Request, res: Response) {
             res.status(409).json({ message: err.message });
         }
     }
-
+    //742221
     public async addSession(req: Request, res: Response) {
+        console.log("addSession");
+        console.log(req.body);
         try {
             const session = await Session.findOne({name: req.body.name});
             if (session) {
+                console.log("error 409 session", session);
                 return res.status(409).json({ message: 'name Session already exists' });
             }
             const sessionData = req.body;
@@ -248,6 +251,7 @@ public async addTrainer(req: Request, res: Response) {
             await newSession.save();
             res.status(201).json(newSession);
         } catch (err) {
+            console.log("error 409", err);
             res.status(409).json({ message: err.message });
         }
     }
