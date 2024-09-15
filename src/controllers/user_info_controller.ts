@@ -215,15 +215,24 @@ public async addTrainer(req: Request, res: Response) {
 
     public async addGroup(req: Request, res: Response) {
         try {
-            const group = await Group.findOne({name: req.body.name});
+            console.log("addGroup");
+            console.log(req.body);
+            // Extract the name field correctly
+            const groupData = {
+                name: req.body.name.name,
+                idsTrainers: req.body.name.idsTrainers,
+                idsInstractors: req.body.name.idsInstractors
+            };
+            const group = await Group.findOne({ name: req.body.name.name });
             if (group) {
+                console.log("error 409 group", group);
                 return res.status(409).json({ message: 'name Group already exists' });
             }
-            const groupData = req.body;
             const newGroup = new Group(groupData);
             await newGroup.save();
             res.status(201).json(newGroup);
         } catch (err) {
+            console.log("error 409", err);
             res.status(409).json({ message: err.message });
         }
     }
@@ -298,6 +307,7 @@ public async addTrainer(req: Request, res: Response) {
             const groupData = req.body;
             const group = await Group.findOne({name: groupData.name});
             if (group && group._id.toString() !== req.query.groupId) {
+                console.log("in side the 409 in updateGroup", group, req.query.groupId);
                 return res.status(409).json({ message: 'name Group already exists' });
             }
             const groupId = req.query.groupId;
