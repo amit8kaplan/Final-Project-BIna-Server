@@ -255,7 +255,34 @@ public async addTrainer(req: Request, res: Response) {
             res.status(409).json({ message: err.message });
         }
     }
-
+    public async addTrainerWithId(req: Request, res: Response) {
+        console.log("addTrainerWithId");
+        console.log(req.body);
+        let trainerData: ITrainer;
+        try {
+            const trainerByName = await Trainer.findOne({name: req.body.name});
+            const trainerById = await Trainer.findOne({_id: req.body._id});
+            if (trainerByName) {
+                return res.status(409).json({ message: 'name Trainer already exists' });
+            }
+            if (trainerById) {
+                trainerData = {
+                    name: req.body.name
+                } 
+            }
+            else {
+                trainerData = {
+                    name: req.body.name,
+                    _id: req.body._id
+                } 
+            }
+            const newTrainer = new Trainer(trainerData);
+            await newTrainer.save();
+            res.status(201).json(newTrainer);
+        } catch (err) {
+            res.status(409).json({ message: err.message });
+        }
+    }
     /**
      * 
      * 
