@@ -2,6 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define the ISession interface
 export interface ISession{
+    _id?: string;
     name: string;
     silabus: number[]; 
 }

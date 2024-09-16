@@ -2,7 +2,7 @@ import Trainer, {ITrainer} from "../models/trainer_model";
 import Instractor, {IInstractor} from "../models/Instractor_model";
 import PersonalInstractor, {IPersonalInstractor} from "../models/PersonalInstractor_model";
 import Group from '../models/group_model';
-import Session from '../models/session_model'; 
+import Session, { ISession } from '../models/session_model'; 
 import { BaseController } from "./base_controller";
 import { IGroup } from "../models/group_model";
 import e, { Request, Response } from "express";
@@ -256,6 +256,36 @@ public async addTrainer(req: Request, res: Response) {
             res.status(409).json({ message: err.message });
         }
     }
+    public async addSessionWithId(req: Request, res: Response) {
+        let sessionData: ISession;
+        console.log("addSessionWithId");
+        console.log(req.body);
+        try{
+            const sessionById = await Session.findOne({_id: req.body._id});
+            const sessionByName = await Session.findOne({name : req.body.name});
+            if(sessionByName){
+                return res.status(409).json({message: 'name Session already exists'});
+            }
+            if (sessionById) {
+                sessionData = {
+                    name: req.body.name,
+                    silabus: req.body.silabus
+                }
+            }
+            else {
+                sessionData = {
+                    name: req.body.name,
+                    _id: req.body._id,
+                    silabus: req.body.silabus
+                }
+            }
+            const newSession = new Session(sessionData);
+            await newSession.save();
+            res.status(201).json(newSession);
+        }catch(err){
+            res.status(409).json({message: err.message});
+        }
+    }   
     public async addGroupWithId(req: Request, res: Response) {
         let groupData: IGroup;
         console.log("addGroupWithId");
@@ -288,7 +318,7 @@ public async addTrainer(req: Request, res: Response) {
             res.status(409).json({ message: err.message });
         }
     }
-    
+
     public async addPersonalInstractorWithId(req: Request, res: Response) {
         let personalInstractorData: IPersonalInstractor;
         console.log("addPersonalInstractorWithId");
