@@ -22,7 +22,8 @@ router.post('/newInstractor',checkClientSessionAndPermissionToAdmin, UserInfoCon
 router.post('/newGroup',checkClientSessionAndPermissionToAdmin, UserInfoController.addGroup.bind(UserInfoController));
 router.post('/newSession',checkClientSessionAndPermissionToAdmin, UserInfoController.addSession.bind(UserInfoController));
 router.post('/newTrainerWithId',checkClientSessionAndPermissionToAdmin, UserInfoController.addTrainerWithId.bind(UserInfoController));
-
+router.post('/newInstractorWithId',checkClientSessionAndPermissionToAdmin, UserInfoController.addInstractorWithId.bind(UserInfoController));
+router.post('/newPersonalInstractorWithId',checkClientSessionAndPermissionToAdmin, UserInfoController.addPersonalInstractorWithId.bind(UserInfoController));
 router.put('/updateTrainer', checkClientSessionAndPermissionToAdmin ,UserInfoController.updateTrainer.bind(UserInfoController));
 router.put('/updateInstractor',checkClientSessionAndPermissionToAdmin, UserInfoController.updateInstractor.bind(UserInfoController));
 router.put('/updateGroup',checkClientSessionAndPermissionToAdmin, UserInfoController.updateGroup.bind(UserInfoController));

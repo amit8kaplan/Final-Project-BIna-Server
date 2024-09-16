@@ -255,6 +255,68 @@ public async addTrainer(req: Request, res: Response) {
             res.status(409).json({ message: err.message });
         }
     }
+    public async addPersonalInstractorWithId(req: Request, res: Response) {
+        let personalInstractorData: IPersonalInstractor;
+        console.log("addPersonalInstractorWithId");
+        console.log(req.body);
+        try {
+            const personalInstractorById = await Instractor.findOne({name: req.body._id});
+            const personalInstractorByIdTrainer = await PersonalInstractor.findOne({idTrainer: req.body.trainerId});
+            if (personalInstractorByIdTrainer) {
+                console.log("error 409 personalInstractorByIdTrainer", personalInstractorByIdTrainer);
+                return res.status(409).json({ message: 'name Instractor already exists' });
+            }
+            if (personalInstractorById) {
+                personalInstractorData = {
+                    idInstractor: req.body.instractorId,
+                    idTrainer: req.body.trainerId
+                }
+            }
+            else {
+                personalInstractorData = {
+                    _id: req.body._id,
+                    idInstractor: req.body.instractorId,
+                    idTrainer: req.body.trainerId
+                }
+            }
+            const newPersonalInstractor = new PersonalInstractor(personalInstractorData);
+            await newPersonalInstractor.save();
+            res.status(201).json(newPersonalInstractor);
+        } catch (err) {
+            console.log("error 409", err);
+            res.status(409).json({ message: err.message });
+        }
+    }
+    public async addInstractorWithId(req: Request, res: Response) {
+        let instractorData: IInstractor;
+        try {
+            const instractorByName = await Instractor.findOne({name: req.body.name});
+            const instractorById = await Instractor.findOne({_id: req.body._id});
+            if (instractorByName) {
+                return res.status(409).json({ message: 'name Instractor already exists' });
+            }
+            if (instractorById) {
+                instractorData = {
+                    name: req.body.name,
+                    email: req.body.email,
+                    permissions: req.body.permissions
+                }
+            }
+            else {
+                instractorData = {
+                    name: req.body.name,
+                    _id: req.body._id,
+                    email: req.body.email,
+                    permissions: req.body.permissions
+                }
+            }
+            const newInstractor = new Instractor(instractorData);
+            await newInstractor.save();
+            res.status(201).json(newInstractor);
+        } catch (err) {
+            res.status(409).json({ message: err.message });
+        }
+    }
     public async addTrainerWithId(req: Request, res: Response) {
         console.log("addTrainerWithId");
         console.log(req.body);
@@ -265,6 +327,7 @@ public async addTrainer(req: Request, res: Response) {
             if (trainerByName) {
                 return res.status(409).json({ message: 'name Trainer already exists' });
             }
+    
             if (trainerById) {
                 trainerData = {
                     name: req.body.name

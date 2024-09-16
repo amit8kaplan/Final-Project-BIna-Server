@@ -2,6 +2,7 @@ import exp from "constants";
 import mongoose from "mongoose";
 
 export interface IPersonalInstractor{
+    _id?: string;
     idInstractor: string;
     idTrainer: string;
 }
