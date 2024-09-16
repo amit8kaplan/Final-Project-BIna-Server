@@ -4,6 +4,7 @@ import PersonalInstractor, {IPersonalInstractor} from "../models/PersonalInstrac
 import Group from '../models/group_model';
 import Session from '../models/session_model'; 
 import { BaseController } from "./base_controller";
+import { IGroup } from "../models/group_model";
 import e, { Request, Response } from "express";
 import axios from 'axios'; 
 const base = process.env.URL;
@@ -255,6 +256,39 @@ public async addTrainer(req: Request, res: Response) {
             res.status(409).json({ message: err.message });
         }
     }
+    public async addGroupWithId(req: Request, res: Response) {
+        let groupData: IGroup;
+        console.log("addGroupWithId");
+        console.log(req.body);
+        try {
+            const groupById = await Group.findOne({_id: req.body._id});
+            const groupByName = await Group.findOne({name: req.body.name});
+            if (groupByName) {
+                return res.status(409).json({ message: 'name Group already exists' });
+            }
+            if (groupById) {
+                groupData = {
+                    name: req.body.name,
+                    idsTrainers: req.body.idsTrainers,
+                    idsInstractors: req.body.idsInstractors
+                }
+            }
+            else {
+                groupData = {
+                    name: req.body.name,
+                    _id: req.body._id,
+                    idsTrainers: req.body.idsTrainers,
+                    idsInstractors: req.body.idsInstractors
+                }
+            }
+            const newGroup = new Group(groupData);
+            await newGroup.save();
+            res.status(201).json(newGroup);
+        } catch (err) {
+            res.status(409).json({ message: err.message });
+        }
+    }
+    
     public async addPersonalInstractorWithId(req: Request, res: Response) {
         let personalInstractorData: IPersonalInstractor;
         console.log("addPersonalInstractorWithId");
