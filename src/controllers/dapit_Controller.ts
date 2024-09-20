@@ -211,7 +211,26 @@ class dapit_Controller extends BaseController<IDapit>{
         }
     }
     
-
+    async postWithId (req: Request, res: Response) {
+        console.log("postWithId - post controller");
+        console.log("req.body: " + JSON.stringify(req.body));
+        try {
+            const dapit :IDapit = await this.model.findById({_id: req.body._id});
+            if (dapit) {
+                res.status(404).send({ message: 'Dapit id Already exists' });
+            }
+            if(!req.body)
+            {
+                res.status(400).send({ message: 'Invalid request' });
+            }
+            const obj = new this.model(req.body);
+            await obj.save();
+            res.status(200).send(obj);
+        } catch (error) {
+            // console.error('Error creating dapit:', error);
+            res.status(500).send({ message: 'Error creating dapit' });
+        }
+    }
     async post (req: Request, res: Response) {
         //console.log("post - post controller");
         //console.log("req.body: " + JSON.stringify(req.body));

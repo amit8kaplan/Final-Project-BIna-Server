@@ -69,9 +69,9 @@ export function filterByProfessionalFieldsTospesificData(req: Request, filterFie
     filterFields.forEach((field) => {
         
         if (req.query[field + "Val"]) {
-            console.log (field + "Val === crewMemberVal")
-            console.log("field: ", field);
-            console.log("req.query[field] in filterByProfessionalFieldsTospesificData: ", req.query[field+"Val"]);
+            // console.log (field + "Val === crewMemberVal")
+            // console.log("field: ", field);
+            // console.log("req.query[field] in filterByProfessionalFieldsTospesificData: ", req.query[field+"Val"]);
             filter[field + ".value"] = parseInt(req.query[field+"Val"] as string);
         }
         if (req.query[field + "Description"]) {
@@ -106,7 +106,7 @@ export function filterByTags(req: Request, Logic: string) {
     const filter: any = {};
     if (req.query.tags) {
         if (Logic === "and") {
-            console.log("in side the if and");
+            // console.log("in side the if and");
             filter.tags = { $all: req.query.tags as string[] };
         } else {
             filter.tags = { $in: req.query.tags as string[] };
@@ -137,13 +137,13 @@ export async function toCSVFile(data: any[], path: string) {
     try{ 
         if(fs.existsSync(path)) {
             fs.unlinkSync(path);
-            console.log("file deleted");
+            // console.log("file deleted");
         }
         const csvStream = fc.format({ headers: true });
         const writableStream = fs.createWriteStream(path);
 
         csvStream.pipe(writableStream).on('end', () => {
-            console.log("end");
+            // console.log("end");
         });
         
 
@@ -211,13 +211,13 @@ export async function toJSONFile(data: any[], filePath: string) {
         // Delete the file if it exists
         if (fs.existsSync(filePath)) {
             await fs1.unlink(filePath);
-            console.log("File deleted");
+            // console.log("File deleted");
         }
 
         // Write data to JSON file
         const jsonData = JSON.stringify(data, null, 2);
         await fs1.writeFile(filePath, jsonData, 'utf-8');
-        console.log(`Data written to JSON file: ${filePath}`);
+        // console.log(`Data written to JSON file: ${filePath}`);
         return true;
     } catch (error) {
         console.error('Error writing to JSON file:', error);
@@ -332,7 +332,7 @@ export function generateOTP(): string {
 }
 export async function makeAnewRedisClient() {
     const client = redis.createClient();
-    console.log("client: ", client);
+    // console.log("client: ", client);
     client.on('error', (err) => {
         console.error('Redis error:', err);
     });
@@ -450,78 +450,14 @@ export function jsonToTextWithInsertion(jsonData: object, insertBeforeKey: strin
     return parseObject(jsonData).trim();
   }
   
-  // Example usage:
-  const jsonData = {
-    // Your JSON data here...
-    // (Same structure as the one you provided)
-  };
+//   // Example usage:
+//   const jsonData = {
+//     // Your JSON data here...
+//     // (Same structure as the one you provided)
+//   };
   
-  const insertBeforeKey = "identification"; // Specify the key before which the custom text should be inserted
-  const insertText = "  This is custom text inserted here!"; // Custom text to insert
+//   const insertBeforeKey = "identification"; // Specify the key before which the custom text should be inserted
+//   const insertText = "  This is custom text inserted here!"; // Custom text to insert
   
-  console.log(jsonToTextWithInsertion(jsonData, insertBeforeKey, insertText));
+//   console.log(jsonToTextWithInsertion(jsonData, insertBeforeKey, insertText));
   
-// export function jsonToTextWithInsertion_OnDapit (obj: object) {
-    // const json = obj as IDapit;
-    // const indentLevel:number = 0;
-    // let summerize:string = "";
-    // let advantage = "";
-    // let disavantage = "";
-    // let finalGrade = "";
-    // let changeTobeCommender = "";
-    // let result = "this is the form that writen on the trainer "+ json.nameTrainer + " after is flight. The Instactor in the flight was " + json.nameInstractor +".\n" +
-    // "The silabus is " + json.silabus + ", in the session"  + json.session + ".\n" + "These are the things he is being tested on, during the flight:\n"; 
-    // let indent = ' '.repeat(indentLevel)
-    // for (const [key, value] of Object.entries(json)) {
-    //     if (key != "nameTrainer" && key != "nameInstractor" && key != "silabus" && key != "session" && key!= "date" && key != "tags" && key != "_id" && key != "idPersonalInstractor" && key != "idInstractor" && key != "idTrainer") {
-    //         if (key === "summerize") {
-    //             summerize = value;
-    //         }
-    //         else if (key === "advantage") {
-    //             advantage = value;
-    //         }
-    //         else if (key === "disavantage") {
-    //             disavantage = value;
-    //         }
-    //         else if (key === "finalGrade") {
-    //             finalGrade = value;
-    //         }
-    //         else if (key === "changeTobeCommender") {
-    //             changeTobeCommender = value;
-    //         }
-    //         else if (Array.isArray(value)) {
-    //             if (typeof value[0] === 'object') {
-    //               result += '\n' + value.map(item => parseObject(item, indentLevel + 1)).join('');
-    //             } else {
-    //               result += value.join(' ') + '\n'; // Flatten arrays
-    //             }
-    //         }
-    //          // Handle simple key-value pairs
-    //         else {
-    //             result += `${value}\n`;
-    //         }
-        
-    //     }
-    // }
-    // if (advantage != "") {
-    //     result += "The advantage of the trainer is: " + advantage + ".\n";
-    // }
-    // else if (disavantage != "") {
-    //     result += "The disavantage of the trainer is: " + disavantage + ".\n";
-    // }
-    // else if (summerize != "") {
-    //     result += "The summerize of the flight is: " + summerize + ".\n";
-    // }
-    // else if (finalGrade != "")
-    // {
-    //     result += "The final Grade is: " + finalGrade + ".\n";
-    // }
-    // else if (changeTobeCommender != "")
-    // {
-    //     result += "The change to be commender is: " + changeTobeCommender + ".\n";
-    // }
-    // return result;}
-
-// function parseObject(item: any, arg1: number): any {
-//     throw new Error("Function not implemented.");
-// }

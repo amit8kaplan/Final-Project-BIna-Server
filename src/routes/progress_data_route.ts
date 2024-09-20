@@ -1,10 +1,11 @@
 import express from "express";
 import { finished } from "stream";
 const router = express.Router();
-
+import Session , {ISession} from "../models/session_model";
+import Group, {IGroup} from "../models/group_model";
 
 router.get("/progress_Data", (req, res) => {
-    const progress_Data = [
+      const progress_Data = [
         { session: 1, finished: 100, total: 100 },
         { session: 2, finished: 100, total: 100 },
         { session: 3, finished: 100, total: 100 },
