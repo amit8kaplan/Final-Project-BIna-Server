@@ -378,7 +378,7 @@ export async function sendMailUtil(emailTo: string, subjectTo: string, data: str
         from: outlook_user, // sender address
         to: emailTo, // list of receivers
         subject: subjectTo, // Subject line
-        text: data
+        html: data
     };
     try {
         let transporter = nodemailer.createTransport(smtpConfig);

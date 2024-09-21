@@ -37,16 +37,15 @@ export const otptemplateHTML = `
 <body>
   <div class="container">
     <div class="header">
-      <h1>Welcome to Our Service</h1>
+      <h1>Welcome to Bina Web</h1>
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>This is a test email sent from a Node.js script.</p>
       <p>Your OTP code is: <strong>{{OTP_CODE}}</strong></p>
       <p>Thank you for using our service!</p>
     </div>
     <div class="footer">
-      <p>&copy; 2023 Your Company. All rights reserved.</p>
+      <p>&copy; 2024 Amit Kaplan Co'. All rights reserved.</p>
     </div>
   </div>
 </body>
