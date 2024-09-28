@@ -2,7 +2,7 @@
 
 // export default new wall_controller();
 import { Session } from "inspector";
-import { filterPartOf } from "../common/utils";
+import { filterPartOf, findInstrcutor } from "../common/utils";
 import dapit_model from "../models/dapit_model";
 import post_model from "../models/post_model";
 // import response_model from "../models/response_model";
@@ -16,6 +16,7 @@ import {otptemplateHTML} from "../common/templates";
 import 'express-session'; // Ensure this import is present to apply the augmentation
 import { ISession } from "../types/express-session";
 import { get } from "http";
+import { IInstractor } from "../models/Instractor_model";
 class wall_controller {
 
     async getLikes(req: Request, res: Response) {
@@ -379,6 +380,7 @@ class wall_controller {
                 // if (getAsync(req.body.idInstractor)) {
                 const idInstractorTomail = req.body.idInstractor;
                 const emailTo = await findMail(idInstractorTomail);
+                const ins:IInstractor = await findInstrcutor(idInstractorTomail);
                 const otp = Math.floor(100000 + Math.random() * 900000);
                 const otpString = otp.toString();
                 const otpEntry = {
@@ -394,7 +396,7 @@ class wall_controller {
                 const data = otptamplate.replace('{{OTP_CODE}}', otpString);
                 // //console.log("data", data);
                 const subject = 'OTP Verification to BIna';
-                const objres = await sendMailUtil(emailTo, subject, data);
+                const objres = await sendMailUtil(emailTo,ins.name, subject, data);
                 const { setexAsync, getAsync, delAsync, client }= await makeAnewRedisClient();
                 await setexAsync(idInstractorTomail, 600, otpString);
                 const getOtp = await getAsync(idInstractorTomail);

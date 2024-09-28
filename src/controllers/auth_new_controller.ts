@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction  } from 'express';
 import { createClient } from 'redis';
-import {findMail, sendMailUtil} from '../common/utils';
+import {findMail, sendMailUtil,findInstrcutor} from '../common/utils';
 import {otptemplateHTML} from "../common/templates";
 import {redisClient} from '../app'; // Import the redisClient from app.ts
 import Instractor_model from '../models/Instractor_model';
@@ -25,6 +25,7 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
     }
     try{
         const emailTo = await findMail(clientId);
+        const ins:IInstractor = await findInstrcutor(clientId);
         const sessionKey = `sessionTemp:${clientId}`;
         // Close existing session if any
         try {await redisClient.del(sessionKey); // Use await with the del function
@@ -41,7 +42,7 @@ export async function sentOtpUsingMail(req: Request, res: Response) {
             const otptamplate = otptemplateHTML;
             const data = otptamplate.replace('{{OTP_CODE}}', otp);
             const subject = 'OTP Verification to BIna';
-            const objres = await sendMailUtil(emailTo, subject, data);
+            const objres = await sendMailUtil(emailTo,ins.name, subject, data);
             const [localPart, domain] = emailTo.split('@');
             const ttl = await redisClient.ttl(sessionKey);
             if (localPart.length <= 4) { 

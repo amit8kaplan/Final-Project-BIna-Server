@@ -5,14 +5,18 @@ import dapit_model from "../models/dapit_model";
 import { IDapit } from "../models/dapit_model";
 import post_model from "../models/post_model";
 import Instractor, {IInstractor} from "../models/Instractor_model";
-import { Request } from "express";
+import e, { Request } from "express";
 import * as fc from 'fast-csv';
-import fs from 'fs';
+import fs, { access } from 'fs';
 const nodemailer = require('nodemailer');
-const outlook_pwd = process.env.OUTLOOK_PWD;
-const outlook_host = process.env.OUTLOOK_HOST;
-const outlook_port = process.env.OUTLOOK_PORT;
-const outlook_user = process.env.OUTLOOK_USER;
+import emailjs from 'emailjs-com';
+
+const gmail_app_password = process.env.GMAIL_APP_PASSWORD;
+const ins_mail = process.env.USER_MAIL;
+const host = process.env.HOST_MAIL;
+const port = process.env.PORT_MAIL;
+const servcie = process.env.SERVICE_MAIL;
+
 import redis from 'redis';
 import { promisify } from 'util';
 export function escapeRegExp(string) {
@@ -363,55 +367,74 @@ export async function findMail(id: string): Promise<string> {
         throw new Error(err.message);
     }
 }
-
-export async function sendMailUtil(emailTo: string, subjectTo: string, data: string): Promise<{ success: boolean; message: string }> {
-    const smtpConfig = {
-        host: outlook_host,
-        port: outlook_port,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: outlook_user, // your Outlook email
-            pass: outlook_pwd // your email password
+export async function findInstrcutor (id: string): Promise<IInstractor> {
+    try {
+        const instractor: IInstractor = await Instractor.findById(id);
+        if (!instractor) {
+            throw new Error("Instractor not found");
         }
-    }; 
+        return instractor;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}
+export async function sendMailUtil(emailTo: string,to_name:string, subjectTo: string, data: string): Promise<{ success: boolean; message: string }> {
+
     const mailOptions = {
-        from: outlook_user, // sender address
-        to: emailTo, // list of receivers
-        subject: subjectTo, // Subject line
+        from: {
+            name: 'BIna Web',
+            address: ins_mail
+        }, 
+        to: emailTo, 
+        subject: subjectTo,
         html: data
     };
     try {
-        let transporter = nodemailer.createTransport(smtpConfig);
-
+        const transporter = nodemailer.createTransport({
+            service: servcie,
+            host: host,
+            port: port,
+            secure: false,
+            auth: {
+                user: ins_mail, 
+                pass: gmail_app_password // app password from gmail account
+            },
+        });
+        // let transporter = nodemailer.createTransport(smtpConfig);
         // Send mail with defined transport object
         let info = await transporter.sendMail(mailOptions);
 
         return { success: true, message: 'Email sent successfully' };
     } catch (error) {
+        console.error('Error sending email:', error);
         return { success: false, message: error.message };
     }
 }
 
 export async function sentEmailToUser (email: string) {
-    const smtpConfig = {
-        host: outlook_host,
-        port: outlook_port,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: outlook_user, // your Outlook email
-            pass: outlook_pwd // your email password
-        }
-    }; 
+   
     const mailOptions = {
-        from: outlook_user, // sender address
-        to: email, // list of receivers
-        subject: 'Test Email', // Subject line
-        text: 'This is a test email sent from a Node.js script.' // plain text body
+        from: {
+            name: 'BIna Web',
+            address: ins_mail
+        }, 
+        to: email, 
+        subject: "trying to send email",
+        text: "trying to send email"
     };
 
     try {
         // Create a transporter
-        let transporter = nodemailer.createTransport(smtpConfig);
+        const transporter = nodemailer.createTransport({
+            service:servcie,
+            host: host,
+            port: port,
+            secure: false,
+            auth: {
+                user: ins_mail, 
+                pass: gmail_app_password // app password from gmail account
+            },
+        });
 
         // Send mail with defined transport object
         let info = await transporter.sendMail(mailOptions);
