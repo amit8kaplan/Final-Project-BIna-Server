@@ -156,7 +156,8 @@ public async addTrainer(req: Request, res: Response) {
             }
             const newInstractorData = {
                 name: instractorData.name,
-                permissions: permission
+                permissions: permission,
+                email: instractorData.email
             }
             //find instractor by name - if the name already exists, return an error
             const instractor = await Instractor.findOne({name: instractorData.name});
